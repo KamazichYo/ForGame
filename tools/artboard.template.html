@@ -40,6 +40,10 @@ h2 { font: 700 20px/1.2 var(--body); margin: 14px 0 0; color: var(--mint); }
 .refcard { display: flex; flex-direction: column; gap: 4px; width: 132px; font-size: 12px; color: var(--muted); }
 .refcard img { width: 132px; aspect-ratio: 16 / 9; object-fit: contain; border-radius: 6px; background: var(--bg); border: 1px solid var(--line); }
 .refcard button { padding: 4px 8px; font-size: 12.5px; }
+.refbtns { display: flex; flex-wrap: wrap; gap: 4px; }
+.refcard .open { font-size: 12.5px; color: var(--lamp); padding: 4px 6px; align-self: center; }
+.refs .all { align-self: flex-end; font-size: 13px; padding: 6px 12px; }
+button:disabled { opacity: .7; cursor: default; }
 .refcard .miss { width: 132px; aspect-ratio: 16 / 9; border-radius: 6px; border: 1px dashed var(--line); display: flex; align-items: center; justify-content: center; text-align: center; padding: 4px; }
 .desc { margin: 0; color: var(--muted); font-size: 14px; }
 pre { margin: 0; padding: 10px 12px; background: var(--bg); border-radius: 8px; font: 400 12.5px/1.5 var(--mono); white-space: pre-wrap; overflow-wrap: anywhere; max-height: 132px; overflow-y: auto; color: #cfc3ea; }
@@ -68,7 +72,7 @@ button:focus-visible, .drop:focus-visible, input:focus-visible { outline: 3px so
   </header>
   <ol class="steps">
     <li>Начни с <b>style_anchor</b>. Пока он не нравится — дальше не иди.</li>
-    <li>Скопируй промт и приложи в генераторе картинки, показанные над промтом: референсы и серый шаблон раскладки. Формат и разрешение указаны в метках.</li>
+    <li>Скопируй промт и приложи в генераторе картинки, показанные над промтом: референсы и серый шаблон раскладки. У каждой есть «Скачать», «В буфер» (потом Ctrl+V в генераторе) и «Открыть»; уже загруженные листы подставляются сами.</li>
     <li>Каждый кореш — два листа: сначала тело, потом эмоции, к которым прикладываешь готовое тело.</li>
     <li>Загрузи результат в окно справа: клик, перетаскивание или клик по окну и <b>Ctrl+V</b>.</li>
     <li>Когда очередь готова, напиши мне в чат «забирай» — нарежу, соберу и анимирую.</li>
@@ -123,20 +127,41 @@ function build() {
     }
   });
 }
+const EXT = { 'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp' };
+function refInfo(r) {
+  const tpl = r.startsWith('tpl_'), d = state[r];
+  if (tpl) return { name: r, file: r + '.png', src: 'tpl/' + r + '.png', tpl };
+  if (d) return { name: r, file: r + '.' + (EXT[d.type] || 'jpg'), src: '/_blob/' + d.asset, tpl };
+  return { name: r, tpl };
+}
+const getBlob = async i => (await fetch(i.src)).blob();
+async function saveRef(i) { await downloads.save({ filename: i.file, data: await getBlob(i) }); }
+async function copyRef(i) { // в буфер как PNG: оттуда вставляется прямо в окно генератора
+  let blob = await getBlob(i);
+  if (blob.type !== 'image/png') { const im = await createImageBitmap(blob), cv = document.createElement('canvas'); cv.width = im.width; cv.height = im.height; cv.getContext('2d').drawImage(im, 0, 0); blob = await new Promise(r => cv.toBlob(r, 'image/png')); }
+  await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+}
+function flash(b, text, ok = true) { const old = b.dataset.t || (b.dataset.t = b.textContent); b.textContent = text; b.disabled = true; setTimeout(() => { b.textContent = old; b.disabled = false; }, 1800); }
 function renderRefs(id) {
-  const u = ui[id]; u.refs.replaceChildren();
+  const u = ui[id]; u.refs.replaceChildren(); const have = [];
   for (const r of u.slot.refs) {
-    const box = $('div', 'refcard'), tpl = r.startsWith('tpl_'), d = state[r];
-    const src = tpl ? 'tpl/' + r + '.png' : d ? '/_blob/' + d.asset : null;
-    if (src) { const im = $('img'); im.src = src; im.alt = r; im.loading = 'lazy'; box.append(im); }
+    const i = refInfo(r), box = $('div', 'refcard');
+    if (i.src) { const im = $('img'); im.src = i.src; im.alt = r; im.loading = 'lazy'; box.append(im); have.push(i); }
     else box.append($('div', 'miss', 'сначала сделай ' + r));
-    box.append($('span', '', tpl ? 'шаблон ' + r : r));
-    if (src && downloads) {
-      const b = $('button', '', 'Скачать'); b.id = 'dl-' + id + '-' + r;
-      b.onclick = async () => { try { const blob = await (await fetch(src)).blob(); await downloads.save({ filename: r + '.png', data: blob }); b.textContent = 'Сохранено'; } catch (e) { b.textContent = e && e.code === 'declined' ? 'Отменено' : 'Не вышло'; } setTimeout(() => b.textContent = 'Скачать', 1800); };
-      box.append(b);
-    } else if (src) box.append($('span', '', 'зажми картинку → сохранить'));
+    box.append($('span', '', i.tpl ? 'шаблон ' + r : r));
+    if (i.src) {
+      const row = $('div', 'refbtns');
+      if (downloads) { const b = $('button', '', 'Скачать'); b.id = 'dl-' + id + '-' + r; b.onclick = async () => { try { await saveRef(i); flash(b, 'Сохранено'); } catch (e) { flash(b, e && e.code === 'declined' ? 'Отменено' : 'Не вышло'); } }; row.append(b); }
+      if (navigator.clipboard && window.ClipboardItem) { const b = $('button', '', 'В буфер'); b.id = 'cp-' + id + '-' + r; b.onclick = async () => { try { await copyRef(i); flash(b, 'Скопировано'); } catch (e) { flash(b, 'Не вышло'); } }; row.append(b); }
+      const a = $('a', 'open', 'Открыть'); a.href = i.src; a.target = '_blank'; a.rel = 'noopener'; a.id = 'op-' + id + '-' + r; row.append(a);
+      box.append(row);
+    }
     u.refs.append(box);
+  }
+  if (downloads && have.length > 1) {
+    const all = $('button', 'main all', 'Скачать все референсы (' + have.length + ')'); all.id = 'dlall-' + id;
+    all.onclick = async () => { let ok = 0; for (const i of have) { try { await saveRef(i); ok++; } catch (e) { if (e && e.code === 'declined') break; } } flash(all, ok === have.length ? 'Сохранено' : 'Сохранено ' + ok + ' из ' + have.length); };
+    u.refs.append(all);
   }
 }
 function setActive(id) { if (active && ui[active]) ui[active].drop.classList.remove('active'); active = id; ui[id].drop.classList.add('active'); }
