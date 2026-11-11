@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Лаборатория анимаций</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Rubik+Wet+Paint&display=swap">
+<link rel="stylesheet" href="lab.css">
+</head>
+<body>
+<!--BODY-->
+<div class="lab">
+  <h1>Лаборатория <span>анимаций</span></h1>
+  <p>Вован и Димон собраны из вырезанных деталей и двигаются скелетом. Сценка идёт по кругу; кнопки ниже запускают клипы вручную.</p>
+  <canvas id="stage" width="1280" height="720" aria-label="Сцена с Вованом и Димоном"></canvas>
+  <div class="rows">
+    <div class="btns"><button class="main" id="btn-scene">Сценка заново</button><button id="btn-flip">Развернуть обоих</button></div>
+    <div class="who"><b>Вован</b><div class="btns" id="row-vovan"></div></div>
+    <div class="who"><b>Димон</b><div class="btns" id="row-dimon"></div></div>
+  </div>
+</div>
+<script src="rig.js"></script>
+<script src="lab.js"></script>
+<!--/BODY-->
+</body>
+</html>

@@ -1,0 +1,18 @@
+/* Одна тёмная сцена в цветах игры: сцена сверху, пульт клипов снизу. */
+:root { --bg: #12091e; --panel: #1f1330; --raised: #2b1c42; --line: #4a3566; --fg: #efe6ff; --muted: #a99cc0; --pink: #ff5ad1; --mint: #7dffb0; --lamp: #ffd27a;
+  --display: "Rubik Wet Paint", Impact, "Arial Black", sans-serif; --body: Rubik, "Segoe UI", Roboto, Arial, sans-serif; color-scheme: dark; }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 400 15px/1.5 var(--body); padding-block: 16px 40px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.lab { max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+.lab h1 { font: 400 clamp(30px, 6vw, 46px)/1 var(--display); color: var(--pink); margin: 0; }
+.lab h1 span { color: var(--mint); }
+.lab p { margin: 0; color: var(--muted); max-width: 70ch; }
+#stage { display: block; width: 100%; max-width: 100%; aspect-ratio: 16 / 9; border-radius: 12px; background: var(--panel); box-shadow: 0 0 0 3px var(--line); }
+.rows { display: flex; flex-direction: column; gap: 10px; }
+.who { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 10px; align-items: start; }
+.who b { color: var(--lamp); font-weight: 700; padding-top: 7px; }
+.btns { display: flex; flex-wrap: wrap; gap: 8px; }
+.lab button { font: 500 14px var(--body); color: var(--fg); background: var(--raised); border: 2px solid var(--line); border-radius: 9px; padding: 7px 13px; cursor: pointer; }
+.lab button.main { background: var(--pink); border-color: var(--pink); color: #2a0a22; font-weight: 700; }
+.lab button:hover { filter: brightness(1.15); }
+.lab button:focus-visible { outline: 3px solid var(--lamp); outline-offset: 2px; }
