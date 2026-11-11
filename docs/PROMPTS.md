@@ -5,11 +5,12 @@
 ## 0. Как работать
 
 1. **Сначала сделай якорь стиля** (раздел 2). Пока он не нравится — дальше не иди.
-2. **Ко всем остальным генерациям прикладывай якорь как референс** и начинай промт с блока `STYLE`. Так персонажи будут из одного мира.
-3. Для листов с частями тела добавляй ещё блок `SHEET`. Он задаёт 13 деталей: три головы, шея, грудь, таз, плечо, предплечье, кисть и кулак, бедро, голень, стопа.
-4. Разрешение: 2K минимум, листы с частями тела — только 4K, деталей много. Листы и фоны — 16:9, одиночные предметы — 1:1.
-5. Готовое загружай в «Арт-пульт» (страница с этими же промтами и окнами загрузки) или кидай в `assets/raw/`. Дальше режу, собираю риг и анимирую я.
-6. Если на персонаже свои вещи совпали по цвету с фоном листа — меняй фон на второй вариант (зелёный ↔ маджента), в промтах это уже учтено.
+2. **Ко всем остальным генерациям прикладывай якорь как референс.** Промт уже начинается с блока `STYLE`. Так персонажи будут из одного мира.
+3. **Каждый персонаж — два листа.** Сначала тело (`vovan.png`), потом отдельный лист с эмоциями (`vovan_faces.png`), к которому прикладываешь уже готовое тело. Так генератор не путает детали с лицами.
+4. **Прикладывай шаблон раскладки.** Это серый манекен на нужном фоне (`tpl_body_magenta`, `tpl_faces_green` и т.п., лежат в `assets/templates/` и в арт-пульте). Генератор копирует расположение деталей с картинки гораздо точнее, чем из текста.
+5. Разрешение: 2K минимум, листы с частями тела — только 4K. Листы и фоны — 16:9, одиночные предметы — 1:1.
+6. Готовое загружай в «Арт-пульт» или кидай в `assets/raw/`. Дальше режу, собираю риг и анимирую я.
+7. Фон листа — ровный зелёный или маджента, чтобы я его вырезал. Цвет подобран под каждого персонажа так, чтобы не совпадал с одеждой.
 
 **Чего не просить:** чужих персонажей по именам (Джек Воробей, герои фильмов и игр). Модель либо откажет, либо выдаст то, что нельзя выпускать. У нас свои типажи и общественное достояние.
 
@@ -22,6 +23,8 @@
 - **Линия:** толстый неровный чернильный контур, как маркером, цвет контура тёмно-фиолетовый `#1B1030`, не чёрный.
 - **Заливка:** плоские цвета, тень одним пятном (cel shading, одна ступень), лёгкая зернистая текстура бумаги. Никаких градиентов, 3D и глянца.
 - **Пропорции:** большая голова (около трети роста), короткие ноги, крупные кисти и ступни, глаза с тяжёлыми веками.
+- **Ракурс:** все персонажи в три четверти. Кореша смотрят вправо, глюки влево.
+- **Головы без волос, которые надо анимировать:** у корешей короткая стрижка, спрятанная под шапкой. Шапка — часть головы, она не болтается.
 - **Палитра реального мира:** ночной фиолетовый `#241536`, пыльный синий `#3A2F5A`, тёплый фонарь `#FFD27A`, ржавчина `#B5562F`, выцветший зелёный `#6F8A5E`.
 - **Палитра глюков:** розовый `#FF5AD1`, кислотный зелёный `#7DFFB0`, жёлтый `#FFE14A`, циан `#5AE0FF`. У каждого глюка тонкий светящийся розово-циановый ореол по контуру.
 - **Настроение:** андеграундный комикс и стикеры, смешно и грязновато, без чернухи и крови.
@@ -32,7 +35,36 @@
 STYLE: 2D cartoon game art in an underground comix sticker style. Thick uneven hand-inked marker outlines in dark purple (#1B1030), never pure black. Flat colors with a single hard cel-shading step and a subtle paper grain texture. No gradients, no 3D, no glossy highlights, no photorealism. Chunky proportions: head about one third of body height, short legs, big hands and feet, heavy-lidded eyes. Grimy but funny adult-cartoon mood, no gore. Match the attached style reference image exactly: same line weight, same proportions, same palette logic.
 ```
 
-### Блок SHEET (добавлять для листов с частями тела)
+### Блок PUPPET (лист с телом)
+
+```
+PUPPET: A cut-out puppet sheet for 2D skeletal game animation, 16:9, 4K. Follow the attached grey layout template EXACTLY: the same number of pieces, the same placement, the same row order, the same proportions between pieces. Replace each grey mannequin piece with the matching part of the character. Everything is drawn in a 3/4 view turned toward the {DIR}, flat like a paper puppet.
+
+LEFT: the fully assembled character standing straight, arms hanging down, exactly as in the template.
+
+RIGHT, the same character taken apart, at EXACTLY the same scale as the assembled figure, with wide empty gaps so nothing touches:
+Row 1: (1) the HEAD, neutral face, ending at the jaw, no neck; (2) the NECK, a short separate cylinder; (3) the CHEST: upper torso from the neck hole down to the waist, shoulders rounded, no arms, no head; (4) the PELVIS: a short belt-to-crotch piece like a pair of briefs cut from the trousers, with two round hip sockets at the bottom — NO trouser legs on it.
+Row 2: one arm in three pieces: (5) UPPER ARM from shoulder to elbow; (6) FOREARM from elbow to wrist; then three hands: (7) open relaxed hand, (8) closed fist, (9) hand gripping a round handle, with an empty hole in the grip.
+Row 3: one leg in three pieces: (10) THIGH from hip to knee; (11) SHIN from knee to ankle; (12) FOOT with shoe, side view, toes pointing {DIR}.
+Empty area at the right of rows 2 and 3: the props listed for this character, each as a separate piece.
+
+Rules: every piece is drawn complete, including the part normally hidden under its neighbour. Every joint end (shoulder, elbow, wrist, hip, knee, ankle, waist, both ends of the neck) is a fully rounded cap extending a little past the joint, so the pieces overlap and rotate without gaps. Arm and leg pieces are straight and perfectly vertical with the joint at the top. Clothing belongs to the piece it covers: the sleeve is split at the elbow between upper arm and forearm, the trouser leg is split at the knee between thigh and shin. Only one arm and one leg; they will be mirrored. Only ONE head, the neutral one: expressions are made on a separate sheet.
+
+Background: one perfectly flat solid {BG} filling the whole sheet. No cast shadows, no floor, no glow on the background, no text, no labels, no numbers, no arrows, no guide lines, no frame. Do not copy the grey colour of the template.
+```
+
+### Блок FACES (лист с эмоциями)
+
+```
+FACES: An expression sheet for head swapping in 2D cut-out animation, 16:9, 4K. Follow the attached grey layout template: eight heads in a 4 by 2 grid with wide empty gaps. Draw eight copies of the EXACT head from the attached puppet sheet of this character: identical size, identical outline, identical 3/4 angle turned toward the {DIR}, identical hat and accessories. Only the face changes: eyes, eyebrows, mouth, small drops and lines. Each head ends at the jaw, no neck, no body.
+Top row: (1) neutral; (2) blink, eyes fully closed; (3) talking, mouth half open; (4) yelling, mouth wide open.
+Bottom row: (5) scared, eyes huge, tiny pupils; (6) hurt, wincing with one eye shut; (7) laughing; (8) dizzy, spiral eyes and tongue out.
+Background: one perfectly flat solid {BG} filling the whole sheet. No shadows, no text, no labels, no numbers. Do not copy the grey colour of the template.
+```
+
+`{BG}` и `{DIR}` подставлены в промтах каждого персонажа.
+
+### Блок SHEET (старый, для глюков — обновим следующим шагом)
 
 ```
 SHEET: A character parts sheet for 2D cut-out skeletal animation, 16:9, 4K. Strict flat side view of the whole character, like a paper puppet, no perspective, no foreshortening.
@@ -51,30 +83,29 @@ Rules for every piece: draw it complete, including the area that is normally hid
 Background: one perfectly flat solid color {BG} filling the whole sheet. No cast shadows, no floor, no glow spilling onto the background, no text, no labels, no numbers, no arrows, no guide lines, no frame.
 ```
 
-`{BG}` — подставь `pure chroma green #00FF00` или `pure magenta #FF00FF`, как указано у персонажа.
-
 ### Риг: из чего собирается моделька
 
-Все гуманоиды — плоские бумажные куклы, вид строго сбоку. 13 деталей с листа превращаются в 19 костей: рука и нога рисуются один раз и используются дважды (дальняя затемняется).
+Плоская кукла в три четверти. 12 деталей с листа тела + 8 голов с листа эмоций. Рука и нога рисуются один раз и используются дважды (дальняя затемняется), всего 17 костей.
 
 | Часть | Детали | Крепится к | Точка вращения |
 |---|---|---|---|
-| Голова | 3 варианта лица | шея | низ головы, у челюсти |
+| Голова | 1 на листе тела + 8 эмоций на отдельном листе, шапка — часть головы | шея | низ головы, у челюсти |
 | Шея | 1 | грудь | низ шеи |
 | Тело | грудь, таз | таз — корень, грудь к тазу | талия |
-| Рука ×2 | плечо, предплечье, кисть (открытая или кулак) | грудь | плечевой сустав, локоть, запястье |
-| Нога ×2 | бедро, голень, стопа | таз | тазобедренный сустав, колено, голеностоп |
-| Аксессуары | юбка, плащ, волосы, шляпа, предмет в руке | своя кость | верхний край или рукоять |
+| Рука ×2 | плечо, предплечье, кисть: открытая, кулак, хват | грудь | плечо, локоть, запястье |
+| Нога ×2 | бедро, голень, стопа | таз | бедро, колено, голеностоп |
+| Реквизит | чайник, тапок и т.п. | кисть с хватом | рукоять, попадает в дырку хвата |
 
-Что это даёт в анимации: ходьба со сгибом колена и перекатом стопы, замах и бросок с локтем и кистью, наклон и скручивание корпуса в талии, кивок и поворот головы на шее, смена лица при укусе и ударе, отдельная физика для волос, юбки и плаща.
+Что это даёт в анимации: ходьба со сгибом колена и перекатом стопы, замах и бросок с локтем и кистью, наклон корпуса в талии, кивок на шее, моргание и смена эмоций подменой головы.
 
 Почему в промте именно так:
 
-- **один масштаб с собранной фигурой** — иначе детали не сойдутся по размеру;
+- **шаблон-манекен** — генератор копирует раскладку с картинки, а не придумывает свою;
+- **таз как «трусы», без штанин** — на прошлом листе модель нарисовала целые джинсы, их нельзя согнуть в колене;
+- **рукав и штанина разрезаны по суставу** — иначе плечо и предплечье выходят двумя одинаковыми рукавами;
+- **одна голова на листе тела, эмоции отдельно** — на общем листе генератор путает лица с деталями и рисует их в другом масштабе;
 - **скруглённые концы с запасом** — при сгибе локтя и колена не будет дыр;
-- **конечности строго вертикально** — точка вращения всегда сверху по центру, не надо угадывать;
-- **юбки, плащи и волосы отдельно** — их можно качать независимо от тела;
-- **собранная фигура слева** — по ней сверяю пропорции и порядок слоёв.
+- **шапка вместо волос** — анимировать нечего, голова цельная.
 
 ## 2. Якорь стиля
 
@@ -83,25 +114,56 @@ Background: one perfectly flat solid color {BG} filling the whole sheet. No cast
 ```
 STYLE: 2D cartoon game art in an underground comix sticker style. Thick uneven hand-inked marker outlines in dark purple (#1B1030), never pure black. Flat colors with a single hard cel-shading step and a subtle paper grain texture. No gradients, no 3D, no glossy highlights, no photorealism. Chunky proportions: head about one third of body height, short legs, big hands and feet, heavy-lidded eyes. Grimy but funny adult-cartoon mood, no gore.
 
-Key art, 16:9. Night-time backyard of a shabby suburban house lit by one yellow street lamp. In the foreground left, two slacker friends in their twenties stand back to back, scared but ready to fight. Friend one: short and stocky, red beanie, green hoodie, baggy blue jeans, white sneakers, wide bloodshot eyes, holding an old blue enamel kettle like a weapon. Friend two: tall and lanky, long brown hair, round glasses, purple t-shirt with a yellow smiley, dark jeans, red sneakers, holding a pink house slipper raised to throw. A fat orange cat sits between their feet, unimpressed. From the right, a crowd of absurd hallucinations approaches: a green-skinned zombie neighbour in a white tank top and tracksuit pants, a skinny grey-green alien, a drunk pirate with an orange beard. The real world is painted in muted dusty purples and warm lamp yellow; the hallucinations are painted in acid neon pink, green and cyan with a thin glowing pink-and-cyan halo around their outlines. Swirling psychedelic sky on the right side only. No text, no logo.
+Key art, 16:9, wide game cover. Night-time backyard behind a shabby little house, lit by one yellow street lamp. LEFT side: the open back door and porch steps of the house, warm light spilling out. On the porch, two slacker friends in their twenties, both in 3/4 view facing RIGHT toward the yard, side by side, scared but ready to fight.
+VOVAN, short and stocky with a round face: a red knitted beanie pulled down to the eyebrows and over the ears, no hair visible; wide bloodshot startled eyes; green pullover hoodie with the hood down and white drawstrings; baggy blue jeans; white sneakers. He holds an old blue enamel kettle up like a weapon.
+DIMON, tall and lanky with a long face: a faded olive bucket hat pulled low over the ears, no hair visible; round glasses; sleepy half-closed eyes and a crooked grin; purple t-shirt with a yellow smiley; dark grey jeans; red sneakers. He is winding up to throw a pink fluffy house slipper.
+Between their feet sits a fat grumpy orange cat.
+RIGHT side, coming out of the dark across the trampled lawn and through a broken fence, a crowd of absurd hallucinations in 3/4 view facing LEFT: a pot-bellied green zombie neighbour in a dirty white tank top and blue tracksuit pants, a skinny grey-green alien with huge black eyes, a drunk pirate with a bushy orange beard and a tricorn hat, and behind them glowing silhouettes of a ballerina and a giant tentacle.
+The real world is muted dusty purple with warm lamp yellow; the hallucinations are acid neon pink, mint green and cyan with a thin glowing pink-and-cyan halo around their outlines. Swirling psychedelic sky only above the right side. Clear empty band across the top for the logo. No text, no logo.
 ```
 
 ## 3. Кореша (смотрят вправо)
 
-**`vovan.png`** — фон зелёный нельзя (зелёное худи), берём маджента.
+**`vovan.png`** — лист тела. Фон маджента (худи зелёное).
+
+Приложи: `style_anchor`, `tpl_body_magenta`
 
 ```
 [STYLE]
-[SHEET with {BG} = pure magenta #FF00FF]
-Character: VOVAN, a short stocky slacker in his twenties, facing RIGHT. Red beanie pulled low (hat is a separate piece, draw the head with short messy hair underneath), green hoodie with white drawstrings and a front pocket, baggy blue jeans, white sneakers. Round face, wide bloodshot eyes with huge pupils, permanently startled. Real-world muted palette, no neon glow. Replace head variants with: (1) neutral dazed; (2) screaming with mouth wide open; (3) panicking. Accessories as separate pieces: the red beanie, the hoodie hood hanging behind the neck, a blue enamel kettle, an extra hand gripping the kettle handle, an extra hand cupped for yelling.
+[PUPPET with {BG} = pure magenta #FF00FF, {DIR} = RIGHT]
+Character: VOVAN, a short stocky slacker in his twenties. Round face, wide bloodshot startled eyes with big pupils, small mouth. A red knitted beanie pulled down to the eyebrows and over the ears, fused to the head: no hair visible at all. Green pullover hoodie with white drawstrings and a kangaroo pocket on the chest piece; the hood is down and lies flat on the back as part of the chest piece; the green sleeves are split at the elbow with a ribbed cuff at the wrist. Baggy blue jeans split at the knee, the hem bunching over white sneakers. Skin is pale with a slight tan. Real-world muted palette, no neon glow.
+Props: an old blue enamel kettle with a black handle, sized to fit the gripping hand.
 ```
 
-**`dimon.png`** — фон зелёный.
+**`vovan_faces.png`** — эмоции. Фон маджента.
+
+Приложи: `vovan`, `tpl_faces_magenta`
 
 ```
 [STYLE]
-[SHEET with {BG} = pure chroma green #00FF00]
-Character: DIMON, a tall lanky slacker in his twenties, facing RIGHT. Long straight brown hair past the shoulders, round glasses with pale lenses, purple t-shirt with a yellow smiley face, dark grey jeans, red sneakers. Sleepy relaxed smile, half-closed eyes. Real-world muted palette, no neon glow. Replace head variants with: (1) neutral sleepy smile; (2) laughing; (3) panicking with glasses askew. Accessories as separate pieces: the long hair as one back-hair piece (draw the head with only a fringe), the round glasses, a pink fluffy house slipper, an extra hand gripping the slipper.
+[FACES with {BG} = pure magenta #FF00FF, {DIR} = RIGHT]
+Character: VOVAN from the attached puppet sheet: round face, red beanie fused to the head, no hair visible, bloodshot eyes. His default mood is startled and dazed, so even the neutral face looks a little stunned.
+```
+
+**`dimon.png`** — лист тела. Фон зелёный.
+
+Приложи: `style_anchor`, `vovan`, `tpl_body_green`
+
+```
+[STYLE]
+[PUPPET with {BG} = pure chroma green #00FF00, {DIR} = RIGHT]
+Character: DIMON, a tall lanky slacker in his twenties, a head taller than Vovan from the attached sheet and drawn at the same scale. Long narrow face, sleepy half-closed eyes, crooked relaxed grin, round glasses with pale lenses fused to the head. A faded olive bucket hat pulled low over the ears, fused to the head: no hair visible, only short stubble sideburns. Purple t-shirt with a yellow smiley face on the chest piece; bare forearms, the short t-shirt sleeve ends on the upper arm piece. Dark grey skinny jeans split at the knee, red high-top sneakers. Real-world muted palette, no neon glow.
+Props: a pink fluffy house slipper, sized to fit the gripping hand.
+```
+
+**`dimon_faces.png`** — эмоции. Фон зелёный.
+
+Приложи: `dimon`, `tpl_faces_green`
+
+```
+[STYLE]
+[FACES with {BG} = pure chroma green #00FF00, {DIR} = RIGHT]
+Character: DIMON from the attached puppet sheet: long narrow face, olive bucket hat and round glasses fused to the head, no hair visible. His default mood is sleepy and amused, so even the neutral face has half-closed eyes and a faint grin.
 ```
 
 ## 4. Глюки (смотрят влево)
@@ -422,7 +484,7 @@ App icon, 1:1, full bleed. Close-up of the zombie neighbour's dopey green face o
 | Очередь | Файлы |
 |---|---|
 | 1. Стиль | `style_anchor` |
-| 2. Минимум, чтобы игра ожила | `vovan`, `dimon`, `zombie`, `alien`, `kettle`, `cat`, `fridge`, `doshik`, `roomba`, `fx`, `bg_yard_night` |
+| 2. Минимум, чтобы игра ожила | `vovan`, `vovan_faces`, `dimon`, `dimon_faces`, `zombie`, `alien`, `kettle`, `cat`, `fridge`, `doshik`, `roomba`, `fx`, `bg_yard_night` |
 | 3. Остальные глюки и оборона | `ballerina`, `kolobok`, `pirate`, `jesus`, `dracula`, `kraken`, `zombie_tough`, `fan`, `microwave`, `tv` |
 | 4. Катсцены | `bg_livingroom`, `cs_intro_01`–`06`, `cs_boss`, `cs_win`, `cs_lose`, `cs_endless` |
 | 5. Полировка | `bg_yard_fog`, `bg_yard_rain`, `bg_yard_trip`, `bg_yard_kraken`, `fg_props`, `logo`, `ui`, `icon` |
@@ -433,6 +495,7 @@ App icon, 1:1, full bleed. Close-up of the zombie neighbour's dopey green face o
 - фон ровный, одного цвета, без теней и текста;
 - лицо и одежда на частях совпадают с собранным персонажем слева;
 - конечности висят прямо вниз, а не согнуты;
-- на листе гуманоида есть все 13 деталей: три головы, шея, грудь, таз, плечо, предплечье, кисть, кулак, бедро, голень, стопа;
+- на листе тела корешей все 12 деталей: голова, шея, грудь, таз, плечо, предплечье, три кисти, бедро, голень, стопа;
+- таз без штанин, рукав и штанина разрезаны по суставу;
 - детали того же размера, что и на собранной фигуре слева;
-- юбка, плащ, волосы и шляпа лежат отдельно, а не приросли к телу.
+- у корешей шапка на голове, волос не видно; у глюков юбка, плащ, волосы и шляпа лежат отдельно.

@@ -34,7 +34,12 @@ for i, l in enumerate(lines):
 
 def expand(p, sec):
     p = p.replace('[STYLE]', blocks['STYLE'])
-    p = re.sub(r'\[SHEET with \{BG\} = ([^\]]+)\]', lambda m: blocks['SHEET'].replace('{BG}', m.group(1)), p)
+    def block(m):
+        text = blocks[m.group(1)]
+        for k, v in re.findall(r'\{(\w+)\} = ([^,]+)', m.group(2)):
+            text = text.replace('{' + k + '}', v.strip())
+        return text
+    p = re.sub(r'\[(\w+) with ([^\]]+)\]', block, p)
     return p.replace('[хвост]', tails.get(sec, '')).replace('\n', '\n\n')
 
 sec = ''
@@ -44,9 +49,17 @@ for i, l in enumerate(lines):
     m = re.match(r'\*\*`(\w+)\.png`\*\*(.*)', l)
     if m:
         name, note = m.group(1), m.group(2).strip(' —.')
+        j, refs = i + 1, None
+        while not lines[j].startswith('```'):
+            if lines[j].startswith('Приложи:'):
+                refs = re.findall(r'`(\w+)`', lines[j])
+            j += 1
         note = re.sub(r'^\([^)]*\)[\s—.]*', '', note)
         note = note[:1].upper() + note[1:]
-        slots.append({'id': name, 'note': note, 'prompt': expand(fence(i)[0], sec)})
+        slot = {'id': name, 'note': note, 'prompt': expand(fence(i)[0], sec)}
+        if refs is not None:
+            slot['refs'] = refs
+        slots.append(slot)
         continue
     m = re.match(r'- \*\*`(\w+)\.png`\*\* — `(.+?)`(.*)', l)
     if m:
@@ -62,6 +75,7 @@ for s in slots:
     q = queue_of.get(n, 3 if n.startswith('cs_') else 5)
     s['queue'] = q
     s['ratio'] = '1:1' if re.search(r'\b1:1\b', s['prompt']) else '16:9'
+    s['k4'] = '4K' in s['prompt']
     if 'refs' not in s:
         s['refs'] = [] if n == 'style_anchor' else ['style_anchor'] + (['vovan', 'dimon'] if n.startswith('cs_') else [])
 slots.sort(key=lambda s: s['queue'])

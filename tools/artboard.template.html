@@ -35,6 +35,12 @@ h2 { font: 700 20px/1.2 var(--body); margin: 14px 0 0; color: var(--mint); }
 .tags { display: flex; flex-wrap: wrap; gap: 6px; font-size: 12.5px; }
 .tags span { padding: 2px 9px; border-radius: 999px; background: var(--raised); color: var(--muted); }
 .tags .ref { color: var(--lamp); }
+.refs { display: flex; flex-wrap: wrap; gap: 10px; }
+.refs:empty { display: none; }
+.refcard { display: flex; flex-direction: column; gap: 4px; width: 132px; font-size: 12px; color: var(--muted); }
+.refcard img { width: 132px; aspect-ratio: 16 / 9; object-fit: contain; border-radius: 6px; background: var(--bg); border: 1px solid var(--line); }
+.refcard button { padding: 4px 8px; font-size: 12.5px; }
+.refcard .miss { width: 132px; aspect-ratio: 16 / 9; border-radius: 6px; border: 1px dashed var(--line); display: flex; align-items: center; justify-content: center; text-align: center; padding: 4px; }
 .desc { margin: 0; color: var(--muted); font-size: 14px; }
 pre { margin: 0; padding: 10px 12px; background: var(--bg); border-radius: 8px; font: 400 12.5px/1.5 var(--mono); white-space: pre-wrap; overflow-wrap: anywhere; max-height: 132px; overflow-y: auto; color: #cfc3ea; }
 pre.open { max-height: none; }
@@ -62,7 +68,8 @@ button:focus-visible, .drop:focus-visible, input:focus-visible { outline: 3px so
   </header>
   <ol class="steps">
     <li>Начни с <b>style_anchor</b>. Пока он не нравится — дальше не иди.</li>
-    <li>Скопируй промт, приложи в генераторе картинки из жёлтых меток «приложи», сгенерируй в указанном формате, 2K или 4K.</li>
+    <li>Скопируй промт и приложи в генераторе картинки, показанные над промтом: референсы и серый шаблон раскладки. Формат и разрешение указаны в метках.</li>
+    <li>Каждый кореш — два листа: сначала тело, потом эмоции, к которым прикладываешь готовое тело.</li>
     <li>Загрузи результат в окно справа: клик, перетаскивание или клик по окну и <b>Ctrl+V</b>.</li>
     <li>Когда очередь готова, напиши мне в чат «забирай» — нарежу, соберу и анимирую.</li>
   </ol>
@@ -79,7 +86,7 @@ const DATA = /*DATA*/null;
 const MAX = 19 * 1024 * 1024, TYPES = ['image/png', 'image/jpeg', 'image/webp'];
 const $ = (t, cls, text) => { const e = document.createElement(t); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
 const board = document.getElementById('board'), note = document.getElementById('note');
-let db = null, assets = null, state = {}, active = null; const ui = {};
+let db = null, assets = null, downloads = null, state = {}, active = null; const ui = {};
 const say = t => { note.textContent = t; note.hidden = !t; };
 
 function build() {
@@ -88,14 +95,15 @@ function build() {
     const sec = $('section', 'list'); sec.append($('h2', '', 'Очередь ' + q)); board.append(sec);
     for (const s of items) {
       const card = $('article', 'card'), info = $('div', 'info'), tags = $('div', 'tags'), pre = $('pre', '', s.prompt), row = $('div', 'row');
-      tags.append($('span', '', s.ratio));
-      for (const r of s.refs) tags.append($('span', 'ref', 'приложи ' + r));
+      tags.append($('span', '', s.ratio + (s.k4 ? ' · 4K' : '')));
+      if (s.refs.length) tags.append($('span', 'ref', 'приложи: ' + s.refs.join(', ')));
+      const refs = $('div', 'refs');
       const copy = $('button', 'main', 'Скопировать промт'), more = $('button', '', 'Развернуть');
       copy.id = 'copy-' + s.id; more.id = 'more-' + s.id;
       copy.onclick = async () => { try { await navigator.clipboard.writeText(s.prompt); copy.textContent = 'Скопировано'; } catch (e) { pre.classList.add('open'); const r = document.createRange(); r.selectNodeContents(pre); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); copy.textContent = 'Выделено — нажми Ctrl+C'; } setTimeout(() => copy.textContent = 'Скопировать промт', 1800); };
       more.onclick = () => more.textContent = pre.classList.toggle('open') ? 'Свернуть' : 'Развернуть';
       row.append(copy, more);
-      info.append($('div', 'name', s.id + '.png'), tags); if (s.note) info.append($('p', 'desc', s.note)); info.append(pre, row);
+      info.append($('div', 'name', s.id + '.png'), tags); if (s.note) info.append($('p', 'desc', s.note)); info.append(refs, pre, row);
       const side = $('div', 'info'), drop = $('div', 'drop'), status = $('div', 'status'), input = $('input'), del = $('button', '', 'Удалить');
       input.type = 'file'; input.accept = TYPES.join(','); input.hidden = true; input.id = 'file-' + s.id; del.id = 'del-' + s.id; del.hidden = true;
       drop.tabIndex = 0; drop.setAttribute('role', 'button'); drop.setAttribute('aria-label', 'Загрузить ' + s.id);
@@ -110,10 +118,26 @@ function build() {
       del.onclick = () => remove(s.id);
       const r2 = $('div', 'row'), rep = $('button', '', 'Заменить'); rep.id = 'rep-' + s.id; rep.hidden = true; rep.onclick = () => input.click(); r2.append(rep, del);
       side.append(drop, status, r2, input); card.append(info, side); sec.append(card);
-      ui[s.id] = { card, drop, status, del, rep };
-      paint(s.id);
+      ui[s.id] = { card, drop, status, del, rep, refs, slot: s };
+      paint(s.id); renderRefs(s.id);
     }
   });
+}
+function renderRefs(id) {
+  const u = ui[id]; u.refs.replaceChildren();
+  for (const r of u.slot.refs) {
+    const box = $('div', 'refcard'), tpl = r.startsWith('tpl_'), d = state[r];
+    const src = tpl ? 'tpl/' + r + '.png' : d ? '/_blob/' + d.asset : null;
+    if (src) { const im = $('img'); im.src = src; im.alt = r; im.loading = 'lazy'; box.append(im); }
+    else box.append($('div', 'miss', 'сначала сделай ' + r));
+    box.append($('span', '', tpl ? 'шаблон ' + r : r));
+    if (src && downloads) {
+      const b = $('button', '', 'Скачать'); b.id = 'dl-' + id + '-' + r;
+      b.onclick = async () => { try { const blob = await (await fetch(src)).blob(); await downloads.save({ filename: r + '.png', data: blob }); b.textContent = 'Сохранено'; } catch (e) { b.textContent = e && e.code === 'declined' ? 'Отменено' : 'Не вышло'; } setTimeout(() => b.textContent = 'Скачать', 1800); };
+      box.append(b);
+    } else if (src) box.append($('span', '', 'зажми картинку → сохранить'));
+    u.refs.append(box);
+  }
 }
 function setActive(id) { if (active && ui[active]) ui[active].drop.classList.remove('active'); active = id; ui[id].drop.classList.add('active'); }
 function paint(id, msg, cls) {
@@ -162,13 +186,15 @@ addEventListener('paste', e => {
 build();
 (async () => {
   const use = n => (window.claude && window.claude.use ? window.claude.use(n) : Promise.resolve(null));
-  [assets, db] = await Promise.all([use('assets'), use('db')]);
+  [assets, db, downloads] = await Promise.all([use('assets'), use('db'), use('downloads')]);
+  for (const id in ui) renderRefs(id);
   if (!db) { say('Хранилище недоступно в этом окне. Открой страницу в claude.ai под своим аккаунтом.'); return; }
   if (!assets) say('Загружать файлы может только владелец страницы.');
   const timer = setTimeout(() => say('Список загруженного не отвечает. Обнови страницу чуть позже.'), 10000);
   db.collection('slots').onSnapshot(snap => {
     clearTimeout(timer); const next = {}; snap.docs.forEach(d => { const v = d.data(); if (v && v.asset) next[d.id] = v; });
     const ids = new Set([...Object.keys(state), ...Object.keys(next)]); state = next; ids.forEach(id => ui[id] && paint(id));
+    for (const id in ui) renderRefs(id);
   }, () => { clearTimeout(timer); say('Не удалось прочитать список загруженного.'); });
   for (const id in ui) paint(id);
 })();
