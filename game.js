@@ -95,6 +95,10 @@ SK.hitler = mkSkin({ id: 'hitler', pants: '#f4f0f5', shirt: '#ff7ac0', sleeve: '
   bodyX() { for (let i = 0; i < 5; i++) ell(-24 + i * 12, 2, 11, 7, i % 2 ? '#ffb3dc' : '#ff8fcb', OUT, 2); ell(0, -2, 26, 6, '#ffd0ea', OUT, 2); },
   fHead() { headBase('#f0c9a0'); c.beginPath(); c.arc(-2, -16, 17, Math.PI * 1.05, Math.PI * 2.05); c.lineTo(8, -22); c.quadraticCurveTo(-6, -22, -16, -14); c.closePath(); c.fillStyle = '#18130f'; c.fill();
     eyes(); line(-16, -26, -8, -23, OUT, 3); line(4, -25, -3, -23, OUT, 3); rr(-10, -12, 8, 5, 1, '#18130f'); line(-10, -4, -2, -4, OUT, 2); } });
+SK.zombie = mkSkin({ id: 'zombie', pants: '#2f4f9a', shirt: '#f1efe8', sleeve: '#9db88a', skin: '#9db88a', shoe: '#7a4a2a', bw: 32,
+  bodyX() { ell(0, -8, 15, 10, '#e2dfd4'); rr(-16, -4, 32, 8, 2, '#2f4f9a', OUT, 2); circ(6, -22, 3, '#b9b28f'); },
+  fHead() { headBase('#9db88a'); line(-6, -33, -8, -40, OUT, 2); line(0, -33, 2, -41, OUT, 2); circ(-11, -19, 6, '#fff', OUT, 1.5); circ(0, -19, 4, '#fff', OUT, 1.5); circ(-12, -19, 2, '#111'); circ(-1, -19, 1.6, '#111');
+    rr(-12, -9, 13, 7, 2, '#3a1a20', OUT, 1.5); rr(-10, -9, 3, 3, 0, '#fff'); rr(-4, -5, 3, 3, 0, '#fff'); line(8, -8, 12, -2, '#6f8a5e', 2); } });
 SK.alien = mkSkin({ id: 'alien', pants: '#8fbf9a', shirt: '#9fd0aa', skin: '#9fd0aa', shoe: '#6f9f7a', leg: 30, torso: 30, bw: 20, legW: 8, armW: 6, armLen: 32,
   fHead() { ell(-2, -22, 20, 25, '#a9dbb4', OUT); c.save(); c.translate(-12, -22); c.rotate(0.35); ell(0, 0, 6, 10, '#0c0c14'); c.restore(); c.save(); c.translate(2, -22); c.rotate(-0.35); ell(0, 0, 6, 10, '#0c0c14'); c.restore();
     circ(-13, -25, 2, '#fff'); circ(1, -25, 2, '#fff'); line(-8, -5, -3, -5, OUT, 2); line(-6, -45, -12, -58, OUT, 2); circ(-12, -59, 3, '#ff5ad1'); } });
@@ -126,7 +130,8 @@ SK.dimon = mkSkin({ id: 'dimon', pants: '#3a3a3a', shirt: '#7a4fd0', sleeve: '#f
 
 /* ---------- глюки ---------- */
 const ENEMY = {
-  hitler:  { name: 'Гитлер в пачке', hp: 190, speed: 20, dps: 80, w: 5 },
+  zombie:  { name: 'Зомби-сосед', hp: 190, speed: 20, dps: 80, w: 6 },
+  hitler:  { name: 'Гитлер в пачке', hp: 250, speed: 23, dps: 80, w: 3 },
   alien:   { name: 'Пришелец', hp: 130, speed: 32, dps: 60, w: 3 },
   kolobok: { name: 'Колобок', hp: 150, speed: 46, dps: 50, w: 2 },
   pirate:  { name: 'Пьяный пират', hp: 320, speed: 21, dps: 90, w: 3, tough: 1 },
@@ -140,6 +145,7 @@ function walkPose(e, amp = 0.5) {
   return { legF: s * amp, legB: -s * amp, armF: -s * 0.4 + 0.2, armB: s * 0.4 + 0.2, bob: -Math.abs(s) * 3, head: Math.sin(e.ph * 0.5) * 0.05 };
 }
 const EDRAW = {
+  zombie(e) { const p = walkPose(e, 0.4); p.lean = -0.1; if (!e.eating) { p.armF = 1.45 + Math.sin(e.ph) * 0.1; p.armB = 1.25 - Math.sin(e.ph) * 0.1; } p.head = 0.15 + Math.sin(e.ph * 0.5) * 0.1; humanoid(SK.zombie, p); },
   hitler(e) { const p = walkPose(e, 0.35), spin = Math.sin(T * 0.9 + e.seed) > 0.75 && !e.eating;
     if (!e.eating) { p.armF = 2.55 + Math.sin(T * 3) * 0.1; p.armB = -2.55; p.bob -= 5; }
     if (spin) c.scale(Math.cos(T * 9), 1); humanoid(SK.hitler, p); },
@@ -209,7 +215,7 @@ const DDRAW = {
 
 /* ---------- уровни ---------- */
 const cardsFor = L => ['kettle', 'cat', 'fridge', 'doshik'].concat(L >= 2 ? ['fan'] : [], L >= 3 ? ['micro'] : [], L >= 4 ? ['tv'] : []);
-const poolFor = L => ['hitler', 'alien'].concat(L >= 2 ? ['pirate', 'kolobok'] : [], L >= 3 ? ['jesus'] : [], L >= 4 ? ['dracula'] : []);
+const poolFor = L => ['zombie', 'alien'].concat(L >= 2 ? ['hitler', 'kolobok'] : [], L >= 3 ? ['pirate', 'jesus'] : [], L >= 4 ? ['dracula'] : []);
 function makeSchedule(L, t0 = 0) {
   const pool = poolFor(L), total = 14 + L * 7, list = []; let t = t0 + (t0 ? 6 : 20);
   const choose = f => { const ws = pool.map(k => ENEMY[k].w * (ENEMY[k].tough ? 0.3 + f * 1.7 : 1)); let r = Math.random() * ws.reduce((a, b) => a + b, 0); for (let i = 0; i < pool.length; i++) { r -= ws[i]; if (r <= 0) return pool[i]; } return pool[0]; };
@@ -408,9 +414,9 @@ function overlay(title, sub, col, items) {
 function drawMenu() {
   drawBg(); c.fillStyle = 'rgba(12,5,22,.55)'; c.fillRect(0, 0, W, H);
   txt('ГЛЮКИ', W / 2 - 20, 120, 150, '#ff5ad1', 'center', DISPLAY, OUT, 400); txt('vs  КОРЕША', W / 2 + 40, 228, 76, '#7dffb0', 'center', DISPLAY, OUT, 400);
-  txt('Вована и Димона накрыло. Отбей хату от глюков, пока не отпустит.', W / 2, 300, 22, '#e7dcff', 'center', BODY, null, 500);
-  const parade = ['hitler', 'pirate', 'jesus', 'alien', 'dracula', 'kolobok'];
-  parade.forEach((k, i) => { c.save(); c.translate(770 + i * 92, 640); c.scale(1.3, 1.3); shadow(26); EDRAW[k]({ ph: T * 5 + i, seed: i, eating: false }); c.restore(); });
+  txt('Сидели, смотрели телек. На заднем дворе что-то загремело. Вышли — а там зомби-сосед.', W / 2, 300, 22, '#e7dcff', 'center', BODY, null, 500);
+  const parade = ['zombie', 'hitler', 'pirate', 'jesus', 'alien', 'dracula', 'kolobok'];
+  parade.forEach((k, i) => { c.save(); c.translate(740 + i * 84, 640); c.scale(1.3, 1.3); shadow(26); EDRAW[k]({ ph: T * 5 + i, seed: i, eating: false }); c.restore(); });
   [SK.vovan, SK.dimon].forEach((s, i) => { c.save(); c.translate(130 + i * 120, 640); c.scale(-1.7, 1.7); shadow(26); humanoid(s, { armF: 2.7 + Math.sin(T * 9 + i) * 0.3, armB: -2.6, bob: Math.sin(T * 9 + i) * 2, legF: 0.15, legB: -0.15 }); c.restore(); });
   const L = Math.min(save.level, 6);
   button(W / 2 - 190, 350, 380, 72, L > 5 ? 'Бесконечный приход' : `Играть · Ночь ${L}`, () => newGame(L), '#ff5ad1', 28);
