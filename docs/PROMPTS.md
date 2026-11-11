@@ -6,8 +6,8 @@
 
 1. **Сначала сделай якорь стиля** (раздел 2). Пока он не нравится — дальше не иди.
 2. **Ко всем остальным генерациям прикладывай якорь как референс** и начинай промт с блока `STYLE`. Так персонажи будут из одного мира.
-3. Для листов с частями тела добавляй ещё блок `SHEET`.
-4. Разрешение: 2K минимум, лучше 4K. Листы и фоны — 16:9, одиночные предметы — 1:1.
+3. Для листов с частями тела добавляй ещё блок `SHEET`. Он задаёт 13 деталей: три головы, шея, грудь, таз, плечо, предплечье, кисть и кулак, бедро, голень, стопа.
+4. Разрешение: 2K минимум, листы с частями тела — только 4K, деталей много. Листы и фоны — 16:9, одиночные предметы — 1:1.
 5. Готовое загружай в «Арт-пульт» (страница с этими же промтами и окнами загрузки) или кидай в `assets/raw/`. Дальше режу, собираю риг и анимирую я.
 6. Если на персонаже свои вещи совпали по цвету с фоном листа — меняй фон на второй вариант (зелёный ↔ маджента), в промтах это уже учтено.
 
@@ -35,10 +35,46 @@ STYLE: 2D cartoon game art in an underground comix sticker style. Thick uneven h
 ### Блок SHEET (добавлять для листов с частями тела)
 
 ```
-SHEET: A character parts sheet for 2D cut-out skeletal animation, 16:9. On the LEFT third: the fully assembled character in a neutral standing pose, side-on 3/4 view. On the RIGHT two thirds: the same character disassembled into separate body parts laid out in a tidy grid with wide empty gaps between them, no part touching or overlapping another. Parts, each drawn complete including the areas normally hidden under other parts, with rounded overlapping joint ends: (1) head, neutral face; (2) head, mouth wide open biting; (3) head, hurt expression; (4) torso; (5) upper arm; (6) forearm with hand; (7) thigh; (8) shin with foot. Limbs hang straight down vertically. Then any accessories as separate parts. Background: one perfectly flat solid color {BG}, no shadows on the background, no floor, no text, no labels, no numbers, no arrows, no frame.
+SHEET: A character parts sheet for 2D cut-out skeletal animation, 16:9, 4K. Strict flat side view of the whole character, like a paper puppet, no perspective, no foreshortening.
+
+LEFT quarter of the sheet: the fully assembled character standing straight in a neutral pose, arms hanging down at the sides.
+
+RIGHT three quarters: the same character taken apart into separate pieces, drawn at EXACTLY the same scale, same line weight and same colors as the assembled figure, laid out in four tidy horizontal rows with wide empty gaps. No piece touches or overlaps any other piece, and no piece is cropped by the edge.
+Row 1, heads: (1) head with neutral face; (2) the same head with mouth wide open; (3) the same head with a hurt expression. Heads end at the jaw, no neck attached.
+Row 2, body: (4) neck, a short separate cylinder; (5) upper torso: chest and shoulders with no arms and no neck; (6) lower torso: belly and pelvis with no legs.
+Row 3, one arm: (7) upper arm from shoulder to elbow; (8) forearm from elbow to wrist; (9) open relaxed hand; (10) closed fist.
+Row 4, one leg: (11) thigh from hip to knee; (12) shin from knee to ankle; (13) foot with shoe, seen from the side.
+Below or beside the rows: accessories listed for this character, each as its own separate piece.
+
+Rules for every piece: draw it complete, including the area that is normally hidden under the neighbouring piece. Every joint end (shoulder, elbow, wrist, hip, knee, ankle, waist, both ends of the neck) is a fully rounded cap that extends a little past the joint, so pieces can overlap and rotate without gaps. Arm and leg pieces are straight and perfectly vertical, joint to the body at the top. Clothing is part of the piece it covers (a sleeve belongs to the upper arm, a trouser leg to the thigh and shin). Skirts, capes, long hair and hats are NOT fused to the body: draw the body piece plain underneath and give them as separate accessory pieces. Only one arm and one leg are needed; they will be mirrored.
+
+Background: one perfectly flat solid color {BG} filling the whole sheet. No cast shadows, no floor, no glow spilling onto the background, no text, no labels, no numbers, no arrows, no guide lines, no frame.
 ```
 
 `{BG}` — подставь `pure chroma green #00FF00` или `pure magenta #FF00FF`, как указано у персонажа.
+
+### Риг: из чего собирается моделька
+
+Все гуманоиды — плоские бумажные куклы, вид строго сбоку. 13 деталей с листа превращаются в 19 костей: рука и нога рисуются один раз и используются дважды (дальняя затемняется).
+
+| Часть | Детали | Крепится к | Точка вращения |
+|---|---|---|---|
+| Голова | 3 варианта лица | шея | низ головы, у челюсти |
+| Шея | 1 | грудь | низ шеи |
+| Тело | грудь, таз | таз — корень, грудь к тазу | талия |
+| Рука ×2 | плечо, предплечье, кисть (открытая или кулак) | грудь | плечевой сустав, локоть, запястье |
+| Нога ×2 | бедро, голень, стопа | таз | тазобедренный сустав, колено, голеностоп |
+| Аксессуары | юбка, плащ, волосы, шляпа, предмет в руке | своя кость | верхний край или рукоять |
+
+Что это даёт в анимации: ходьба со сгибом колена и перекатом стопы, замах и бросок с локтем и кистью, наклон и скручивание корпуса в талии, кивок и поворот головы на шее, смена лица при укусе и ударе, отдельная физика для волос, юбки и плаща.
+
+Почему в промте именно так:
+
+- **один масштаб с собранной фигурой** — иначе детали не сойдутся по размеру;
+- **скруглённые концы с запасом** — при сгибе локтя и колена не будет дыр;
+- **конечности строго вертикально** — точка вращения всегда сверху по центру, не надо угадывать;
+- **юбки, плащи и волосы отдельно** — их можно качать независимо от тела;
+- **собранная фигура слева** — по ней сверяю пропорции и порядок слоёв.
 
 ## 2. Якорь стиля
 
@@ -57,7 +93,7 @@ Key art, 16:9. Night-time backyard of a shabby suburban house lit by one yellow 
 ```
 [STYLE]
 [SHEET with {BG} = pure magenta #FF00FF]
-Character: VOVAN, a short stocky slacker in his twenties, facing RIGHT. Red beanie pulled low, green hoodie with white drawstrings and a front pocket, baggy blue jeans, white sneakers. Round face, wide bloodshot eyes with huge pupils, permanently startled. Real-world muted palette, no neon glow. Replace head variants with: (1) neutral dazed; (2) screaming with mouth wide open; (3) panicking. Accessories as separate parts: blue enamel kettle, hand cupped next to mouth for yelling.
+Character: VOVAN, a short stocky slacker in his twenties, facing RIGHT. Red beanie pulled low (hat is a separate piece, draw the head with short messy hair underneath), green hoodie with white drawstrings and a front pocket, baggy blue jeans, white sneakers. Round face, wide bloodshot eyes with huge pupils, permanently startled. Real-world muted palette, no neon glow. Replace head variants with: (1) neutral dazed; (2) screaming with mouth wide open; (3) panicking. Accessories as separate pieces: the red beanie, the hoodie hood hanging behind the neck, a blue enamel kettle, an extra hand gripping the kettle handle, an extra hand cupped for yelling.
 ```
 
 **`dimon.png`** — фон зелёный.
@@ -65,7 +101,7 @@ Character: VOVAN, a short stocky slacker in his twenties, facing RIGHT. Red bean
 ```
 [STYLE]
 [SHEET with {BG} = pure chroma green #00FF00]
-Character: DIMON, a tall lanky slacker in his twenties, facing RIGHT. Long straight brown hair past the shoulders, round glasses with pale lenses, purple t-shirt with a yellow smiley face, dark grey jeans, red sneakers. Sleepy relaxed smile, half-closed eyes. Real-world muted palette, no neon glow. Replace head variants with: (1) neutral sleepy smile; (2) laughing; (3) panicking with glasses askew. Accessories as separate parts: pink fluffy house slipper, forearm with hand in a throwing grip.
+Character: DIMON, a tall lanky slacker in his twenties, facing RIGHT. Long straight brown hair past the shoulders, round glasses with pale lenses, purple t-shirt with a yellow smiley face, dark grey jeans, red sneakers. Sleepy relaxed smile, half-closed eyes. Real-world muted palette, no neon glow. Replace head variants with: (1) neutral sleepy smile; (2) laughing; (3) panicking with glasses askew. Accessories as separate pieces: the long hair as one back-hair piece (draw the head with only a fringe), the round glasses, a pink fluffy house slipper, an extra hand gripping the slipper.
 ```
 
 ## 4. Глюки (смотрят влево)
@@ -77,7 +113,7 @@ Character: DIMON, a tall lanky slacker in his twenties, facing RIGHT. Long strai
 ```
 [STYLE]
 [SHEET with {BG} = pure magenta #FF00FF]
-Character: ZOMBIE NEIGHBOUR, facing LEFT. A middle-aged pot-bellied neighbour turned zombie: sickly green skin, almost bald with three hairs, one eye bigger than the other, missing teeth, dopey hungry face. Dirty white sleeveless tank top stretched over the belly, blue tracksuit pants with white side stripes, worn brown house slippers. Arms reach forward. Acid neon accents with a thin glowing pink-and-cyan halo around the outline. Accessories as separate parts: a dented cooking-pot lid, a rolled-up newspaper.
+Character: ZOMBIE NEIGHBOUR, facing LEFT. A middle-aged pot-bellied neighbour turned zombie: sickly green skin, almost bald with three hairs, one eye bigger than the other, missing teeth, dopey hungry face. Dirty white sleeveless tank top stretched over the belly, blue tracksuit pants with white side stripes, worn brown house slippers. Arms reach forward. Acid neon accents with a thin glowing pink-and-cyan halo around the outline. The belly bulges on the lower torso piece. Accessories as separate pieces: a dented cooking-pot lid, a rolled-up newspaper, one slipper that has fallen off.
 ```
 
 **`zombie_tough.png`** — усиленная версия для поздних ночей.
@@ -85,7 +121,7 @@ Character: ZOMBIE NEIGHBOUR, facing LEFT. A middle-aged pot-bellied neighbour tu
 ```
 [STYLE]
 [SHEET with {BG} = pure magenta #FF00FF]
-Character: ZOMBIE GYM BRO, facing LEFT. Same world as the zombie neighbour but huge and muscular with a tiny head: green skin, buzz cut, tiny angry eyes, torn neon-yellow gym tank top, black shorts, one flip-flop. Carries a car tyre worn around the torso like armour (tyre as a separate accessory part). Acid neon accents with a thin glowing pink-and-cyan halo around the outline.
+Character: ZOMBIE GYM BRO, facing LEFT. Same world as the zombie neighbour but huge and muscular with a tiny head: green skin, buzz cut, tiny angry eyes, torn neon-yellow gym tank top, black shorts, one flip-flop. Huge upper arms and chest, thin legs. Accessories as separate pieces: a car tyre worn around the torso like armour, a dumbbell. Acid neon accents with a thin glowing pink-and-cyan halo around the outline.
 ```
 
 **`ballerina.png`** — «Гитлер в пачке». Фон зелёный (костюм розовый).
@@ -93,7 +129,7 @@ Character: ZOMBIE GYM BRO, facing LEFT. Same world as the zombie neighbour but h
 ```
 [STYLE]
 [SHEET with {BG} = pure chroma green #00FF00]
-Character: a satirical caricature of a furious 1940s dictator dressed as a ballerina, facing LEFT. Small angry man with a black side-parted fringe and a small rectangular toothbrush moustache, scowling. Pink ballet leotard, fluffy layered pink tutu, white tights, pink pointe shoes with ribbons. No military uniform, no symbols, no armbands, no insignia of any kind. Ridiculous and humiliating, pure mockery. Replace head variants with: (1) scowling; (2) shouting with mouth wide open; (3) dizzy with spiral eyes. Accessories as separate parts: the tutu skirt as its own ring-shaped part, both arms in a raised rounded ballet pose. Acid neon accents with a thin glowing pink-and-cyan halo around the outline.
+Character: a satirical caricature of a furious 1940s dictator dressed as a ballerina, facing LEFT. Small angry man with a black side-parted fringe and a small rectangular toothbrush moustache, scowling. Pink ballet leotard, fluffy layered pink tutu, white tights, pink pointe shoes with ribbons. No military uniform, no symbols, no armbands, no insignia of any kind. Ridiculous and humiliating, pure mockery. Replace head variants with: (1) scowling; (2) shouting with mouth wide open; (3) dizzy with spiral eyes. Bare arms. Accessories as separate pieces: the fluffy tutu skirt as its own ring-shaped piece seen from the side (the lower torso underneath is plain pink leotard), the ribbon bow of a pointe shoe, a foot standing on tiptoe en pointe as an alternative foot. Acid neon accents with a thin glowing pink-and-cyan halo around the outline.
 ```
 
 **`alien.png`** — фон маджента.
@@ -101,7 +137,7 @@ Character: a satirical caricature of a furious 1940s dictator dressed as a balle
 ```
 [STYLE]
 [SHEET with {BG} = pure magenta #FF00FF]
-Character: GREY ALIEN, facing LEFT. Classic skinny little grey-green alien with an oversized bulb head, huge glossy black almond eyes, tiny mouth, one antenna ending in a pink glowing ball, thin noodle limbs with three long fingers. Wears only white socks with sandals. Runs leaning forward. Acid neon accents with a thin glowing pink-and-cyan halo around the outline. Accessories as separate parts: a tiny toy ray gun.
+Character: GREY ALIEN, facing LEFT. Classic skinny little grey-green alien with an oversized bulb head, huge glossy black almond eyes, tiny mouth, one antenna ending in a pink glowing ball, thin noodle limbs with three long fingers. Wears only white socks with sandals. Runs leaning forward. Acid neon accents with a thin glowing pink-and-cyan halo around the outline. The hand has three long fingers; the head is huge and the neck very thin. Accessories as separate pieces: the antenna, a tiny toy ray gun, an extra hand gripping the ray gun.
 ```
 
 **`pirate.png`** — свой пьяный пират. Фон зелёный.
@@ -109,7 +145,7 @@ Character: GREY ALIEN, facing LEFT. Classic skinny little grey-green alien with 
 ```
 [STYLE]
 [SHEET with {BG} = pure chroma green #00FF00]
-Character: DRUNK PIRATE CAPTAIN, an original character, facing LEFT. Barrel-chested pirate with a huge bushy orange beard, black eyepatch, red nose, dark tricorn hat with a white skull badge, red-and-white striped shirt, wide leather belt, dark purple breeches, one wooden peg leg and one buckled boot. Cross-eyed and swaying. Must not resemble any existing film character: no dreadlocks, no bandana, no beads, no eyeliner. Replace head variants with: (1) drunk grin; (2) mouth wide open biting; (3) hiccuping with a bubble. Accessories as separate parts: green bottle, forearm with hand gripping the bottle, the peg leg. Acid neon accents with a thin glowing pink-and-cyan halo around the outline.
+Character: DRUNK PIRATE CAPTAIN, an original character, facing LEFT. Barrel-chested pirate with a huge bushy orange beard, black eyepatch, red nose, dark tricorn hat with a white skull badge, red-and-white striped shirt, wide leather belt, dark purple breeches, one wooden peg leg and one buckled boot. Cross-eyed and swaying. Must not resemble any existing film character: no dreadlocks, no bandana, no beads, no eyeliner. Replace head variants with: (1) drunk grin; (2) mouth wide open biting; (3) hiccuping with a bubble. Accessories as separate pieces: the tricorn hat (draw the head with a bald patch underneath), the beard as its own piece, a green bottle, an extra hand gripping the bottle, a wooden peg leg that replaces the shin and foot of the second leg. Acid neon accents with a thin glowing pink-and-cyan halo around the outline.
 ```
 
 **`jesus.png`** — фон зелёный.
@@ -117,7 +153,7 @@ Character: DRUNK PIRATE CAPTAIN, an original character, facing LEFT. Barrel-ches
 ```
 [STYLE]
 [SHEET with {BG} = pure chroma green #00FF00]
-Character: a friendly cartoon JESUS as a hallucination, facing LEFT. Long brown hair, short beard, calm blissful smile, long cream-white robe to the ankles with a red sash over one shoulder, leather sandals. Arms spread wide in a welcoming gesture. Good-natured and funny, not mocking. Because of the long robe, replace thigh and shin parts with: the lower robe as one bell-shaped part, and two sandalled feet. Replace head variants with: (1) calm smile; (2) mouth open singing; (3) eyes closed, peaceful. Accessories as separate parts: golden ring halo, a soft round glow disc. Acid neon accents with a thin glowing pink-and-cyan halo around the outline.
+Character: a friendly cartoon JESUS as a hallucination, facing LEFT. Long brown hair, short beard, calm blissful smile, long cream-white robe to the ankles with a red sash over one shoulder, leather sandals. Arms spread wide in a welcoming gesture. Good-natured and funny, not mocking. The upper torso and upper arm are covered by the robe with wide sleeves on the forearm; draw the legs as plain thigh, shin and sandalled foot. Replace head variants with: (1) calm smile; (2) mouth open singing; (3) eyes closed, peaceful. Accessories as separate pieces: the lower robe as one long bell-shaped skirt piece from waist to ankles, the red sash, the long hair as one back-hair piece, a golden ring halo, a soft round glow disc. Acid neon accents with a thin glowing pink-and-cyan halo around the outline.
 ```
 
 **`dracula.png`** — фон зелёный.
@@ -125,7 +161,7 @@ Character: a friendly cartoon JESUS as a hallucination, facing LEFT. Long brown 
 ```
 [STYLE]
 [SHEET with {BG} = pure chroma green #00FF00]
-Character: COUNT DRACULA in the classic public-domain look, facing LEFT. Pale blue-grey skin, slicked black hair with a sharp widow's peak, red eyes, two long fangs, smug aristocratic sneer. Black tailcoat, white shirt, red bow tie, high-collared black cape with crimson lining. Replace head variants with: (1) smug sneer; (2) mouth wide open with fangs; (3) hissing and shielding eyes. Accessories as separate parts: the cape as one large part seen from the side, a small cartoon bat. Acid neon accents with a thin glowing pink-and-cyan halo around the outline.
+Character: COUNT DRACULA in the classic public-domain look, facing LEFT. Pale blue-grey skin, slicked black hair with a sharp widow's peak, red eyes, two long fangs, smug aristocratic sneer. Black tailcoat, white shirt, red bow tie, high-collared black cape with crimson lining. Replace head variants with: (1) smug sneer; (2) mouth wide open with fangs; (3) hissing and shielding eyes. Accessories as separate pieces: the cape as one large piece seen from the side, the high cape collar as its own piece, the tailcoat tails, a small cartoon bat. Acid neon accents with a thin glowing pink-and-cyan halo around the outline.
 ```
 
 **`kolobok.png`** (1:1) — не гуманоид, отдельный лист. Фон маджента.
@@ -144,12 +180,12 @@ A boss parts sheet, 16:9, for cut-out animation. A giant purple KRAKEN crawling 
 
 ### Запас на потом (свои типажи, тот же шаблон)
 
-Подставляй в шаблон `[STYLE] + [SHEET] + Character: ...`:
+Подставляй в шаблон `[STYLE] + [SHEET] + Character: ...`. Детали те же 13, аксессуары модель добавит по описанию:
 
 - **`unicorn.png`** — `GOPNIK UNICORN, facing LEFT: a bipedal white unicorn squatting-type street tough in a black tracksuit with three stripes and a flat cap, rainbow mane, gold tooth, sunflower seeds in one hoof.` Фон зелёный.
 - **`knight.png`** — `CARDBOARD KNIGHT, facing LEFT: a kid-sized knight in armour made of taped cardboard boxes, a colander helmet, a pot-lid shield and a mop for a lance.` Фон зелёный.
 - **`hamster.png`** — `GIANT HAMSTER, facing LEFT: a human-sized fat orange-and-white hamster walking upright with stuffed cheeks and tiny furious eyes.` Фон зелёный.
-- **`grandma.png`** — `GHOST GRANDMA, facing LEFT: a translucent floating granny in a headscarf and floral dress with a rolling pin, legs fading into a wisp.` Фон маджента.
+- **`grandma.png`** — `GHOST GRANDMA, facing LEFT: a translucent floating granny in a headscarf and floral dress with a rolling pin; instead of leg pieces draw one ghostly wisp tail piece.` Фон маджента.
 
 ## 5. Оборона
 
@@ -396,4 +432,7 @@ App icon, 1:1, full bleed. Close-up of the zombie neighbour's dopey green face o
 - части не касаются друг друга и не обрезаны краем;
 - фон ровный, одного цвета, без теней и текста;
 - лицо и одежда на частях совпадают с собранным персонажем слева;
-- конечности висят прямо вниз, а не согнуты.
+- конечности висят прямо вниз, а не согнуты;
+- на листе гуманоида есть все 13 деталей: три головы, шея, грудь, таз, плечо, предплечье, кисть, кулак, бедро, голень, стопа;
+- детали того же размера, что и на собранной фигуре слева;
+- юбка, плащ, волосы и шляпа лежат отдельно, а не приросли к телу.
