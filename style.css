@@ -1,0 +1,44 @@
+/* Одна тёмная сцена: игра сознательно в одном виде, без светлой темы. */
+:root {
+  --bg: #12091e;
+  --panel: #241536;
+  --fg: #e7dcff;
+  --muted: #a99cc0;
+  --accent: #ff5ad1;
+  --font-display: "Rubik Wet Paint", Impact, "Arial Black", sans-serif;
+  --font-body: Rubik, "Segoe UI", Roboto, Arial, sans-serif;
+  color-scheme: dark;
+}
+html, body { height: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding-block: 8px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  box-sizing: border-box;
+  overflow: hidden;
+}
+#game {
+  display: block;
+  width: min(100%, calc((100vh - 60px) * 16 / 9), 1280px);
+  max-width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 12px;
+  background: var(--panel);
+  box-shadow: 0 0 0 3px #6a4a9a, 0 0 60px rgba(255, 90, 209, .25);
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: pointer;
+}
+.hint { margin: 0; font-size: 13px; color: var(--muted); text-align: center; text-wrap: balance; }
+.rotate { display: none; color: var(--accent); font-weight: 700; }
+@media (orientation: portrait) and (max-width: 700px) { .rotate { display: block; } }
