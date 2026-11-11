@@ -322,15 +322,26 @@ function collect(s) { if (s.got) return; s.got = true; G.sun += 25; sfx(1100, 0.
 function drawSun(x, y, r = 22, a = 1) { c.save(); c.globalAlpha = a; c.translate(x, y); const g = c.createRadialGradient(0, 0, 2, 0, 0, r * 1.7); g.addColorStop(0, 'rgba(255,240,140,.9)'); g.addColorStop(1, 'rgba(255,240,140,0)'); circ(0, 0, r * 1.7, g);
   c.rotate(Math.sin(T * 2) * 0.15); circ(0, -3, r * 0.72, '#ffe14a', OUT, 2.5); rr(-r * 0.3, r * 0.45, r * 0.6, r * 0.42, 3, '#b8bcc8', OUT, 2); line(-4, -2, 0, 4, '#fff7b0', 2); line(4, -2, 0, 4, '#fff7b0', 2); c.restore(); }
 function drawBg() {
-  c.fillStyle = '#241536'; c.fillRect(0, 0, W, H);
-  for (let i = 0; i < 22; i++) { const x = i * 62 - 20; poly([[x, 40], [x + 18, 70], [x, 100], [x - 18, 70]], i % 2 ? '#2e1c45' : '#2a1940'); }
-  c.fillStyle = '#3a2a22'; c.fillRect(0, GY - 14, GX - 6, H); for (let i = 0; i < 9; i++) line(0, GY + i * 70, GX - 6, GY + i * 70, '#2e2019', 2);
-  for (let r = 0; r < ROWS; r++) for (let col = 0; col < COLS; col++) { c.fillStyle = (r + col) % 2 ? '#4a3566' : '#55407a'; c.fillRect(GX + col * CELL, GY + r * CELL, CELL, CELL); }
+  // ночное небо и забор
+  c.fillStyle = '#1a1030'; c.fillRect(0, 0, W, H);
+  for (let i = 0; i < 40; i++) circ((i * 173) % W, (i * 67) % 90, 1 + (i % 3) * 0.6, `rgba(255,255,255,${0.3 + 0.3 * Math.sin(T * 2 + i)})`);
+  circ(1080, 46, 26, '#ffe9a8'); circ(1070, 40, 24, '#1a1030');
+  for (let x = GX - 10; x < W; x += 44) { poly([[x, GY], [x, 82 + (x * 7 % 13)], [x + 20, 66 + (x * 7 % 13)], [x + 40, 82 + (x * 7 % 13)], [x + 40, GY]], (x / 44 | 0) % 2 ? '#4a3a52' : '#54425c', OUT, 2); }
+  rr(GX - 10, 104, W, 9, 0, '#3a2c44', OUT, 2);
+  // двор: трава с проплешинами
+  for (let r = 0; r < ROWS; r++) for (let col = 0; col < COLS; col++) { c.fillStyle = (r + col) % 2 ? '#3d5a47' : '#45654e'; c.fillRect(GX + col * CELL, GY + r * CELL, CELL, CELL); }
+  for (let i = 0; i < 16; i++) { const x = GX + 40 + (i * 397) % (COLS * CELL - 80), y = GY + 30 + (i * 211) % (ROWS * CELL - 60); ell(x, y, 34 + (i % 3) * 12, 12 + (i % 2) * 6, i % 3 ? 'rgba(92,72,58,.45)' : 'rgba(30,45,38,.35)'); }
+  for (let i = 0; i < 26; i++) { const x = GX + 20 + (i * 151) % (COLS * CELL - 40), y = GY + 20 + (i * 97) % (ROWS * CELL - 30); line(x, y, x - 3, y - 9, '#5f8a66', 2); line(x + 5, y, x + 7, y - 8, '#5f8a66', 2); }
+  const lamp = c.createRadialGradient(GX + 200, GY - 20, 20, GX + 200, GY + 120, 520); lamp.addColorStop(0, 'rgba(255,210,122,.22)'); lamp.addColorStop(1, 'rgba(255,210,122,0)'); c.fillStyle = lamp; c.fillRect(GX, GY, W - GX, H - GY);
   const g = c.createLinearGradient(GX, 0, W, 0); g.addColorStop(0, 'rgba(0,0,0,0)'); g.addColorStop(0.55, `hsla(${(T * 25) % 360},90%,55%,.10)`); g.addColorStop(1, `hsla(${(T * 25 + 80) % 360},95%,60%,.5)`); c.fillStyle = g; c.fillRect(GX, GY, W - GX, H - GY);
   c.save(); c.translate(W + 10, GY + 275); for (let i = 0; i < 7; i++) { c.rotate(T * 0.3 + i); ell(0, 0, 60 + i * 28, 250 - i * 12, null, `hsla(${(T * 40 + i * 50) % 360},95%,65%,.28)`, 10); } c.restore();
   c.strokeStyle = 'rgba(20,10,35,.35)'; c.lineWidth = 2; c.strokeRect(GX, GY, COLS * CELL, ROWS * CELL);
-  // диван и ковёр
-  rr(8, GY + 20, 150, 520, 26, '#6b3f2a', OUT, 4); rr(8, GY + 20, 46, 520, 20, '#5a3322', OUT, 3); for (let i = 0; i < 3; i++) rr(56, GY + 34 + i * 166, 96, 158, 18, '#8a5638', OUT, 3);
+  // крыльцо и задняя стена дома
+  c.fillStyle = '#6b4a35'; c.fillRect(0, GY - 14, GX - 6, H); for (let x = 46; x < GX - 6; x += 42) line(x, GY - 14, x, H, '#553a29', 2); line(GX - 6, GY - 14, GX - 6, H, OUT, 4);
+  c.fillStyle = '#4a4560'; c.fillRect(0, GY - 14, 44, H); for (let y = GY; y < H; y += 26) line(0, y, 44, y, '#3a3650', 2); line(44, GY - 14, 44, H, OUT, 3);
+  rr(-6, 330, 44, 150, 4, '#ffd27a', OUT); poly([[38, 330], [200, 300], [200, 510], [38, 480]], 'rgba(255,210,122,.16)');
+  rr(4, 190, 30, 70, 3, '#2a2540', OUT, 2); line(19, 190, 19, 260, OUT, 2); rr(4, 560, 30, 70, 3, '#9fd0ff', OUT, 2); line(19, 560, 19, 630, OUT, 2);
+  rr(56, 372, 60, 66, 6, '#8a3f3a', OUT, 2);
 }
 function drawFriend(i) {
   const y = rowY(i ? 3 : 1) + 6, s = i ? SK.dimon : SK.vovan, panic = G && G.over === 'lose';
@@ -414,14 +425,14 @@ function overlay(title, sub, col, items) {
 function drawMenu() {
   drawBg(); c.fillStyle = 'rgba(12,5,22,.55)'; c.fillRect(0, 0, W, H);
   txt('ГЛЮКИ', W / 2 - 20, 120, 150, '#ff5ad1', 'center', DISPLAY, OUT, 400); txt('vs  КОРЕША', W / 2 + 40, 228, 76, '#7dffb0', 'center', DISPLAY, OUT, 400);
-  txt('Сидели, смотрели телек. На заднем дворе что-то загремело. Вышли — а там зомби-сосед.', W / 2, 300, 22, '#e7dcff', 'center', BODY, null, 500);
+  txt('Сидели, смотрели телек. На заднем дворе что-то загремело. Вышли во двор — а там зомби-сосед.', W / 2, 300, 22, '#e7dcff', 'center', BODY, null, 500);
   const parade = ['zombie', 'hitler', 'pirate', 'jesus', 'alien', 'dracula', 'kolobok'];
   parade.forEach((k, i) => { c.save(); c.translate(740 + i * 84, 640); c.scale(1.3, 1.3); shadow(26); EDRAW[k]({ ph: T * 5 + i, seed: i, eating: false }); c.restore(); });
   [SK.vovan, SK.dimon].forEach((s, i) => { c.save(); c.translate(130 + i * 120, 640); c.scale(-1.7, 1.7); shadow(26); humanoid(s, { armF: 2.7 + Math.sin(T * 9 + i) * 0.3, armB: -2.6, bob: Math.sin(T * 9 + i) * 2, legF: 0.15, legB: -0.15 }); c.restore(); });
   const L = Math.min(save.level, 6);
   button(W / 2 - 190, 350, 380, 72, L > 5 ? 'Бесконечный приход' : `Играть · Ночь ${L}`, () => newGame(L), '#ff5ad1', 28);
   if (save.level > 1) { txt('или выбери ночь', W / 2, 452, 15, '#a99cc0', 'center', BODY, null, 500); const n = Math.min(save.level, 6), x0 = W / 2 - (n * 64 - 8) / 2; for (let i = 1; i <= n; i++) button(x0 + (i - 1) * 64, 470, 56, 50, i > 5 ? '∞' : i, () => newGame(i), '#4a3566', 22); }
-  txt('Чайник варит проблески → на них ставь кота и холодос → глюки не должны дойти до дивана.', W / 2, 696, 16, '#cbbde6', 'center', BODY, null, 500);
+  txt('Чайник варит проблески → на них ставь кота и холодос → глюки не должны дойти до крыльца.', W / 2, 696, 16, '#cbbde6', 'center', BODY, null, 500);
   if (save.best) txt(`Рекорд бесконечного прихода: ${save.best}`, W / 2, 548, 15, '#ffe14a', 'center', BODY, null, 500);
 }
 
@@ -460,7 +471,7 @@ function frame(now) {
   else { update(dt); drawScene();
     if (G.paused) overlay('ПАУЗА', 'Глюки подождут', '#ffe14a', [['Продолжить', () => G.paused = false], ['Заново', () => newGame(G.L)], ['В меню', () => screen = 'menu']]);
     else if (G.over === 'win') overlay('ОТПУСТИЛО!', G.L >= 5 ? 'Кракен ушёл. Открыт бесконечный приход.' : `${LEVEL_NAME(G.L)} пережита. Дальше будет хуже.`, '#7dffb0', [[G.L >= 5 ? 'Бесконечный приход' : 'Следующая ночь', () => newGame(G.L + 1)], ['В меню', () => screen = 'menu']]);
-    else if (G.over === 'lose') overlay('ВАС НАКРЫЛО', G.endless ? `Развеяно глюков: ${G.kills}` : 'Глюк добрался до дивана', '#ff5a5a', [['Ещё раз', () => newGame(G.L)], ['В меню', () => screen = 'menu']]);
+    else if (G.over === 'lose') overlay('ВАС НАКРЫЛО', G.endless ? `Развеяно глюков: ${G.kills}` : 'Глюк добрался до крыльца', '#ff5a5a', [['Ещё раз', () => newGame(G.L)], ['В меню', () => screen = 'menu']]);
   }
   requestAnimationFrame(frame);
 }

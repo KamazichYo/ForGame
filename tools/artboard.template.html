@@ -1,0 +1,175 @@
+<title>Арт-пульт Глюков</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Rubik+Wet+Paint&family=JetBrains+Mono:wght@400&display=swap">
+<style>
+/* Раскладка: одна колонка очередей; в каждой карточке слева промт, справа окно загрузки.
+   Одна тёмная сцена в цветах игры — светлой темы нет сознательно. */
+:root {
+  --bg: #12091e; --panel: #1f1330; --raised: #2b1c42; --line: #4a3566;
+  --fg: #efe6ff; --muted: #a99cc0; --pink: #ff5ad1; --mint: #7dffb0; --lamp: #ffd27a; --bad: #ff6a6a;
+  --display: "Rubik Wet Paint", Impact, "Arial Black", sans-serif;
+  --body: Rubik, "Segoe UI", Roboto, Arial, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+  color-scheme: dark;
+}
+body { background: var(--bg); color: var(--fg); font: 400 15px/1.5 var(--body); padding-block: 20px 60px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.wrap { max-width: 1040px; margin: 0 auto; display: flex; flex-direction: column; gap: 22px; }
+h1 { font: 400 clamp(38px, 8vw, 64px)/1 var(--display); color: var(--pink); margin: 0; text-wrap: balance; }
+h1 span { color: var(--mint); }
+.lead { margin: 8px 0 0; color: var(--muted); max-width: 62ch; }
+.steps { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 4px; max-width: 70ch; }
+.steps b { color: var(--lamp); font-weight: 500; }
+.bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); padding-block: 10px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; border-bottom: 2px solid var(--line); }
+.meter { flex: 1 1 200px; min-width: 0; display: flex; align-items: center; gap: 10px; font-variant-numeric: tabular-nums; }
+.meter i { flex: 1; height: 10px; border-radius: 5px; background: var(--raised); overflow: hidden; }
+.meter i b { display: block; height: 100%; width: 0; background: var(--pink); transition: width .3s; }
+label.chk { display: flex; gap: 8px; align-items: center; cursor: pointer; }
+.note { margin: 0; padding: 10px 14px; border-radius: 10px; background: var(--raised); color: var(--lamp); }
+h2 { font: 700 20px/1.2 var(--body); margin: 14px 0 0; color: var(--mint); }
+.list { display: flex; flex-direction: column; gap: 14px; }
+.card { background: var(--panel); border: 2px solid var(--line); border-radius: 14px; padding: 14px; display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 16px; }
+.card.done { border-color: var(--mint); }
+.info { min-width: 0; display: flex; flex-direction: column; gap: 8px; }
+.name { font: 400 16px/1.2 var(--mono); color: var(--fg); overflow-wrap: anywhere; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; font-size: 12.5px; }
+.tags span { padding: 2px 9px; border-radius: 999px; background: var(--raised); color: var(--muted); }
+.tags .ref { color: var(--lamp); }
+.desc { margin: 0; color: var(--muted); font-size: 14px; }
+pre { margin: 0; padding: 10px 12px; background: var(--bg); border-radius: 8px; font: 400 12.5px/1.5 var(--mono); white-space: pre-wrap; overflow-wrap: anywhere; max-height: 132px; overflow-y: auto; color: #cfc3ea; }
+pre.open { max-height: none; }
+.row { display: flex; flex-wrap: wrap; gap: 8px; }
+button { font: 500 14px var(--body); color: var(--fg); background: var(--raised); border: 2px solid var(--line); border-radius: 9px; padding: 7px 14px; cursor: pointer; }
+button.main { background: var(--pink); border-color: var(--pink); color: #2a0a22; font-weight: 700; }
+button:hover { filter: brightness(1.15); }
+button:focus-visible, .drop:focus-visible, input:focus-visible { outline: 3px solid var(--lamp); outline-offset: 2px; }
+.drop { border: 2px dashed var(--line); border-radius: 12px; min-height: 170px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 10px; text-align: center; cursor: pointer; color: var(--muted); font-size: 13.5px; background: var(--bg); }
+.drop.active { border-color: var(--lamp); color: var(--fg); }
+.drop.over { border-color: var(--pink); background: var(--raised); }
+.drop img { max-width: 100%; max-height: 190px; border-radius: 6px; background: repeating-conic-gradient(#2b1c42 0 25%, #1f1330 0 50%) 0 0/16px 16px; }
+.status { font-size: 12.5px; font-variant-numeric: tabular-nums; }
+.status.err { color: var(--bad); }
+.status.ok { color: var(--mint); }
+[data-hide="1"] { display: none; }
+@media (max-width: 720px) { .card { grid-template-columns: minmax(0, 1fr); } }
+@media (prefers-reduced-motion: reduce) { .meter i b { transition: none; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Арт-<span>пульт</span></h1>
+    <p class="lead">Промты для Nano Banana Pro и окна для результатов. Всё, что сюда загружено, я забираю сам — в чат картинки слать не нужно.</p>
+  </header>
+  <ol class="steps">
+    <li>Начни с <b>style_anchor</b>. Пока он не нравится — дальше не иди.</li>
+    <li>Скопируй промт, приложи в генераторе картинки из жёлтых меток «приложи», сгенерируй в указанном формате, 2K или 4K.</li>
+    <li>Загрузи результат в окно справа: клик, перетаскивание или клик по окну и <b>Ctrl+V</b>.</li>
+    <li>Когда очередь готова, напиши мне в чат «забирай» — нарежу, соберу и анимирую.</li>
+  </ol>
+  <div class="bar">
+    <div class="meter"><span id="count">0 из 0</span><i><b id="fill"></b></i></div>
+    <label class="chk"><input type="checkbox" id="onlyEmpty"> только незагруженные</label>
+  </div>
+  <p class="note" id="note" hidden></p>
+  <div id="board" class="list"></div>
+</div>
+
+<script>
+const DATA = /*DATA*/null;
+const MAX = 19 * 1024 * 1024, TYPES = ['image/png', 'image/jpeg', 'image/webp'];
+const $ = (t, cls, text) => { const e = document.createElement(t); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+const board = document.getElementById('board'), note = document.getElementById('note');
+let db = null, assets = null, state = {}, active = null; const ui = {};
+const say = t => { note.textContent = t; note.hidden = !t; };
+
+function build() {
+  DATA.queues.forEach((q, qi) => {
+    const items = DATA.slots.filter(s => s.queue === qi); if (!items.length) return;
+    const sec = $('section', 'list'); sec.append($('h2', '', 'Очередь ' + q)); board.append(sec);
+    for (const s of items) {
+      const card = $('article', 'card'), info = $('div', 'info'), tags = $('div', 'tags'), pre = $('pre', '', s.prompt), row = $('div', 'row');
+      tags.append($('span', '', s.ratio));
+      for (const r of s.refs) tags.append($('span', 'ref', 'приложи ' + r));
+      const copy = $('button', 'main', 'Скопировать промт'), more = $('button', '', 'Развернуть');
+      copy.id = 'copy-' + s.id; more.id = 'more-' + s.id;
+      copy.onclick = async () => { try { await navigator.clipboard.writeText(s.prompt); copy.textContent = 'Скопировано'; } catch (e) { pre.classList.add('open'); const r = document.createRange(); r.selectNodeContents(pre); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); copy.textContent = 'Выделено — нажми Ctrl+C'; } setTimeout(() => copy.textContent = 'Скопировать промт', 1800); };
+      more.onclick = () => more.textContent = pre.classList.toggle('open') ? 'Свернуть' : 'Развернуть';
+      row.append(copy, more);
+      info.append($('div', 'name', s.id + '.png'), tags); if (s.note) info.append($('p', 'desc', s.note)); info.append(pre, row);
+      const side = $('div', 'info'), drop = $('div', 'drop'), status = $('div', 'status'), input = $('input'), del = $('button', '', 'Удалить');
+      input.type = 'file'; input.accept = TYPES.join(','); input.hidden = true; input.id = 'file-' + s.id; del.id = 'del-' + s.id; del.hidden = true;
+      drop.tabIndex = 0; drop.setAttribute('role', 'button'); drop.setAttribute('aria-label', 'Загрузить ' + s.id);
+      drop.onclick = () => { setActive(s.id); if (!state[s.id]) input.click(); };
+      drop.ondblclick = () => input.click();
+      drop.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setActive(s.id); input.click(); } };
+      drop.onfocus = () => setActive(s.id);
+      drop.ondragover = e => { e.preventDefault(); drop.classList.add('over'); };
+      drop.ondragleave = () => drop.classList.remove('over');
+      drop.ondrop = e => { e.preventDefault(); drop.classList.remove('over'); const f = e.dataTransfer.files[0]; if (f) upload(s.id, f); };
+      input.onchange = () => { if (input.files[0]) upload(s.id, input.files[0]); input.value = ''; };
+      del.onclick = () => remove(s.id);
+      const r2 = $('div', 'row'), rep = $('button', '', 'Заменить'); rep.id = 'rep-' + s.id; rep.hidden = true; rep.onclick = () => input.click(); r2.append(rep, del);
+      side.append(drop, status, r2, input); card.append(info, side); sec.append(card);
+      ui[s.id] = { card, drop, status, del, rep };
+      paint(s.id);
+    }
+  });
+}
+function setActive(id) { if (active && ui[active]) ui[active].drop.classList.remove('active'); active = id; ui[id].drop.classList.add('active'); }
+function paint(id, msg, cls) {
+  const u = ui[id], d = state[id]; u.drop.replaceChildren(); u.card.classList.toggle('done', !!d); u.del.hidden = u.rep.hidden = !d || !assets;
+  if (d) { const im = $('img'); im.alt = id; im.loading = 'lazy'; im.src = '/_blob/' + d.asset; im.onerror = () => { im.remove(); u.drop.append($('span', '', 'Файл не открывается — загрузи заново')); }; u.drop.append(im); }
+  else u.drop.append($('span', '', assets ? 'Клик, перетащи файл или Ctrl+V' : 'Загрузка пока недоступна'));
+  u.status.className = 'status ' + (cls || (d ? 'ok' : ''));
+  u.status.textContent = msg || (d ? `Загружено · ${d.w}×${d.h} · ${(d.bytes / 1048576).toFixed(1)} МБ` : '');
+  const n = DATA.slots.filter(s => state[s.id]).length; document.getElementById('count').textContent = `${n} из ${DATA.slots.length}`; document.getElementById('fill').style.width = n / DATA.slots.length * 100 + '%';
+  filter();
+}
+function filter() { const on = document.getElementById('onlyEmpty').checked; for (const id in ui) ui[id].card.dataset.hide = on && state[id] ? 1 : 0; }
+document.getElementById('onlyEmpty').onchange = filter;
+
+const ERR = { too_large: 'Файл больше 20 МБ даже после сжатия', unsupported_type: 'Нужен PNG, JPEG или WebP', quota_or_state: 'Кончилось место в хранилище — удали лишнее', rate_limited: 'Слишком часто, подожди минуту', not_granted: 'Нет прав на загрузку', upstream_auth: 'Сессия истекла — обнови страницу' };
+function load(file) { return new Promise((ok, no) => { const im = new Image(), u = URL.createObjectURL(file); im.onload = () => ok(im); im.onerror = () => no({ code: 'unsupported_type' }); im.src = u; }); }
+async function upload(id, file) {
+  if (!assets || !db) return paint(id, 'Загрузка недоступна в этом окне', 'err');
+  if (!TYPES.includes(file.type)) return paint(id, ERR.unsupported_type, 'err');
+  setActive(id); paint(id, 'Загружаю…');
+  try {
+    const im = await load(file); let blob = file, w = im.naturalWidth, h = im.naturalHeight;
+    for (let k = 0.75; blob.size > MAX && k > 0.3; k -= 0.2) { // слишком тяжёлый: уменьшаем без потерь формата
+      const cv = document.createElement('canvas'); cv.width = w = Math.round(im.naturalWidth * k); cv.height = h = Math.round(im.naturalHeight * k);
+      cv.getContext('2d').drawImage(im, 0, 0, w, h); blob = await new Promise(r => cv.toBlob(r, 'image/png'));
+    }
+    let res; try { res = await assets.upload(blob, { type: blob.type }); } catch (e) { if (e && e.code === 'store_unavailable') { await new Promise(r => setTimeout(r, 1500)); res = await assets.upload(blob, { type: blob.type }); } else throw e; }
+    const old = state[id] && state[id].asset;
+    await db.doc('slots/' + id).set({ asset: res.id, type: res.contentType, bytes: res.sizeBytes, w, h, name: file.name || '', at: new Date().toISOString() });
+    state[id] = { asset: res.id, bytes: res.sizeBytes, w, h }; paint(id);
+    if (old && old !== res.id) assets.delete(old).catch(() => {});
+  } catch (e) { paint(id, ERR[e && e.code] || 'Не получилось загрузить, попробуй ещё раз', 'err'); }
+}
+async function remove(id) {
+  const d = state[id]; if (!d || !assets || !db) return;
+  try { await db.doc('slots/' + id).delete(); await assets.delete(d.asset); delete state[id]; paint(id); }
+  catch (e) { paint(id, 'Не получилось удалить', 'err'); }
+}
+addEventListener('paste', e => {
+  const f = [...(e.clipboardData ? e.clipboardData.files : [])].find(f => f.type.startsWith('image/'));
+  if (!f) return; e.preventDefault();
+  if (!active) return say('Сначала кликни по окну загрузки нужного файла, потом вставляй.');
+  say(''); upload(active, f);
+});
+
+build();
+(async () => {
+  const use = n => (window.claude && window.claude.use ? window.claude.use(n) : Promise.resolve(null));
+  [assets, db] = await Promise.all([use('assets'), use('db')]);
+  if (!db) { say('Хранилище недоступно в этом окне. Открой страницу в claude.ai под своим аккаунтом.'); return; }
+  if (!assets) say('Загружать файлы может только владелец страницы.');
+  const timer = setTimeout(() => say('Список загруженного не отвечает. Обнови страницу чуть позже.'), 10000);
+  db.collection('slots').onSnapshot(snap => {
+    clearTimeout(timer); const next = {}; snap.docs.forEach(d => { const v = d.data(); if (v && v.asset) next[d.id] = v; });
+    const ids = new Set([...Object.keys(state), ...Object.keys(next)]); state = next; ids.forEach(id => ui[id] && paint(id));
+  }, () => { clearTimeout(timer); say('Не удалось прочитать список загруженного.'); });
+  for (const id in ui) paint(id);
+})();
+</script>
