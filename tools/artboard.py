@@ -40,7 +40,7 @@ def expand(p, sec):
             text = text.replace('{' + k + '}', v.strip())
         return text
     p = re.sub(r'\[(\w+) with ([^\]]+)\]', block, p)
-    return p.replace('[хвост]', tails.get(sec, '')).replace('\n', '\n\n')
+    return re.sub(r'\n{3,}', '\n\n', p.replace('[хвост]', tails.get(sec, '')).replace('\n', '\n\n'))
 
 sec = ''
 for i, l in enumerate(lines):
@@ -67,8 +67,10 @@ for i, l in enumerate(lines):
         if name.startswith('bg_'):
             slots.append({'id': name, 'note': 'Редактирование основного фона', 'prompt': body, 'refs': ['bg_yard_night']})
         else:
-            bg = 'pure magenta #FF00FF' if 'маджента' in rest else 'pure chroma green #00FF00'
-            slots.append({'id': name, 'note': 'Запасной глюк', 'prompt': expand(f'[STYLE]\n[SHEET with {{BG}} = {bg}]\nCharacter: {body} Acid neon accents with a thin glowing pink-and-cyan halo around the outline.', sec)})
+            mag = 'маджента' in rest
+            bg = 'pure magenta #FF00FF' if mag else 'pure chroma green #00FF00'
+            slots.append({'id': name, 'note': 'Запасной глюк, лист тела', 'refs': ['style_anchor', 'tpl_body_' + ('magenta' if mag else 'green') + '_left'],
+                          'prompt': expand(f'[STYLE]\n[PUPPET with {{BG}} = {bg}, {{DIR}} = LEFT]\nCharacter: {body} Hallucination look: acid neon accents and a thin solid neon pink-and-cyan rim line just inside the dark outline of every piece, no soft glow.', sec)})
 
 for s in slots:
     n = s['id']

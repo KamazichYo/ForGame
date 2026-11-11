@@ -40,17 +40,19 @@ STYLE: 2D cartoon game art in an underground comix sticker style. Thick uneven h
 ```
 PUPPET: A cut-out puppet sheet for 2D skeletal game animation, 16:9, 4K. Follow the attached grey layout template EXACTLY: the same number of pieces, the same placement, the same row order, the same proportions between pieces. Replace each grey mannequin piece with the matching part of the character. Everything is drawn in a 3/4 view turned toward the {DIR}, flat like a paper puppet.
 
-LEFT: the fully assembled character standing straight, arms hanging down, exactly as in the template.
+On the side shown in the template: the fully assembled character standing straight, arms hanging down, exactly as in the template.
 
-RIGHT, the same character taken apart, at EXACTLY the same scale as the assembled figure, with wide empty gaps so nothing touches:
+NEXT TO IT, the same character taken apart, at EXACTLY the same scale as the assembled figure, with wide empty gaps so nothing touches:
 Row 1: (1) the HEAD, neutral face, ending at the jaw, no neck; (2) the NECK, a short separate cylinder; (3) the CHEST: upper torso from the neck hole down to the waist, shoulders rounded, no arms, no head; (4) the PELVIS: a short belt-to-crotch piece like a pair of briefs cut from the trousers, with two round hip sockets at the bottom — NO trouser legs on it.
 Row 2: one arm in three pieces: (5) UPPER ARM from shoulder to elbow; (6) FOREARM from elbow to wrist; then three hands: (7) open relaxed hand, (8) closed fist, (9) hand gripping a round handle, with an empty hole in the grip.
 Row 3: one leg in three pieces: (10) THIGH from hip to knee; (11) SHIN from knee to ankle; (12) FOOT with shoe, side view, toes pointing {DIR}.
-Empty area at the right of rows 2 and 3: the props listed for this character, each as a separate piece.
+Empty area next to rows 2 and 3: the props listed for this character, each as a separate piece.
 
 Rules: every piece is drawn complete, including the part normally hidden under its neighbour. Every joint end (shoulder, elbow, wrist, hip, knee, ankle, waist, both ends of the neck) is a fully rounded cap extending a little past the joint, so the pieces overlap and rotate without gaps. Arm and leg pieces are straight and perfectly vertical with the joint at the top. Clothing belongs to the piece it covers: the sleeve is split at the elbow between upper arm and forearm, the trouser leg is split at the knee between thigh and shin. Only one arm and one leg; they will be mirrored. Only ONE head, the neutral one: expressions are made on a separate sheet.
 
-Background: one perfectly flat solid {BG} filling the whole sheet. No cast shadows, no floor, no glow on the background, no text, no labels, no numbers, no arrows, no guide lines, no frame. Do not copy the grey colour of the template.
+Every piece has only the dark purple ink outline, NO white sticker border around it: white edges show up as seams at the joints.
+
+Background: one perfectly flat solid {BG} reaching all four edges of the image, no white margin or strip at any edge. No cast shadows, no floor, no glow on the background, no text, no labels, no numbers, no arrows, no guide lines, no frame. Do not copy the grey colour of the template.
 ```
 
 ### Блок FACES (лист с эмоциями)
@@ -59,29 +61,12 @@ Background: one perfectly flat solid {BG} filling the whole sheet. No cast shado
 FACES: An expression sheet for head swapping in 2D cut-out animation, 16:9, 4K. Follow the attached grey layout template: eight heads in a 4 by 2 grid with wide empty gaps. Draw eight copies of the EXACT head from the attached puppet sheet of this character: identical size, identical outline, identical 3/4 angle turned toward the {DIR}, identical hat and accessories. Only the face changes: eyes, eyebrows, mouth, small drops and lines. Each head ends at the jaw, no neck, no body.
 Top row: (1) neutral; (2) blink, eyes fully closed; (3) talking, mouth half open; (4) yelling, mouth wide open.
 Bottom row: (5) scared, eyes huge, tiny pupils; (6) hurt, wincing with one eye shut; (7) laughing; (8) dizzy, spiral eyes and tongue out.
-Background: one perfectly flat solid {BG} filling the whole sheet. No shadows, no text, no labels, no numbers. Do not copy the grey colour of the template.
+Each head has only the dark purple ink outline, no white sticker border. Background: one perfectly flat solid {BG} reaching all four edges of the image, no white margin or strip at any edge, no shadows, no text, no labels, no numbers. Do not copy the grey colour of the template.
 ```
 
 `{BG}` и `{DIR}` подставлены в промтах каждого персонажа.
 
-### Блок SHEET (старый, для глюков — обновим следующим шагом)
-
-```
-SHEET: A character parts sheet for 2D cut-out skeletal animation, 16:9, 4K. Strict flat side view of the whole character, like a paper puppet, no perspective, no foreshortening.
-
-LEFT quarter of the sheet: the fully assembled character standing straight in a neutral pose, arms hanging down at the sides.
-
-RIGHT three quarters: the same character taken apart into separate pieces, drawn at EXACTLY the same scale, same line weight and same colors as the assembled figure, laid out in four tidy horizontal rows with wide empty gaps. No piece touches or overlaps any other piece, and no piece is cropped by the edge.
-Row 1, heads: (1) head with neutral face; (2) the same head with mouth wide open; (3) the same head with a hurt expression. Heads end at the jaw, no neck attached.
-Row 2, body: (4) neck, a short separate cylinder; (5) upper torso: chest and shoulders with no arms and no neck; (6) lower torso: belly and pelvis with no legs.
-Row 3, one arm: (7) upper arm from shoulder to elbow; (8) forearm from elbow to wrist; (9) open relaxed hand; (10) closed fist.
-Row 4, one leg: (11) thigh from hip to knee; (12) shin from knee to ankle; (13) foot with shoe, seen from the side.
-Below or beside the rows: accessories listed for this character, each as its own separate piece.
-
-Rules for every piece: draw it complete, including the area that is normally hidden under the neighbouring piece. Every joint end (shoulder, elbow, wrist, hip, knee, ankle, waist, both ends of the neck) is a fully rounded cap that extends a little past the joint, so pieces can overlap and rotate without gaps. Arm and leg pieces are straight and perfectly vertical, joint to the body at the top. Clothing is part of the piece it covers (a sleeve belongs to the upper arm, a trouser leg to the thigh and shin). Skirts, capes, long hair and hats are NOT fused to the body: draw the body piece plain underneath and give them as separate accessory pieces. Only one arm and one leg are needed; they will be mirrored.
-
-Background: one perfectly flat solid color {BG} filling the whole sheet. No cast shadows, no floor, no glow spilling onto the background, no text, no labels, no numbers, no arrows, no guide lines, no frame.
-```
+Почему без белой обводки: на листах Вована и Димона модель обвела каждую деталь белым «стикером». При сгибе локтя и колена эта обводка вылезает белыми швами, а снизу листа она слилась в белую полосу и срезала шею. Стиль от этого не меняется: обложку и катсцены можно со стикером.
 
 ### Риг: из чего собирается моделька
 
@@ -168,102 +153,220 @@ Character: DIMON from the attached puppet sheet: long narrow face, olive bucket 
 
 ## 4. Глюки (смотрят влево)
 
-У всех глюков в конце промта одна и та же фраза про ореол — она уже вписана.
+Та же схема, что у корешей: лист тела + лист эмоций. Шаблоны для глюков зеркальные — с хвостом `_left`, собранная фигура справа. Неоновый ореол рисуется тонкой сплошной линией по контуру, а не размытым свечением: свечение добавлю в игре, иначе оно не вырезается из фона.
 
-**`zombie.png`** — базовый враг. Фон маджента (кожа зелёная).
+Шапки, бороды, волосы, нимбы и воротники — часть головы или груди, отдельно не болтаются. Отдельной деталью идёт только то, что закрывает суставы: пачка, роба, плащ, деревянная нога.
+
+### Блок FOE_FACES (эмоции глюков)
+
+```
+FOE_FACES: An expression sheet for head swapping in 2D cut-out animation, 16:9, 4K. Follow the attached grey layout template: eight heads in a 4 by 2 grid with wide empty gaps. Draw eight copies of the EXACT head from the attached puppet sheet of this character: identical size, identical outline, identical 3/4 angle turned toward the LEFT, identical hat, hair, beard and other headwear. Only the face changes: eyes, eyebrows, mouth, small drops and lines. Each head ends at the jaw, no neck, no body.
+Top row: (1) neutral; (2) blink, eyes fully closed; (3) biting, mouth wide open showing teeth; (4) chewing with a full mouth.
+Bottom row: (5) hurt, wincing with one eye shut; (6) furious; (7) stunned, spiral eyes and tongue out; (8) fading away, eyes rolled up, mouth hanging open.
+Hallucination look: a thin solid neon pink-and-cyan rim line just inside the dark outline, no soft glow. Each head has only the dark purple ink outline, no white sticker border. Background: one perfectly flat solid {BG} reaching all four edges of the image, no white margin or strip at any edge, no shadows, no text, no labels, no numbers. Do not copy the grey colour of the template.
+```
+
+**`zombie.png`** — базовый враг, лист тела. Фон маджента (кожа зелёная).
+
+Приложи: `style_anchor`, `tpl_body_magenta_left`
 
 ```
 [STYLE]
-[SHEET with {BG} = pure magenta #FF00FF]
-Character: ZOMBIE NEIGHBOUR, facing LEFT. A middle-aged pot-bellied neighbour turned zombie: sickly green skin, almost bald with three hairs, one eye bigger than the other, missing teeth, dopey hungry face. Dirty white sleeveless tank top stretched over the belly, blue tracksuit pants with white side stripes, worn brown house slippers. Arms reach forward. Acid neon accents with a thin glowing pink-and-cyan halo around the outline. The belly bulges on the lower torso piece. Accessories as separate pieces: a dented cooking-pot lid, a rolled-up newspaper, one slipper that has fallen off.
+[PUPPET with {BG} = pure magenta #FF00FF, {DIR} = LEFT]
+Character: ZOMBIE NEIGHBOUR, a hallucination. A middle-aged pot-bellied neighbour turned zombie: sickly green skin with darker blotches, almost bald with three long hairs, one eye bigger than the other, missing teeth, dopey hungry face. Dirty white sleeveless tank top stretched over the belly on the chest piece, bare green arms, blue tracksuit pants with white side stripes split at the knee, worn brown house slippers as feet. Hallucination look: acid neon accents and a thin solid neon pink-and-cyan rim line just inside the dark outline of every piece, no soft glow.
+Props: a dented cooking-pot lid.
 ```
 
-**`zombie_tough.png`** — усиленная версия для поздних ночей.
+**`zombie_faces.png`** — эмоции зомби.
+
+Приложи: `zombie`, `tpl_faces_magenta_left`
 
 ```
 [STYLE]
-[SHEET with {BG} = pure magenta #FF00FF]
-Character: ZOMBIE GYM BRO, facing LEFT. Same world as the zombie neighbour but huge and muscular with a tiny head: green skin, buzz cut, tiny angry eyes, torn neon-yellow gym tank top, black shorts, one flip-flop. Huge upper arms and chest, thin legs. Accessories as separate pieces: a car tyre worn around the torso like armour, a dumbbell. Acid neon accents with a thin glowing pink-and-cyan halo around the outline.
+[FOE_FACES with {BG} = pure magenta #FF00FF]
+Character: ZOMBIE NEIGHBOUR from the attached puppet sheet: green bald head with three long hairs, mismatched eyes, missing teeth. Default mood: dopey and hungry.
+```
+
+**`zombie_tough.png`** — усиленный зомби для поздних ночей. Фон маджента.
+
+Приложи: `style_anchor`, `zombie`, `tpl_body_magenta_left`
+
+```
+[STYLE]
+[PUPPET with {BG} = pure magenta #FF00FF, {DIR} = LEFT]
+Character: ZOMBIE GYM BRO, a hallucination from the same world as the attached zombie neighbour, drawn at the same scale but a head taller. Huge muscular chest and upper arms, thin legs, a tiny head with a green buzz cut and tiny angry eyes. Green skin, torn neon-yellow gym tank top, black shorts split at the knee, a flip-flop on each foot. An old car tyre is worn around the chest like armour and is drawn as part of the chest piece. Hallucination look: acid neon accents and a thin solid neon pink-and-cyan rim line just inside the dark outline of every piece, no soft glow.
+Props: a heavy dumbbell.
+```
+
+**`zombie_tough_faces.png`** — эмоции качка.
+
+Приложи: `zombie_tough`, `tpl_faces_magenta_left`
+
+```
+[STYLE]
+[FOE_FACES with {BG} = pure magenta #FF00FF]
+Character: ZOMBIE GYM BRO from the attached puppet sheet: tiny green head with a buzz cut and tiny angry eyes. Default mood: aggressive and dumb.
 ```
 
 **`ballerina.png`** — «Гитлер в пачке». Фон зелёный (костюм розовый).
 
-```
-[STYLE]
-[SHEET with {BG} = pure chroma green #00FF00]
-Character: a satirical caricature of a furious 1940s dictator dressed as a ballerina, facing LEFT. Small angry man with a black side-parted fringe and a small rectangular toothbrush moustache, scowling. Pink ballet leotard, fluffy layered pink tutu, white tights, pink pointe shoes with ribbons. No military uniform, no symbols, no armbands, no insignia of any kind. Ridiculous and humiliating, pure mockery. Replace head variants with: (1) scowling; (2) shouting with mouth wide open; (3) dizzy with spiral eyes. Bare arms. Accessories as separate pieces: the fluffy tutu skirt as its own ring-shaped piece seen from the side (the lower torso underneath is plain pink leotard), the ribbon bow of a pointe shoe, a foot standing on tiptoe en pointe as an alternative foot. Acid neon accents with a thin glowing pink-and-cyan halo around the outline.
-```
-
-**`alien.png`** — фон маджента.
+Приложи: `style_anchor`, `tpl_body_green_left`
 
 ```
 [STYLE]
-[SHEET with {BG} = pure magenta #FF00FF]
-Character: GREY ALIEN, facing LEFT. Classic skinny little grey-green alien with an oversized bulb head, huge glossy black almond eyes, tiny mouth, one antenna ending in a pink glowing ball, thin noodle limbs with three long fingers. Wears only white socks with sandals. Runs leaning forward. Acid neon accents with a thin glowing pink-and-cyan halo around the outline. The hand has three long fingers; the head is huge and the neck very thin. Accessories as separate pieces: the antenna, a tiny toy ray gun, an extra hand gripping the ray gun.
+[PUPPET with {BG} = pure chroma green #00FF00, {DIR} = LEFT]
+Character: a hallucination, a satirical caricature of a furious 1940s dictator dressed as a ballerina. Small angry man with a black side-parted fringe glued flat to the head and a small rectangular toothbrush moustache. Pink ballet leotard on the chest piece, bare arms. The fluffy layered pink tutu is drawn as part of the pelvis piece, sticking out sideways. White tights split at the knee, pink pointe shoes with ribbons as feet, standing on tiptoe. No military uniform, no symbols, no armbands, no insignia of any kind. Ridiculous and humiliating, pure mockery. Hallucination look: acid neon accents and a thin solid neon pink-and-cyan rim line just inside the dark outline of every piece, no soft glow.
+Props: none, leave the props area empty.
+```
+
+**`ballerina_faces.png`** — эмоции балерины.
+
+Приложи: `ballerina`, `tpl_faces_green_left`
+
+```
+[STYLE]
+[FOE_FACES with {BG} = pure chroma green #00FF00]
+Character: the dictator ballerina from the attached puppet sheet: black side-parted fringe, small rectangular moustache. Default mood: furious and offended. No symbols of any kind.
+```
+
+**`alien.png`** — пришелец. Фон маджента.
+
+Приложи: `style_anchor`, `tpl_body_magenta_left`
+
+```
+[STYLE]
+[PUPPET with {BG} = pure magenta #FF00FF, {DIR} = LEFT]
+Character: GREY ALIEN, a hallucination. A skinny little grey-green alien a head shorter than a man, with an oversized bulb head, huge glossy black almond eyes, a tiny mouth and one antenna on top ending in a pink ball; the antenna is part of the head. Very thin neck, narrow chest, noodle-thin arms and legs, hands with three long fingers. Wears only white socks with sandals; the feet are the socks and sandals. Hallucination look: acid neon accents and a thin solid neon pink-and-cyan rim line just inside the dark outline of every piece, no soft glow.
+Props: a tiny toy ray gun, sized to fit the gripping hand.
+```
+
+**`alien_faces.png`** — эмоции пришельца.
+
+Приложи: `alien`, `tpl_faces_magenta_left`
+
+```
+[STYLE]
+[FOE_FACES with {BG} = pure magenta #FF00FF]
+Character: GREY ALIEN from the attached puppet sheet: bulb head, huge black almond eyes, tiny mouth, antenna with a pink ball. The eyes stay big and black; emotions show through eyelids, brows and the mouth. Default mood: curious and blank.
 ```
 
 **`pirate.png`** — свой пьяный пират. Фон зелёный.
 
-```
-[STYLE]
-[SHEET with {BG} = pure chroma green #00FF00]
-Character: DRUNK PIRATE CAPTAIN, an original character, facing LEFT. Barrel-chested pirate with a huge bushy orange beard, black eyepatch, red nose, dark tricorn hat with a white skull badge, red-and-white striped shirt, wide leather belt, dark purple breeches, one wooden peg leg and one buckled boot. Cross-eyed and swaying. Must not resemble any existing film character: no dreadlocks, no bandana, no beads, no eyeliner. Replace head variants with: (1) drunk grin; (2) mouth wide open biting; (3) hiccuping with a bubble. Accessories as separate pieces: the tricorn hat (draw the head with a bald patch underneath), the beard as its own piece, a green bottle, an extra hand gripping the bottle, a wooden peg leg that replaces the shin and foot of the second leg. Acid neon accents with a thin glowing pink-and-cyan halo around the outline.
-```
-
-**`jesus.png`** — фон зелёный.
+Приложи: `style_anchor`, `tpl_body_green_left`
 
 ```
 [STYLE]
-[SHEET with {BG} = pure chroma green #00FF00]
-Character: a friendly cartoon JESUS as a hallucination, facing LEFT. Long brown hair, short beard, calm blissful smile, long cream-white robe to the ankles with a red sash over one shoulder, leather sandals. Arms spread wide in a welcoming gesture. Good-natured and funny, not mocking. The upper torso and upper arm are covered by the robe with wide sleeves on the forearm; draw the legs as plain thigh, shin and sandalled foot. Replace head variants with: (1) calm smile; (2) mouth open singing; (3) eyes closed, peaceful. Accessories as separate pieces: the lower robe as one long bell-shaped skirt piece from waist to ankles, the red sash, the long hair as one back-hair piece, a golden ring halo, a soft round glow disc. Acid neon accents with a thin glowing pink-and-cyan halo around the outline.
+[PUPPET with {BG} = pure chroma green #00FF00, {DIR} = LEFT]
+Character: DRUNK PIRATE CAPTAIN, an original character and a hallucination. Barrel-chested, with a huge bushy orange beard, a black eyepatch and a red nose; the dark tricorn hat with a white skull badge and the beard are part of the head piece. Red-and-white striped shirt with a wide leather belt on the chest piece, dark purple breeches split at the knee, buckled boots as feet. Must not resemble any existing film character: no dreadlocks, no bandana, no beads, no eyeliner. Hallucination look: acid neon accents and a thin solid neon pink-and-cyan rim line just inside the dark outline of every piece, no soft glow.
+Props: a green glass bottle sized to fit the gripping hand; a wooden peg leg drawn as one straight vertical piece the length of shin plus foot.
 ```
 
-**`dracula.png`** — фон зелёный.
+**`pirate_faces.png`** — эмоции пирата.
 
-```
-[STYLE]
-[SHEET with {BG} = pure chroma green #00FF00]
-Character: COUNT DRACULA in the classic public-domain look, facing LEFT. Pale blue-grey skin, slicked black hair with a sharp widow's peak, red eyes, two long fangs, smug aristocratic sneer. Black tailcoat, white shirt, red bow tie, high-collared black cape with crimson lining. Replace head variants with: (1) smug sneer; (2) mouth wide open with fangs; (3) hissing and shielding eyes. Accessories as separate pieces: the cape as one large piece seen from the side, the high cape collar as its own piece, the tailcoat tails, a small cartoon bat. Acid neon accents with a thin glowing pink-and-cyan halo around the outline.
-```
-
-**`kolobok.png`** (1:1) — не гуманоид, отдельный лист. Фон маджента.
+Приложи: `pirate`, `tpl_faces_green_left`
 
 ```
 [STYLE]
-A sprite sheet, 1:1, of a KOLOBOK: a round golden-brown bread bun creature from a folk tale, angry and feral, with a crusty baked texture drawn as flat shapes, red eyes, thick angry eyebrows and a wide mouth full of sharp teeth. No arms, no legs, a perfect ball. Six separate versions in a 3x2 grid with wide gaps: neutral angry; mouth wide open biting; hurt with a crack; and the same three again as a plain ball without a face (back side for the rolling animation). Acid neon accents with a thin glowing pink-and-cyan halo around the outline. Background: one perfectly flat solid pure magenta #FF00FF, no shadows, no text, no labels.
+[FOE_FACES with {BG} = pure chroma green #00FF00]
+Character: DRUNK PIRATE CAPTAIN from the attached puppet sheet: tricorn hat with a skull badge, bushy orange beard, eyepatch, red nose. The eyepatch stays on in every face. Default mood: drunk, cross-eyed grin.
 ```
 
-**`kraken.png`** (16:9) — босс. Фон зелёный.
+**`jesus.png`** — Иисус. Фон зелёный.
+
+Приложи: `style_anchor`, `tpl_body_green_left`
 
 ```
 [STYLE]
-A boss parts sheet, 16:9, for cut-out animation. A giant purple KRAKEN crawling out of a cheap inflatable kiddie pool, facing LEFT. On the LEFT third: the assembled monster. On the RIGHT two thirds, as separate non-touching parts with wide gaps: (1) the huge bulbous head with warty spots, angry yellow slit-pupil eyes and heavy brows; (2) the same head roaring with a beak-like mouth open; (3) the same head hurt, eyes squeezed shut; (4) three tentacle segments of decreasing thickness, each drawn straight and vertical with rounded ends and pink suckers on one side, so they can be chained into a bending tentacle; (5) a tentacle tip curled into a hook; (6) a blue inflatable kiddie pool with cartoon ducks printed on it, with water splashing over the rim. Acid neon accents with a thin glowing pink-and-cyan halo around the outline. Background: one perfectly flat solid pure chroma green #00FF00, no shadows, no floor, no text, no labels.
+[PUPPET with {BG} = pure chroma green #00FF00, {DIR} = LEFT]
+Character: a friendly cartoon JESUS as a hallucination, good-natured and funny, not mocking. Calm blissful smile, short beard; the shoulder-length brown hair and a golden ring halo floating above it are part of the head piece. Cream-white robe top with a red sash over one shoulder on the chest piece, wide robe sleeves split at the elbow. Under the robe the legs are drawn plain: cream trouser legs split at the knee, leather sandals as feet. Hallucination look: acid neon accents and a thin solid neon pink-and-cyan rim line just inside the dark outline of every piece, no soft glow.
+Props: the lower robe drawn as one separate bell-shaped skirt piece from the waist to the ankles, open at the bottom.
+```
+
+**`jesus_faces.png`** — эмоции Иисуса.
+
+Приложи: `jesus`, `tpl_faces_green_left`
+
+```
+[STYLE]
+[FOE_FACES with {BG} = pure chroma green #00FF00]
+Character: JESUS from the attached puppet sheet: shoulder-length brown hair, short beard, golden halo above the head, all identical in every face. Replace (6) furious with mildly disappointed. Default mood: calm and blissful.
+```
+
+**`dracula.png`** — Дракула. Фон зелёный.
+
+Приложи: `style_anchor`, `tpl_body_green_left`
+
+```
+[STYLE]
+[PUPPET with {BG} = pure chroma green #00FF00, {DIR} = LEFT]
+Character: COUNT DRACULA in the classic public-domain look, a hallucination. Pale blue-grey skin, slicked black hair with a sharp widow's peak as part of the head, red eyes, two long fangs, smug aristocratic sneer. Black tailcoat with a white shirt and red bow tie on the chest piece, the high stiff cape collar is part of the chest piece. Black trousers split at the knee, shiny black shoes. Hallucination look: acid neon accents and a thin solid neon pink-and-cyan rim line just inside the dark outline of every piece, no soft glow.
+Props: the cape drawn as one separate flat piece seen from behind the body, from the shoulders down to the knees, black outside with crimson lining showing at the edge; a small cartoon bat with spread wings.
+```
+
+**`dracula_faces.png`** — эмоции Дракулы.
+
+Приложи: `dracula`, `tpl_faces_green_left`
+
+```
+[STYLE]
+[FOE_FACES with {BG} = pure chroma green #00FF00]
+Character: COUNT DRACULA from the attached puppet sheet: pale blue-grey face, slicked black hair with a widow's peak, red eyes, fangs. Default mood: smug sneer.
+```
+
+**`kolobok.png`** (1:1) — колобок, не гуманоид. Фон маджента.
+
+Приложи: `style_anchor`
+
+```
+[STYLE]
+A sprite sheet, 1:1, 4K, of a KOLOBOK hallucination: a round golden-brown bread bun creature from a folk tale, angry and feral, with a crusty baked texture drawn as flat shapes, red eyes, thick angry eyebrows and a wide mouth full of sharp teeth. No arms, no legs, a perfect ball, the face turned slightly to the LEFT. All balls exactly the same size. Six versions in a 3 by 2 grid with wide gaps: top row: neutral angry; mouth wide open biting; hurt with a crack. Bottom row: blink; stunned with spiral eyes; the back side, a plain crusty ball with no face, for the rolling animation. Hallucination look: acid neon accents and a thin solid neon pink-and-cyan rim line just inside the dark outline, no soft glow. Only the dark purple ink outline, no white sticker border. Background: one perfectly flat solid pure magenta #FF00FF reaching all four edges of the image, no white margin or strip at any edge, no shadows, no text, no labels.
+```
+
+**`kraken.png`** (16:9) — босс, лист тела. Фон зелёный.
+
+Приложи: `style_anchor`
+
+```
+[STYLE]
+A boss puppet sheet for 2D cut-out animation, 16:9, 4K. A giant purple KRAKEN hallucination crawling out of a cheap inflatable kiddie pool, turned toward the LEFT. On the RIGHT quarter: the assembled monster. On the LEFT three quarters, as separate pieces at exactly the same scale with wide gaps, nothing touching: (1) the huge bulbous head-body with warty spots, angry yellow slit-pupil eyes, heavy brows and a closed beak, ending at the bottom in a rounded base where the tentacles attach; (2) three tentacle segments of decreasing thickness, each drawn straight and vertical with fully rounded ends and pink suckers along one side, so they can be chained into a bending tentacle; (3) a tentacle tip curled into a hook; (4) a blue inflatable kiddie pool with cartoon ducks printed on it, seen from the side, with water splashing over the rim. Hallucination look: acid neon accents and a thin solid neon pink-and-cyan rim line just inside the dark outline of every piece, no soft glow. Only the dark purple ink outline, no white sticker border. Background: one perfectly flat solid pure chroma green #00FF00 reaching all four edges of the image, no white margin or strip at any edge, no shadows, no floor, no text, no labels.
+```
+
+**`kraken_faces.png`** — эмоции кракена.
+
+Приложи: `kraken`, `tpl_faces_green_left`
+
+```
+[STYLE]
+[FOE_FACES with {BG} = pure chroma green #00FF00]
+Character: the KRAKEN from the attached puppet sheet. Instead of a head, draw eight copies of the whole bulbous head-body piece, identical size and outline; only the eyes, brows and beak change. Default mood: menacing.
 ```
 
 ### Запас на потом (свои типажи, тот же шаблон)
 
-Подставляй в шаблон `[STYLE] + [SHEET] + Character: ...`. Детали те же 13, аксессуары модель добавит по описанию:
+Лист тела собирается из `[STYLE] + [PUPPET] + Character: ...` с фоном и шаблоном, указанными ниже. Эмоции к ним — по образцу любого глюка выше.
 
 - **`unicorn.png`** — `GOPNIK UNICORN, facing LEFT: a bipedal white unicorn squatting-type street tough in a black tracksuit with three stripes and a flat cap, rainbow mane, gold tooth, sunflower seeds in one hoof.` Фон зелёный.
 - **`knight.png`** — `CARDBOARD KNIGHT, facing LEFT: a kid-sized knight in armour made of taped cardboard boxes, a colander helmet, a pot-lid shield and a mop for a lance.` Фон зелёный.
 - **`hamster.png`** — `GIANT HAMSTER, facing LEFT: a human-sized fat orange-and-white hamster walking upright with stuffed cheeks and tiny furious eyes.` Фон зелёный.
-- **`grandma.png`** — `GHOST GRANDMA, facing LEFT: a translucent floating granny in a headscarf and floral dress with a rolling pin; instead of leg pieces draw one ghostly wisp tail piece.` Фон маджента.
+- **`grandma.png`** — `GHOST GRANDMA, facing LEFT: a translucent floating granny in a headscarf and floral dress with a rolling pin; instead of thigh, shin and foot draw one ghostly wisp tail piece in the leg row.` Фон маджента.
 
 ## 5. Оборона
 
-Одиночные предметы, 1:1, по несколько состояний на листе. Предметы — реальный мир, значит приглушённые цвета и без неонового ореола. Все смотрят вправо.
+Одиночные предметы, 1:1, по несколько состояний на листе. Предметы — реальный мир, значит приглушённые цвета и без неонового ореола. Все в три четверти и смотрят вправо, на глюков. Все состояния одного предмета — одного размера и в одной позе, чтобы я подменял их на месте.
+
+Приложи к каждому: `style_anchor`.
 
 Общий хвост для этого раздела (вставлять в конец):
 
 ```
-Each state is a separate sprite with wide empty gaps between them, nothing touching. Real-world muted palette, no neon glow. Background: one perfectly flat solid pure magenta #FF00FF, no shadows on the background, no floor, no text, no labels, no numbers.
+4K. Every state is the same object at exactly the same size, angle and position in its cell, only the listed details change. Each state is a separate sprite with wide empty gaps between them, nothing touching. Real-world muted palette, no neon glow. Only the dark purple ink outline, no white sticker border. Background: one perfectly flat solid pure magenta #FF00FF reaching all four edges of the image, no white margin or strip at any edge, no shadows on the background, no floor, no text, no labels, no numbers.
 ```
 
 **`kettle.png`**
 
 ```
 [STYLE]
-Sprite sheet, 1:1, of an old blue enamel stovetop KETTLE with a white stripe, a black arched handle and a cute sleepy face, facing RIGHT. Three states in a row: idle; puffed up and whistling with cheeks blown; lid popping off. Plus a separate small steam puff cloud.
+Sprite sheet, 1:1, of the old blue enamel stovetop KETTLE from the attached style reference, with chipped enamel, a black arched handle and a cute sleepy face, 3/4 view facing RIGHT. Three states in a row: idle; puffed up and whistling with cheeks blown; lid popping off. Plus a separate small steam puff cloud.
 [хвост]
 ```
 
@@ -271,7 +374,7 @@ Sprite sheet, 1:1, of an old blue enamel stovetop KETTLE with a white stripe, a 
 
 ```
 [STYLE]
-Sprite sheet, 1:1, of a fat grumpy orange tabby CAT sitting upright, facing RIGHT. Four states in a 2x2 grid: idle with half-closed eyes; cheeks puffed, about to spit; mouth wide open spitting; annoyed with ears flat. Plus as separate parts: the tail on its own, and a brown hairball projectile.
+Sprite sheet, 1:1, of the fat grumpy orange tabby CAT from the attached style reference, sitting upright, 3/4 view facing RIGHT. Four states in a 2x2 grid: idle with half-closed eyes; cheeks puffed, about to spit; mouth wide open spitting; annoyed with ears flat. Plus as separate parts: the tail on its own, and a brown hairball projectile.
 [хвост]
 ```
 
@@ -327,7 +430,7 @@ Sprite sheet, 1:1, of a round white ROBOT VACUUM CLEANER seen from a low 3/4 sid
 
 ```
 [STYLE]
-Sprite sheet, 16:9, of small game effects in a grid with wide gaps, nothing touching: a glowing yellow lightbulb (the game currency) in three brightness steps; a pink fluffy house slipper; four frames of a cartoon explosion from small to large; four frames of a rainbow smoke puff dissolving; three dizzy stars; a "sleepy Z"; a splash of water; a broom; a cracked-ground dust cloud; a speech bubble, empty. Background: one perfectly flat solid pure chroma green #00FF00, no shadows on the background, no text, no labels, no numbers.
+Sprite sheet, 16:9, of small game effects in a grid with wide gaps, nothing touching: a glowing yellow lightbulb (the game currency) in three brightness steps; the pink fluffy house slipper from the attached style reference; four frames of a cartoon explosion from small to large; four frames of a rainbow smoke puff dissolving; three dizzy stars; a "sleepy Z"; a splash of water; a broom; a cracked-ground dust cloud; a speech bubble, empty. Only the dark purple ink outline, no white sticker border. Background: one perfectly flat solid pure chroma green #00FF00 reaching all four edges of the image, no white margin or strip at any edge, no shadows on the background, no text, no labels, no numbers.
 ```
 
 ## 6. Окружение
@@ -336,9 +439,11 @@ Sprite sheet, 16:9, of small game effects in a grid with wide gaps, nothing touc
 
 **`bg_yard_night.png`** (16:9, 4K) — основной фон.
 
+Приложи: `style_anchor`
+
 ```
 [STYLE]
-Game background, 16:9, no characters. A shabby suburban BACKYARD at night seen from a high 3/4 top-down side angle like a board game. LEFT 20% of the frame: the back wall of a small house with an open back door spilling warm yellow light, two concrete steps, and an old brown sofa dragged out onto a wooden porch. RIGHT 80% of the frame, lower 80% of the height: one large flat rectangular yard of trampled dirt and patchy dry grass with a few cracked concrete paving slabs, completely EMPTY and evenly lit so game pieces can be placed on it, no objects, no furniture, no holes, no strong shadows crossing it. TOP 20% strip above the yard: a sagging wooden fence, a clothesline with laundry, a rusty garage wall, dark trees, one yellow street lamp. FAR RIGHT edge: the fence is broken and a swirling psychedelic neon fog in pink, cyan and acid green leaks in. Muted dusty purple night palette with warm lamp yellow; neon only in the fog on the right. No text.
+Game background, 16:9, no characters. The same shabby backyard as in the attached style reference, at night, seen from a high 3/4 top-down side angle like a board game. LEFT 20% of the frame: the back wall of the same weathered wooden house with the open back door spilling warm yellow light and the wooden porch with steps, empty, no characters. RIGHT 80% of the frame, lower 80% of the height: one large flat rectangular yard of trampled dirt and patchy dry grass with a few cracked concrete paving slabs, completely EMPTY and evenly lit so game pieces can be placed on it, no objects, no furniture, no holes, no strong shadows crossing it. TOP 20% strip above the yard: a sagging wooden fence, a clothesline with laundry, a rusty garage wall, dark trees, one yellow street lamp. FAR RIGHT edge: the fence is broken and a swirling psychedelic neon fog in pink, cyan and acid green leaks in. Muted dusty purple night palette with warm lamp yellow; neon only in the fog on the right. No text.
 ```
 
 Варианты ночей делай **редактированием** основного фона (приложи `bg_yard_night.png` и попроси изменить), чтобы планировка совпала пиксель в пиксель:
@@ -350,6 +455,8 @@ Game background, 16:9, no characters. A shabby suburban BACKYARD at night seen f
 
 **`bg_livingroom.png`** (16:9) — для меню и катсцен.
 
+Приложи: `style_anchor`
+
 ```
 [STYLE]
 Game background, 16:9, no characters. A messy bachelor LIVING ROOM at night seen straight-on like a theatre stage. An old brown sofa in the centre facing the viewer, a low table with pizza boxes, instant-noodle cups and mugs, a carpet hanging on the wall, a floor lamp, a window on the right showing a dark backyard, a door to the yard on the far right. The only light is the flickering blue-white glow of a TV that sits off-frame in front of the sofa. Muted dusty purple palette. No text.
@@ -359,17 +466,17 @@ Game background, 16:9, no characters. A messy bachelor LIVING ROOM at night seen
 
 ```
 [STYLE]
-Sprite sheet, 16:9, of backyard foreground props as separate non-touching objects with wide gaps: a rusty barbecue grill, a stack of old car tyres, a tipped-over garden gnome, a dented metal bucket, a broken wooden fence section, a tuft of dry weeds, a garden hose coil, a plastic chair, a street lamp post with a yellow lamp. Real-world muted palette. Background: one perfectly flat solid pure magenta #FF00FF, no shadows on the background, no text, no labels.
+Sprite sheet, 16:9, of backyard foreground props as separate non-touching objects with wide gaps: a rusty barbecue grill, a stack of old car tyres, a tipped-over garden gnome, a dented metal bucket, a broken wooden fence section, a tuft of dry weeds, a garden hose coil, a plastic chair, a street lamp post with a yellow lamp. Real-world muted palette. Only the dark purple ink outline, no white sticker border. Background: one perfectly flat solid pure magenta #FF00FF reaching all four edges of the image, no white margin or strip at any edge, no shadows on the background, no text, no labels.
 ```
 
 ## 7. Катсцены
 
-Статичные кадры 16:9 без текста и без облачков — подписи, панорамы, тряску, вспышки и звук добавлю сам. Ко всем прикладывай якорь стиля и готовые листы Вована и Димона, чтобы лица совпадали.
+Статичные кадры 16:9 без текста и без облачков — подписи, панорамы, тряску, вспышки и звук добавлю сам. Ко всем прикладывай якорь стиля и готовые листы Вована и Димона, чтобы лица совпадали. Белая обводка-стикер на персонажах здесь уместна — это стиль обложки.
 
 Общий хвост:
 
 ```
-Cinematic comic panel, 16:9. Keep both friends exactly as in the attached character references. No text, no speech bubbles, no captions, no panel borders.
+Cinematic comic panel, 16:9. Keep both friends exactly as in the attached character references: Vovan in the red beanie and green hoodie, Dimon in the olive bucket hat, round glasses and purple smiley t-shirt, no hair showing under the hats. Same drawing style as the attached style reference. No text, no speech bubbles, no captions, no panel borders.
 ```
 
 ### Интро
@@ -418,7 +525,7 @@ Wide shot over the friends' shoulders from the porch: beyond the broken fence, u
 
 ```
 [STYLE]
-Heroic low-angle shot on the porch: Vovan and Dimon carry household stuff out of the house to build a defence — Vovan with the kettle raised like a torch, Dimon hugging an old CRT TV, the fat orange cat riding on top of a fridge pushed between them. Determined, ridiculous, backlit by the warm doorway.
+Heroic low-angle shot on the porch: Vovan and Dimon carry household stuff out of the house to build a defence — Vovan with the blue kettle raised like a torch, Dimon hugging an old wooden CRT TV, the fat orange cat riding on top of a fridge pushed between them. Determined, ridiculous, backlit by the warm doorway.
 [хвост]
 ```
 
@@ -462,14 +569,14 @@ The backyard dissolved into pure psychedelia: the ground is a checkerboard bendi
 
 ```
 [STYLE]
-Game logo on one perfectly flat solid pure chroma green #00FF00 background. Two lines of chunky hand-drawn dripping-paint lettering with thick dark purple outlines. Top line, large, hot pink: the Russian word "ГЛЮКИ". Bottom line, smaller, acid mint green: "vs КОРЕША". Spell the Cyrillic letters exactly as written. No extra words, no extra symbols, no characters.
+Game logo on one perfectly flat solid pure chroma green #00FF00 background reaching all four edges, no white margin. Two lines of chunky hand-drawn dripping-paint lettering with thick dark purple outlines. Top line, large, hot pink: the Russian word "ГЛЮКИ". Bottom line, smaller, acid mint green: "vs КОРЕША". Spell the Cyrillic letters exactly as written. No extra words, no extra symbols, no characters.
 ```
 
 **`ui.png`** (16:9)
 
 ```
 [STYLE]
-Game UI kit sprite sheet, 16:9, separate non-touching elements with wide gaps, all empty with no text: a wide horizontal top bar panel made of taped cardboard and duct tape; a vertical item card frame made of a torn cardboard box flap with a blank picture area and a small blank price tag at the bottom; the same card frame in a highlighted selected state with a yellow marker outline; a large rounded hot-pink button and a smaller dark purple button, both blank; a round pause button and a round sound button with simple icons; an empty progress bar frame and a pink fill strip; a small skull-flag marker for the wave indicator; a blank speech bubble; a blank wooden sign for level titles. Background: one perfectly flat solid pure chroma green #00FF00, no shadows on the background, no text, no numbers.
+Game UI kit sprite sheet, 16:9, separate non-touching elements with wide gaps, all empty with no text: a wide horizontal top bar panel made of taped cardboard and duct tape; a vertical item card frame made of a torn cardboard box flap with a blank picture area and a small blank price tag at the bottom; the same card frame in a highlighted selected state with a yellow marker outline; a large rounded hot-pink button and a smaller dark purple button, both blank; a round pause button and a round sound button with simple icons; an empty progress bar frame and a pink fill strip; a small skull-flag marker for the wave indicator; a blank speech bubble; a blank wooden sign for level titles. Only the dark purple ink outline, no white sticker border. Background: one perfectly flat solid pure chroma green #00FF00 reaching all four edges of the image, no white margin or strip at any edge, no shadows on the background, no text, no numbers.
 ```
 
 **`icon.png`** (1:1) — иконка игры.
@@ -484,8 +591,8 @@ App icon, 1:1, full bleed. Close-up of the zombie neighbour's dopey green face o
 | Очередь | Файлы |
 |---|---|
 | 1. Стиль | `style_anchor` |
-| 2. Минимум, чтобы игра ожила | `vovan`, `vovan_faces`, `dimon`, `dimon_faces`, `zombie`, `alien`, `kettle`, `cat`, `fridge`, `doshik`, `roomba`, `fx`, `bg_yard_night` |
-| 3. Остальные глюки и оборона | `ballerina`, `kolobok`, `pirate`, `jesus`, `dracula`, `kraken`, `zombie_tough`, `fan`, `microwave`, `tv` |
+| 2. Минимум, чтобы игра ожила | `vovan`, `vovan_faces`, `dimon`, `dimon_faces`, `zombie`, `zombie_faces`, `alien`, `alien_faces`, `kettle`, `cat`, `fridge`, `doshik`, `roomba`, `fx`, `bg_yard_night` |
+| 3. Остальные глюки и оборона | `ballerina`, `ballerina_faces`, `kolobok`, `pirate`, `pirate_faces`, `jesus`, `jesus_faces`, `dracula`, `dracula_faces`, `kraken`, `kraken_faces`, `zombie_tough`, `zombie_tough_faces`, `fan`, `microwave`, `tv` |
 | 4. Катсцены | `bg_livingroom`, `cs_intro_01`–`06`, `cs_boss`, `cs_win`, `cs_lose`, `cs_endless` |
 | 5. Полировка | `bg_yard_fog`, `bg_yard_rain`, `bg_yard_trip`, `bg_yard_kraken`, `fg_props`, `logo`, `ui`, `icon` |
 
@@ -495,7 +602,9 @@ App icon, 1:1, full bleed. Close-up of the zombie neighbour's dopey green face o
 - фон ровный, одного цвета, без теней и текста;
 - лицо и одежда на частях совпадают с собранным персонажем слева;
 - конечности висят прямо вниз, а не согнуты;
-- на листе тела корешей все 12 деталей: голова, шея, грудь, таз, плечо, предплечье, три кисти, бедро, голень, стопа;
+- у глюков ореол тонкой линией, а не размытым свечением на фоне;
+- на листе тела все 12 деталей: голова, шея, грудь, таз, плечо, предплечье, три кисти, бедро, голень, стопа;
+- нет белой обводки вокруг деталей и белой полосы по краю листа;
 - таз без штанин, рукав и штанина разрезаны по суставу;
 - детали того же размера, что и на собранной фигуре слева;
-- у корешей шапка на голове, волос не видно; у глюков юбка, плащ, волосы и шляпа лежат отдельно.
+- у корешей шапка на голове, волос не видно; у глюков шляпы, бороды и волосы — часть головы, отдельно только пачка, роба, плащ и деревянная нога.

@@ -89,6 +89,8 @@ def faces_sheet(bg):
 
 if __name__ == '__main__':
     for bg in BGS:
-        body_sheet(bg).save(f'assets/templates/tpl_body_{bg}.png')
-        faces_sheet(bg).save(f'assets/templates/tpl_faces_{bg}.png')
+        for kind, im in (('body', body_sheet(bg)), ('faces', faces_sheet(bg))):
+            im.save(f'assets/templates/tpl_{kind}_{bg}.png')
+            # для глюков: фигура смотрит влево, собранная фигура справа
+            im.transpose(Image.FLIP_LEFT_RIGHT).save(f'assets/templates/tpl_{kind}_{bg}_left.png')
     print('ok')
