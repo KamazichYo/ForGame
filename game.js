@@ -24,6 +24,11 @@ for (const n of ['vovan', 'dimon', 'zombie', 'alien', 'ballerina', 'tough', 'ket
 load('bg', 'assets/sprites/bg_yard_night.jpg'); load('cover', 'assets/sprites/style_anchor.jpg');
 for (const w of ['vovan', 'dimon']) for (const f of ['neutral', 'yell', 'laugh', 'scared']) load(`${w}_${f}`, `assets/chars/${w}/head_${f}.png`);
 const has = n => IMG[n] && IMG[n].complete && IMG[n].naturalWidth > 0;
+/* Куклы с костями (puppet.js): ноги шагают, голова и корпус качаются, лица подменяются. */
+const { PUP, loadPuppet, drawPuppet, CLIPS } = window.Puppets;
+for (const n of ['vovan', 'dimon', 'zombie', 'alien', 'ballerina', 'tough']) loadPuppet(n);
+const FACE_FIT = { vovan: [1.02, 0, 0], dimon: [1, 0, 0] };
+const COARSE = matchMedia('(pointer: coarse)').matches;
 /* Спрайт высотой h, якорь по умолчанию — низ по центру. */
 function spr(n, h, ax = 0.5, ay = 1) { const im = IMG[n], w = im.naturalWidth * h / im.naturalHeight; c.drawImage(im, -w * ax, -h * ay, w, h); }
 
@@ -184,6 +189,14 @@ const FOE_SPR = { zombie: ['zombie', 150], alien: ['alien', 130], hitler: ['ball
 const foeH = e => FOE_SPR[e.type] && has(FOE_SPR[e.type][0]) ? FOE_SPR[e.type][1] * 1.25 : ENEMY[e.type].big ? 225 : 122;
 function drawFoe(e) {
   const f = FOE_SPR[e.type]; if (!f || !has(f[0])) return EDRAW[e.type](e);
+  const pup = PUP[f[0]];
+  if (pup && pup.ready) {
+    const clip = e.stun > 0 ? 'stun' : e.eating ? 'eat' : f[0] + '_walk', pose = CLIPS[clip](e.ph * 1.6, T + e.seed);
+    if (e.type === 'hitler' && !e.eating && e.stun <= 0 && Math.sin(T * 0.9 + e.seed) > 0.75) c.scale(Math.cos(T * 9), 1);
+    drawPuppet(c, pup, 0, 0, f[1], pose);
+    if (e.hit > 0) { c.globalCompositeOperation = 'lighter'; c.globalAlpha = 0.55; drawPuppet(c, pup, 0, 0, f[1], pose); c.globalCompositeOperation = 'source-over'; }
+    return;
+  }
   const s = Math.sin(e.ph);
   if (e.eating) { c.translate(-Math.abs(Math.sin(T * 9)) * 10, 0); c.rotate(-0.1 + Math.sin(T * 18) * 0.04); }
   else if (e.stun > 0) c.rotate(Math.sin(T * 5) * 0.1);
@@ -294,7 +307,7 @@ function ability(i) {
   if (G.ab[i] > 0 || G.over) return;
   if (i === 0) { G.ab[0] = 40; G.shake = 0.5; say(0, 'ААААААА!!!'); sfx(300, 0.7, 'sawtooth', 0.08, 500); for (const e of G.enemies) { e.x += ENEMY[e.type].big ? 30 : 90; e.stun = 3; } const o = toField({ x: PORCH[0].x, y: PORCH[0].y - 110 }); G.fx.push({ k: 'wave', x: o.x, y: o.y, life: 0.7, max: 0.7 }); }
   else { const e = G.enemies.filter(e => e.x < W).sort((a, b) => b.hp - a.hp)[0]; if (!e) { say(1, 'Не в кого кидать, братан'); return; }
-    G.ab[1] = 25; say(1, 'Тапок судьбы!'); sfx(700, 0.25, 'square', 0.05, -500); const o = toField({ x: PORCH[1].x + 30, y: PORCH[1].y - 140 }); G.fx.push({ k: 'tapok', x: o.x, y: o.y, tx: e.x, ty: e.y - 50, e, life: 0.45, max: 0.45 }); }
+    G.ab[1] = 25; say(1, 'Тапок судьбы!'); sfx(700, 0.25, 'square', 0.05, -500); const o = toField({ x: PORCH[1].x + 30, y: PORCH[1].y - 140 }); G.fx.push({ k: 'tapok', x: o.x, y: o.y, tx: e.x, ty: e.y - 50, e, life: 0.45, max: 0.45, wait: 0.32 }); }
 }
 function update(dt) {
   if (G.over || G.paused) return;
@@ -309,7 +322,7 @@ function update(dt) {
   }
   // проблески с потолка
   G.sky -= dt; if (G.sky <= 0) { G.sky = rnd(7, 10); G.suns.push({ x: rnd(GX + 40, W - 80), y: GY - 30, ty: rnd(GY + 80, H - 60), life: 12 }); }
-  for (const s of G.suns) { if (s.y < s.ty) s.y = Math.min(s.ty, s.y + 70 * dt); s.life -= dt; const fm = toField(mouse); if (Math.hypot(fm.x - s.x, fm.y - s.y) < 40) collect(s); }
+  for (const s of G.suns) { if (s.y < s.ty) s.y = Math.min(s.ty, s.y + 70 * dt); s.life -= dt; const fm = toField(mouse); if (Math.hypot(fm.x - s.x, fm.y - s.y) < 40 || (COARSE && s.life < 8.5)) collect(s); }
   G.suns = G.suns.filter(s => s.life > 0 && !s.got);
   // оборона
   for (let r = 0; r < ROWS; r++) for (let col = 0; col < COLS; col++) {
@@ -343,7 +356,7 @@ function update(dt) {
   for (const rb of G.roomba) if (rb.on && !rb.gone) { rb.x += 520 * dt; const r = G.roomba.indexOf(rb); for (const e of G.enemies) if (e.row === r && Math.abs(e.x - rb.x) < 50 && !e.dead) { if (ENEMY[e.type].big) { if (!e.vac) { e.vac = 1; damage(e, 1200); } } else { e.revived = true; damage(e, 99999); } } if (rb.x > W + 60) rb.gone = true; }
   G.enemies = G.enemies.filter(e => !e.dead);
   // эффекты
-  for (const f of G.fx) { f.life -= dt; if (f.k === 'p' || f.k === 't') { f.x += f.vx * dt; f.y += f.vy * dt; if (f.k === 'p') f.vy += 200 * dt; }
+  for (const f of G.fx) { if (f.wait > 0) { f.wait -= dt; continue; } f.life -= dt; if (f.k === 'p' || f.k === 't') { f.x += f.vx * dt; f.y += f.vy * dt; if (f.k === 'p') f.vy += 200 * dt; }
     if (f.k === 'tapok' && f.life <= 0 && !f.e.dead) { damage(f.e, 600); floatTxt('ШЛЁП!', f.tx, f.ty - 40, '#ff8fcb', 28); G.shake = 0.2; sfx(150, 0.15, 'square', 0.08, -80); } }
   G.fx = G.fx.filter(f => f.life > 0);
   if (G.banner && (G.banner.life -= dt) <= 0) G.banner = null;
@@ -371,7 +384,17 @@ function drawCells() {
 function drawFriend(i) {
   const P = PORCH[i], panic = G && G.over === 'lose', act = G && (i ? G.ab[1] > 24 : G.ab[0] > 38.5), t = T * (panic ? 16 : 2) + i * 2;
   c.save(); c.translate(P.x + (panic ? Math.sin(t) * 3 : 0), P.y); ell(0, 2, 42, 9, 'rgba(0,0,0,.35)');
-  if (has(P.spr)) { const q = 1 + Math.sin(t) * 0.012 + (act ? 0.06 : 0); c.translate(0, act ? -Math.abs(Math.sin(T * 14)) * 10 : 0); c.rotate(act ? (i ? 0.12 : -0.08) : Math.sin(t * 0.5) * 0.012); c.scale(1 / q, q); spr(P.spr, P.h); }
+  const pup = PUP[P.spr], who0 = i ? 'dimon' : 'vovan', since = (i ? 25 : 40) - (G ? G.ab[i] : 99), win = G && G.over === 'win';
+  if (pup && pup.ready) {
+    let clip = 'idle', face = null, u = 0;
+    if (panic) { clip = 'panic'; face = 'scared'; } else if (win) { clip = 'cheer'; face = 'laugh'; }
+    else if (G && i === 0 && since < 1.5) { clip = 'yell'; face = 'yell'; }
+    else if (G && i === 1 && since < 0.7) { clip = 'throw'; u = since / 0.7; face = u > 0.35 ? 'yell' : null; }
+    else if (G && i === 1 && since < 1.6) face = 'laugh';
+    const pose = CLIPS[clip](0, T + i * 2, u); if (face && has(`${who0}_${face}`)) { pose.face = IMG[`${who0}_${face}`]; pose.faceFit = FACE_FIT[who0]; }
+    drawPuppet(c, pup, 0, 0, P.h, pose);
+  }
+  else if (has(P.spr)) { const q = 1 + Math.sin(t) * 0.012 + (act ? 0.06 : 0); c.translate(0, act ? -Math.abs(Math.sin(T * 14)) * 10 : 0); c.rotate(act ? (i ? 0.12 : -0.08) : Math.sin(t * 0.5) * 0.012); c.scale(1 / q, q); spr(P.spr, P.h); }
   else { c.scale(-1.3, 1.3); humanoid(i ? SK.dimon : SK.vovan, { armF: 0.25, armB: -0.2, legF: 0.12, legB: -0.12 }); }
   c.restore();
   if (!G) return;
@@ -385,7 +408,7 @@ function drawFriend(i) {
 function drawEnemy(e) {
   c.save(); c.translate(e.x + (e.hit > 0 ? rnd(-3, 3) : 0), e.y);
   if (e.slow > 0) ell(0, 2, 34, 9, 'rgba(150,220,255,.55)'); else shadow(ENEMY[e.type].big ? 60 : 26);
-  const H = foeH(e); c.save(); c.scale(1.25, 1.25); c.globalAlpha = clamp((W + 30 - e.x) / 60, 0, 1) * (e.hit > 0 ? 0.6 : 1); drawFoe(e); c.restore();
+  const H = foeH(e); c.save(); c.scale(1.25, 1.25); c.globalAlpha = clamp((W + 30 - e.x) / 60, 0, 1); drawFoe(e); c.restore();
   if (e.stun > 0) for (let i = 0; i < 3; i++) { const a = T * 6 + i * 2.1; txt('★', Math.cos(a) * 20, -H - 8 + Math.sin(a) * 6, 16, '#ffe14a'); }
   if (e.hp < e.max) { const w = ENEMY[e.type].big ? 110 : 46, y = -H - 12; rr(-w / 2, y, w, 7, 3, '#1b1030'); rr(-w / 2 + 1, y + 1, (w - 2) * clamp(e.hp / e.max, 0, 1), 5, 2, e.revived ? '#ffe14a' : '#ff5a8a'); }
   c.restore();
@@ -409,7 +432,7 @@ function drawScene() {
       else { c.rotate(-T * 10); poly([[-12, -3], [-2, -8], [0, -1], [12, -5], [2, 8], [0, 1]], '#ffffa0', OUT, 2); } c.restore(); }
   }
   for (const s of G.suns) drawSun(s.x, s.y, 22, s.life < 2 ? 0.4 + Math.abs(Math.sin(T * 10)) * 0.6 : 1);
-  for (const f of G.fx) { const k = f.life / f.max;
+  for (const f of G.fx) { if (f.wait > 0) continue; const k = f.life / f.max;
     if (f.k === 'p') { c.globalAlpha = k; circ(f.x, f.y, f.r * (0.4 + k), f.col); c.globalAlpha = 1; }
     else if (f.k === 't') { c.globalAlpha = Math.min(1, k * 2); txt(f.s, f.x, f.y, f.size, f.col, 'center', DISPLAY, OUT, 400); c.globalAlpha = 1; }
     else if (f.k === 'boom') { const n = 'boom_' + Math.min(4, Math.floor((1 - k) * 5)); if (has(n)) { c.save(); c.globalAlpha = Math.min(1, k * 3); c.translate(f.x, f.y + f.r * 0.45); spr(n, f.r * (0.9 + (1 - k) * 0.9)); c.restore(); } else { c.globalAlpha = k; circ(f.x, f.y, f.r * (1.1 - k * 0.6), '#fff1a8', '#ff8a4a', 10); c.globalAlpha = 1; } }
@@ -421,6 +444,9 @@ function drawScene() {
   if (G.bubble) { const b = G.bubble, y = PORCH[b.who].y - PORCH[b.who].h - 34; c.font = `700 16px ${BODY}`; const w = c.measureText(b.s).width + 28; c.globalAlpha = Math.min(1, b.life * 2);
     const bx = Math.max(12, PORCH[b.who].x - 60); rr(bx, y - 20, w, 40, 14, '#fff', OUT); poly([[bx + 40, y + 18], [bx + 60, y + 18], [bx + 52, y + 36]], '#fff', OUT); rr(bx + 38, y + 10, 26, 9, 0, '#fff'); txt(b.s, bx + 14, y + 1, 16, OUT, 'left'); c.globalAlpha = 1; }
   c.restore();
+  // искры из портала и виньетка
+  for (let i = 0; i < 14; i++) { const k = (T * 0.12 + i / 14) % 1, x = W - 30 - k * 260 - Math.sin(i * 7) * 30, y = 300 + Math.sin(i * 3.7) * 190 + Math.sin(T * 1.3 + i) * 18; c.globalAlpha = (1 - k) * 0.7; circ(x, y, 2 + (i % 3), `hsl(${(i * 47 + T * 60) % 360},95%,70%)`); } c.globalAlpha = 1;
+  const vg = c.createRadialGradient(W / 2, H / 2, H * 0.45, W / 2, H / 2, H * 0.95); vg.addColorStop(0, 'rgba(10,4,20,0)'); vg.addColorStop(1, 'rgba(10,4,20,.55)'); c.fillStyle = vg; c.fillRect(0, 0, W, H);
   drawHud();
   if (G.banner) { const k = Math.min(1, G.banner.life, (3 - G.banner.life) * 3); c.globalAlpha = k; txt(G.banner.s, FX + COLS * CELL * K / 2, 430, 78, '#ff5ad1', 'center', DISPLAY, OUT, 400); c.globalAlpha = 1; }
 }
@@ -466,13 +492,28 @@ function drawMenu() {
 /* ---------- ввод ---------- */
 const hit = (b, x, y) => x >= b.x && x <= b.x + b.w && y >= b.y && y <= b.y + b.h;
 function cellAt(x, y) { const col = Math.floor((x - GX) / CELL), r = Math.floor((y - GY) / CELL); return col >= 0 && col < COLS && r >= 0 && r < ROWS ? { r, col } : null; }
-function toLocal(ev) { const b = cv.getBoundingClientRect(); return { x: (ev.clientX - b.left) * W / b.width, y: (ev.clientY - b.top) * H / b.height }; }
+/* Раскладка: канвас вписывается в окно; на телефоне в портретной ориентации разворачивается на 90°, чтобы занять весь экран. */
+let VIEW = { w: 1280, h: 720, rot: false };
+function fit() {
+  const vw = innerWidth, vh = innerHeight, rot = vh > vw && vw < 720, small = Math.min(vw, vh) < 560;
+  const L = rot ? vh : vw, Sh = (rot ? vw : vh) - (small ? 0 : 56), pad = small ? 0 : 32;
+  const w = Math.max(200, Math.min(L - pad, Sh * W / H, 1600)), h = w * H / W;
+  VIEW = { w, h, rot }; document.body.classList.toggle('compact', small); document.body.classList.toggle('rot', rot);
+  if (small) Object.assign(cv.style, { position: 'fixed', left: (vw - w) / 2 + 'px', top: (vh - h) / 2 + 'px', width: w + 'px', height: h + 'px', transform: rot ? 'rotate(90deg)' : 'none', borderRadius: '0', maxWidth: 'none' });
+  else Object.assign(cv.style, { position: '', left: '', top: '', width: w + 'px', height: h + 'px', transform: 'none', borderRadius: '', maxWidth: '' });
+  const d = Math.min(devicePixelRatio || 1, 2); cv.width = Math.round(w * d); cv.height = Math.round(h * d);
+}
+function toLocal(ev) {
+  const b = cv.getBoundingClientRect(), cx = b.left + b.width / 2, cy = b.top + b.height / 2;
+  if (VIEW.rot) return { x: ((ev.clientY - cy) / VIEW.w + 0.5) * W, y: (0.5 - (ev.clientX - cx) / VIEW.h) * H };
+  return { x: (ev.clientX - b.left) * W / b.width, y: (ev.clientY - b.top) * H / b.height };
+}
 cv.addEventListener('pointermove', ev => { mouse = toLocal(ev); });
 cv.addEventListener('pointerleave', () => { mouse = { x: -99, y: -99 }; });
 cv.addEventListener('pointerdown', ev => {
   ev.preventDefault(); mouse = toLocal(ev); const { x, y } = mouse;
   if (screen === 'play' && !G.over && !G.paused) {
-    const f = toField(mouse); for (const s of G.suns) if (Math.hypot(f.x - s.x, f.y - s.y) < 58) { collect(s); return; }
+    const f = toField(mouse); for (const s of G.suns) if (Math.hypot(f.x - s.x, f.y - s.y) < (COARSE ? 90 : 58)) { collect(s); return; }
     const cell = cellAt(f.x, f.y);
     if (cell && G.sel) { if (G.sel === 'broom') { if (G.grid[cell.r][cell.col]) { G.grid[cell.r][cell.col] = null; puff(colX(cell.col), rowY(cell.r) - 20, 6, 40); G.sel = null; } } else place(G.sel, cell.r, cell.col); return; }
   }
@@ -488,8 +529,7 @@ document.addEventListener('visibilitychange', () => { if (document.hidden && G &
 
 /* ---------- цикл ---------- */
 const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
-function resize() { const b = cv.getBoundingClientRect(), dpr = Math.min(devicePixelRatio || 1, 2); cv.width = Math.round(b.width * dpr); cv.height = Math.round(b.width * dpr * H / W); }
-addEventListener('resize', resize); resize();
+addEventListener('resize', fit); addEventListener('orientationchange', () => setTimeout(fit, 200)); fit();
 let last = performance.now();
 function frame(now) {
   const dt = Math.min(0.05, (now - last) / 1000); last = now; T += dt;
@@ -502,6 +542,6 @@ function frame(now) {
   }
   requestAnimationFrame(frame);
 }
-window.__glyuki = { get G() { return G; }, newGame, spawnEnemy, place, ability };
+window.__glyuki = { toLocal, get VIEW() { return VIEW; }, get G() { return G; }, newGame, spawnEnemy, place, ability };
 requestAnimationFrame(frame);
 })();

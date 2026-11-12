@@ -49,9 +49,11 @@ def components(mask, s=4):
     return out
 
 def main():
-    ap = argparse.ArgumentParser(); ap.add_argument('sheet'); ap.add_argument('--out', default='assets/parts'); ap.add_argument('--grid')
+    ap = argparse.ArgumentParser(); ap.add_argument('sheet'); ap.add_argument('--out', default='assets/parts'); ap.add_argument('--grid'); ap.add_argument('--flip', action='store_true', help='отразить лист: глюки нарисованы лицом влево, риг ждёт вправо')
     a = ap.parse_args(); name = os.path.splitext(os.path.basename(a.sheet))[0]
-    rgb = np.asarray(Image.open(a.sheet).convert('RGB')); H, W = rgb.shape[:2]
+    src = Image.open(a.sheet).convert('RGB')
+    if a.flip: src = src.transpose(Image.FLIP_LEFT_RIGHT)
+    rgb = np.asarray(src); H, W = rgb.shape[:2]
     fg = Image.fromarray((~background(rgb) * 255).astype(np.uint8)).filter(ImageFilter.MinFilter(5))
     alpha = fg.filter(ImageFilter.GaussianBlur(0.8)); solid = np.asarray(fg) > 127
     rgba = np.dstack([rgb, np.asarray(alpha)]); out = os.path.join(a.out, name); os.makedirs(out, exist_ok=True)
