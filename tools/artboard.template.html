@@ -96,6 +96,7 @@ button:focus-visible, .drop:focus-visible, input:focus-visible { outline: 3px so
   <div class="bar">
     <div class="meter"><span id="count">0 из 0</span><i><b id="fill"></b></i></div>
     <label class="chk"><input type="checkbox" id="onlyEmpty"> только незагруженные</label>
+    <button class="main" id="dlboard" hidden>Скачать всё</button>
   </div>
   <p class="note" id="note" hidden></p>
   <details class="book" id="book" open><summary>Книга рецептов<span id="bookinfo"></span></summary><ul class="rules" id="rules"></ul><div id="tiers"></div></details>
@@ -189,8 +190,65 @@ function paint(id, msg, cls) {
   u.status.className = 'status ' + (cls || (d ? 'ok' : ''));
   u.status.textContent = msg || (d ? `Загружено · ${d.w}×${d.h} · ${(d.bytes / 1048576).toFixed(1)} МБ` : '');
   const n = DATA.slots.filter(s => state[s.id]).length; document.getElementById('count').textContent = `${n} из ${DATA.slots.length}`; document.getElementById('fill').style.width = n / DATA.slots.length * 100 + '%';
-  filter();
+  filter(); updateDlBoard();
 }
+// «Скачать всё»: все загруженные листы + шаблоны раскладки одним ZIP-архивом (одно подтверждение вместо десятков)
+const CRC = (() => { const t = new Uint32Array(256); for (let n = 0; n < 256; n++) { let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; t[n] = c >>> 0; } return t; })();
+function crc32(u8) { let c = -1; for (let i = 0; i < u8.length; i++) c = CRC[(c ^ u8[i]) & 255] ^ (c >>> 8); return (c ^ -1) >>> 0; }
+async function makeZip(files, onStep) { // files: [{name, blob}]; без сжатия — PNG/JPEG и так сжаты
+  const enc = new TextEncoder(), parts = [], central = [], d = new Date();
+  const time = (d.getHours() << 11) | (d.getMinutes() << 5) | (d.getSeconds() >> 1), date = ((d.getFullYear() - 1980) << 9) | ((d.getMonth() + 1) << 5) | d.getDate();
+  let off = 0, n = 0;
+  for (const f of files) {
+    const name = enc.encode(f.name), len = f.blob.size, crc = crc32(new Uint8Array(await f.blob.arrayBuffer()));
+    const h = new DataView(new ArrayBuffer(30));
+    h.setUint32(0, 0x04034b50, true); h.setUint16(4, 20, true); h.setUint16(6, 0x0800, true); h.setUint16(10, time, true); h.setUint16(12, date, true);
+    h.setUint32(14, crc, true); h.setUint32(18, len, true); h.setUint32(22, len, true); h.setUint16(26, name.length, true);
+    const c = new DataView(new ArrayBuffer(46));
+    c.setUint32(0, 0x02014b50, true); c.setUint16(4, 20, true); c.setUint16(6, 20, true); c.setUint16(8, 0x0800, true); c.setUint16(12, time, true); c.setUint16(14, date, true);
+    c.setUint32(16, crc, true); c.setUint32(20, len, true); c.setUint32(24, len, true); c.setUint16(28, name.length, true); c.setUint32(42, off, true);
+    parts.push(h.buffer, name, f.blob); central.push(c.buffer, name); off += 30 + name.length + len;
+    onStep && onStep(++n, files.length);
+  }
+  const cdSize = central.reduce((s, p) => s + (p.byteLength != null ? p.byteLength : p.size), 0), end = new DataView(new ArrayBuffer(22));
+  end.setUint32(0, 0x06054b50, true); end.setUint16(8, files.length, true); end.setUint16(10, files.length, true); end.setUint32(12, cdSize, true); end.setUint32(16, off, true);
+  return new Blob([...parts, ...central, end.buffer], { type: 'application/zip' });
+}
+function boardFiles() { // что лежит в пульте: загруженные листы и серые шаблоны, на которые ссылаются промты
+  const list = [], tpls = new Set();
+  for (const s of DATA.slots) { if (state[s.id]) list.push({ name: s.id, src: '/_blob/' + state[s.id].asset, type: state[s.id].type }); s.refs.forEach(r => r.startsWith('tpl_') && tpls.add(r)); }
+  for (const t of tpls) list.push({ name: 'templates/' + t + '.png', src: 'tpl/' + t + '.png' });
+  return list;
+}
+function updateDlBoard() {
+  const b = document.getElementById('dlboard'); if (!b || b.dataset.busy) return;
+  const up = DATA.slots.filter(s => state[s.id]).length; b.hidden = !downloads || !up;
+  b.textContent = 'Скачать всё (' + up + ' ' + (up % 10 === 1 && up % 100 !== 11 ? 'лист' : up % 10 >= 2 && up % 10 <= 4 && (up % 100 < 12 || up % 100 > 14) ? 'листа' : 'листов') + ' + шаблоны)';
+}
+async function downloadBoard() {
+  const b = document.getElementById('dlboard'), list = boardFiles(); if (!list.length) return;
+  b.dataset.busy = 1; b.disabled = true;
+  try {
+    const files = [];
+    for (let i = 0; i < list.length; i++) {
+      b.textContent = 'Собираю архив ' + (i + 1) + ' из ' + list.length + '…';
+      const blob = await getBlob(list[i]), name = list[i].name.includes('.') ? list[i].name : list[i].name + '.' + (EXT[list[i].type] || EXT[blob.type] || 'png');
+      files.push({ name, blob });
+    }
+    b.textContent = 'Упаковываю…';
+    const zip = await makeZip(files);
+    await downloads.save({ filename: 'art-pult-' + new Date().toISOString().slice(0, 10) + '.zip', data: zip });
+    say('');
+    b.textContent = 'Сохранено'; await new Promise(r => setTimeout(r, 1800));
+  } catch (e) {
+    const msg = e && e.code === 'declined' ? 'Отменено' : 'Не получилось скачать архив';
+    if (!(e && e.code === 'declined')) say('Не получилось собрать архив: ' + (e && (e.message || e.code) || 'ошибка') + '. Попробуй ещё раз или скачай листы по одному.');
+    b.textContent = msg; await new Promise(r => setTimeout(r, 1800));
+  }
+  delete b.dataset.busy; b.disabled = false; updateDlBoard();
+}
+document.getElementById('dlboard').onclick = downloadBoard;
+
 const TIERS = ['Базовые: падают на поле', 'Второй уровень', 'Третий уровень', 'Секретные'];
 function buildBook() {
   const B = DATA.book, I = {}; B.items.forEach(i => I[i.id] = i);
@@ -232,7 +290,7 @@ async function upload(id, file) {
     let res; try { res = await assets.upload(blob, { type: blob.type }); } catch (e) { if (e && e.code === 'store_unavailable') { await new Promise(r => setTimeout(r, 1500)); res = await assets.upload(blob, { type: blob.type }); } else throw e; }
     const old = state[id] && state[id].asset;
     await db.doc('slots/' + id).set({ asset: res.id, type: res.contentType, bytes: res.sizeBytes, w, h, name: file.name || '', at: new Date().toISOString() });
-    state[id] = { asset: res.id, bytes: res.sizeBytes, w, h }; paint(id);
+    state[id] = { asset: res.id, type: res.contentType, bytes: res.sizeBytes, w, h }; paint(id);
     if (old && old !== res.id) assets.delete(old).catch(() => {});
   } catch (e) { paint(id, ERR[e && e.code] || 'Не получилось загрузить, попробуй ещё раз', 'err'); }
 }
