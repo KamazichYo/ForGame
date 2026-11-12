@@ -18,6 +18,8 @@ def background(rgb):
         cand = (g > 190) & (abs(r - b) < 60) & (g >= r - 8) & (g >= b - 8)
     else:                 # маджента: смесь мадженты с белым
         cand = (r > 190) & (b > 190) & (abs(r - b) < 60)
+    if key.max() < 235: cand[:] = False  # тусклый фон: правило «смесь с белым» съело бы светлую одежду
+    cand |= np.abs(rgb.astype(int) - key).sum(-1) < 110  # тусклый или неровный фон: всё, что близко к цвету угла
     im = Image.fromarray((cand * 255).astype(np.uint8)).copy()
     h, w = cand.shape
     for x, y in [(2, 2), (w - 3, 2), (2, h - 3), (w - 3, h - 3), (w // 2, 2), (w // 2, h - 3)]:
@@ -74,4 +76,5 @@ def main():
     prev.resize((W // 2, H // 2)).save(os.path.join(out, '_preview.png')); json.dump(meta, open(os.path.join(out, 'parts.json'), 'w'), indent=1)
     print(name, len(meta), [(m['n'], m['w'], m['h']) for m in meta])
 
-main()
+if __name__ == '__main__':
+    main()
