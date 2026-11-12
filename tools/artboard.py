@@ -3,7 +3,7 @@
 
     python3 tools/artboard.py docs/PROMPTS.md tools/artboard.template.html out.html
 """
-import json, re, sys
+import json, os, re, sys
 
 src, tpl, out = sys.argv[1:4]
 lines = open(src, encoding='utf8').read().split('\n')
@@ -81,6 +81,7 @@ for s in slots:
     if 'refs' not in s:
         s['refs'] = [] if n == 'style_anchor' else ['style_anchor'] + (['vovan', 'dimon'] if n.startswith('cs_') else [])
 slots.sort(key=lambda s: s['queue'])
-data = json.dumps({'queues': QUEUES, 'slots': slots}, ensure_ascii=False).replace('</', '<\\/')
+book = json.load(open(os.path.join(os.path.dirname(src), '..', 'data', 'items.json'), encoding='utf8'))
+data = json.dumps({'queues': QUEUES, 'slots': slots, 'book': book}, ensure_ascii=False).replace('</', '<\\/')
 open(out, 'w', encoding='utf8').write(open(tpl, encoding='utf8').read().replace('/*DATA*/null', data))
 print(len(slots), 'слотов:', ' '.join(s['id'] for s in slots))

@@ -62,6 +62,22 @@ button:focus-visible, .drop:focus-visible, input:focus-visible { outline: 3px so
 .status.ok { color: var(--mint); }
 [data-hide="1"] { display: none; }
 @media (max-width: 720px) { .card { grid-template-columns: minmax(0, 1fr); } }
+/* книга рецептов */
+.book { background: var(--panel); border: 2px solid var(--line); border-radius: 14px; padding: 6px 14px 14px; }
+.book > summary { cursor: pointer; font: 700 20px/1.2 var(--body); color: var(--mint); padding: 10px 0; }
+.book > summary span { color: var(--muted); font-size: 14px; font-weight: 400; margin-left: 8px; }
+.rules { margin: 0 0 6px; padding-left: 20px; color: var(--muted); font-size: 14px; display: flex; flex-direction: column; gap: 2px; max-width: 80ch; }
+.tier h3 { margin: 16px 0 8px; font: 700 16px/1.2 var(--body); color: var(--lamp); }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
+.item { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 10px; align-items: start; background: var(--raised); border-radius: 10px; padding: 8px; scroll-margin-top: 70px; }
+.item.secret { outline: 2px dashed var(--pink); }
+.item:target { outline: 3px solid var(--lamp); }
+.thumb { width: 64px; aspect-ratio: 8 / 9; border-radius: 8px; background-color: var(--bg); background-repeat: no-repeat; background-size: 400% 200%; display: flex; align-items: center; justify-content: center; font-size: 11px; color: var(--muted); text-align: center; }
+.item b { display: block; font-size: 14.5px; }
+.item .rec, .item .eff, .item .nxt { font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+.item .rec { color: var(--fg); }
+.item a { color: var(--lamp); text-decoration: none; }
+.item a:hover { text-decoration: underline; }
 @media (prefers-reduced-motion: reduce) { .meter i b { transition: none; } }
 </style>
 
@@ -82,6 +98,7 @@ button:focus-visible, .drop:focus-visible, input:focus-visible { outline: 3px so
     <label class="chk"><input type="checkbox" id="onlyEmpty"> только незагруженные</label>
   </div>
   <p class="note" id="note" hidden></p>
+  <details class="book" id="book" open><summary>Книга рецептов<span id="bookinfo"></span></summary><ul class="rules" id="rules"></ul><div id="tiers"></div></details>
   <div id="board" class="list"></div>
 </div>
 
@@ -174,6 +191,29 @@ function paint(id, msg, cls) {
   const n = DATA.slots.filter(s => state[s.id]).length; document.getElementById('count').textContent = `${n} из ${DATA.slots.length}`; document.getElementById('fill').style.width = n / DATA.slots.length * 100 + '%';
   filter();
 }
+const TIERS = ['Базовые: падают на поле', 'Второй уровень', 'Третий уровень', 'Секретные'];
+function buildBook() {
+  const B = DATA.book, I = {}; B.items.forEach(i => I[i.id] = i);
+  const rules = document.getElementById('rules'); for (const k in B.rules) rules.append($('li', '', B.rules[k]));
+  const tiers = document.getElementById('tiers'), link = id => { const a = $('a', '', I[id].name); a.href = '#it-' + id; return a; };
+  TIERS.forEach((title, t) => {
+    const box = $('section', 'tier'), grid = $('div', 'grid'); box.append($('h3', '', title), grid); tiers.append(box);
+    for (const i of B.items.filter(x => x.tier === t)) {
+      const card = $('div', 'item' + (i.secret ? ' secret' : '')), th = $('div', 'thumb'), body = $('div'); card.id = 'it-' + i.id; th.dataset.sheet = i.sheet; th.dataset.col = i.col;
+      body.append($('b', '', i.name));
+      const rec = $('div', 'rec'); if (i.from) { rec.append(link(i.from[0]), ' + ', link(i.from[1])); } else rec.textContent = i.rare ? 'редкий джокер' : 'падает на поле'; body.append(rec);
+      body.append($('div', 'eff', i.role + '. ' + i.effect));
+      const next = B.items.filter(x => (x.from || []).includes(i.id)); if (next.length) { const n = $('div', 'nxt', '→ '); next.forEach((x, k) => { if (k) n.append(', '); n.append(link(x.id)); }); body.append(n); }
+      card.append(th, body); grid.append(card);
+    }
+  });
+  document.getElementById('bookinfo').textContent = B.items.length + ' предметов';
+}
+function paintBook() { // картинка предмета — кусок загруженного листа: колонка предмета, верхний ряд
+  document.querySelectorAll('.thumb').forEach(th => { const d = state[th.dataset.sheet];
+    if (d) { th.style.backgroundImage = `url(/_blob/${d.asset})`; th.style.backgroundPosition = `${(th.dataset.col - 1) / 3 * 100}% 0%`; th.textContent = ''; }
+    else { th.style.backgroundImage = ''; th.textContent = th.dataset.sheet.replace('items_', ''); } });
+}
 function filter() { const on = document.getElementById('onlyEmpty').checked; for (const id in ui) ui[id].card.dataset.hide = on && state[id] ? 1 : 0; }
 document.getElementById('onlyEmpty').onchange = filter;
 
@@ -208,7 +248,7 @@ addEventListener('paste', e => {
   say(''); upload(active, f);
 });
 
-build();
+build(); buildBook(); paintBook();
 (async () => {
   const use = n => (window.claude && window.claude.use ? window.claude.use(n) : Promise.resolve(null));
   [assets, db, downloads] = await Promise.all([use('assets'), use('db'), use('downloads')]);
@@ -219,7 +259,7 @@ build();
   db.collection('slots').onSnapshot(snap => {
     clearTimeout(timer); const next = {}; snap.docs.forEach(d => { const v = d.data(); if (v && v.asset) next[d.id] = v; });
     const ids = new Set([...Object.keys(state), ...Object.keys(next)]); state = next; ids.forEach(id => ui[id] && paint(id));
-    for (const id in ui) renderRefs(id);
+    for (const id in ui) renderRefs(id); paintBook();
   }, () => { clearTimeout(timer); say('Не удалось прочитать список загруженного.'); });
   for (const id in ui) paint(id);
 })();

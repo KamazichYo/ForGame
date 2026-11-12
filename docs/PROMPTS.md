@@ -350,88 +350,167 @@ Character: the KRAKEN from the attached puppet sheet. Instead of a head, draw ei
 - **`hamster.png`** — `GIANT HAMSTER, facing LEFT: a human-sized fat orange-and-white hamster walking upright with stuffed cheeks and tiny furious eyes.` Фон зелёный.
 - **`grandma.png`** — `GHOST GRANDMA, facing LEFT: a translucent floating granny in a headscarf and floral dress with a rolling pin; instead of thigh, shin and foot draw one ghostly wisp tail piece in the leg row.` Фон маджента.
 
-## 5. Оборона
+<!-- items:start -->
+## 5. Предметы
 
-Одиночные предметы, 1:1, по несколько состояний на листе. Предметы — реальный мир, значит приглушённые цвета и без неонового ореола. Все в три четверти и смотрят вправо, на глюков. Все состояния одного предмета — одного размера и в одной позе, чтобы я подменял их на месте.
+Вместо обороны из бытовой техники — хлам из хаты гика-укурка, который комбинируется. Правила и дерево рецептов — в `docs/ITEMS.md`, книга рецептов — в арт-пульте.
 
-Приложи к каждому: `style_anchor`.
+Предметы — реальный мир: приглушённые цвета, без неонового ореола, у каждого маленькое мультяшное лицо, как у чайника и холодильника. Все смотрят вправо, на глюков, и стоят на полу так, чтобы влезать в одну клетку поля.
 
-Общий хвост для этого раздела (вставлять в конец):
+Лист — 4 предмета в колонках. Сверху предмет в покое, снизу он же в действии: в той же позе и того же размера, меняются только детали действия. Звёзды (★) рисую в игре, на листе их нет.
 
-```
-4K. Every state is the same object at exactly the same size, angle and position in its cell, only the listed details change. Each state is a separate sprite with wide empty gaps between them, nothing touching. Real-world muted palette, no neon glow. Only the dark purple ink outline, no white sticker border. Background: one perfectly flat solid pure magenta #FF00FF reaching all four edges of the image, no white margin or strip at any edge, no shadows on the background, no floor, no text, no labels, no numbers.
-```
-
-**`kettle.png`**
+### Блок ITEMS
 
 ```
-[STYLE]
-Sprite sheet, 1:1, of the old blue enamel stovetop KETTLE from the attached style reference, with chipped enamel, a black arched handle and a cute sleepy face, 3/4 view facing RIGHT. Three states in a row: idle; puffed up and whistling with cheeks blown; lid popping off. Plus a separate small steam puff cloud.
-[хвост]
+ITEMS: An item sprite sheet for a 2D tower-defense game, 16:9, 4K. Follow the attached grey layout template EXACTLY: four columns and two rows with wide empty gaps, nothing touching. Each COLUMN is one object: the TOP cell shows it idle, the BOTTOM cell shows the same object in its action pose. Both cells of a column show the same object at exactly the same size, angle and position; only the action details change. All objects on the sheet are drawn at the same scale so each fits one square floor tile, standing on the ground, in a 3/4 view turned toward the RIGHT. Each object is a living household thing with a small cartoon face (eyes and mouth) on its body, like the kettle and the fridge in the attached style reference. Real-world muted palette, no neon halo on the objects themselves; only effects in the action poses may glow. Only the dark purple ink outline, no white sticker border. Background: one perfectly flat solid {BG} reaching all four edges of the image, no white margin or strip at any edge, no shadows on the background, no floor, no text, no labels, no numbers, no stars. Do not copy the grey colour of the template.
 ```
 
-**`cat.png`**
+**`items_base_1.png`** — Базовые 1: Зажигалка, Пустая бутылка, Гриндер, Батарейка. Фон маджента.
+
+Приложи: `style_anchor`, `tpl_items_magenta`
 
 ```
 [STYLE]
-Sprite sheet, 1:1, of the fat grumpy orange tabby CAT from the attached style reference, sitting upright, 3/4 view facing RIGHT. Four states in a 2x2 grid: idle with half-closed eyes; cheeks puffed, about to spit; mouth wide open spitting; annoyed with ears flat. Plus as separate parts: the tail on its own, and a brown hairball projectile.
-[хвост]
+[ITEMS with {BG} = pure magenta #FF00FF]
+Column 1: a cheap plastic disposable LIGHTER, bright orange, standing upright. Action: flicking a big flame jet to the right.
+Column 2: an empty brown glass BEER BOTTLE with a blank peeling label. Action: cracked all over and wobbling, a few glass shards flying.
+Column 3: a round four-piece metal HERB GRINDER, shiny silver with visible teeth. Action: lid flipped open like a jaw, metal teeth biting forward.
+Column 4: a big chunky AA-style BATTERY standing upright, copper top, lightning bolt label. Action: crackling with small blue electric arcs all around.
 ```
 
-**`fridge.png`**
+**`items_base_2.png`** — Базовые 2: Фигурка, Плакат, Чипсы, Кубик D20. Фон зелёный.
 
-```
-[STYLE]
-Sprite sheet, 1:1, of an old white Soviet-style FRIDGE with a chrome handle, a few colourful magnets and a stern frowning face on the door, facing RIGHT. Three damage states in a row: intact; dented with cracks and a bite mark; badly wrecked, door hanging, leaking a puddle.
-[хвост]
-```
-
-**`doshik.png`**
+Приложи: `style_anchor`, `tpl_items_green`
 
 ```
 [STYLE]
-Sprite sheet, 1:1, of a CUP OF INSTANT NOODLES in a white-and-red plastic cup with no readable brand name. Three states in a row: lid closed, cold; lid half open with a little steam; fully open, overflowing with yellow curly noodles and steaming. Plus a separate burst of flying noodles for the explosion.
-[хвост]
+[ITEMS with {BG} = pure chroma green #00FF00]
+Column 1: a small plastic ACTION FIGURE of an original muscular space hero in a cape on a round base. Action: throwing a tiny plastic part forward with one arm.
+Column 2: a rolled-up psychedelic POSTER with a rubber band, slightly unrolled showing a trippy spiral. Action: unrolled flat on the ground with sticky tape strips on the corners.
+Column 3: a crinkled bag of paprika POTATO CHIPS with no brand name. Action: bag torn open, chips flying out and a glowing yellow lightbulb popping out.
+Column 4: a big translucent purple twenty-sided D20 DICE. Action: spinning in the air, glowing, the 20 face pointing at the viewer.
 ```
 
-**`fan.png`**
+**`items_t2_1.png`** — Второй уровень 1: Бонг, Кола с ментосом, Электрогриндер, Крошкомёт. Фон маджента.
 
-```
-[STYLE]
-Sprite sheet, 1:1, of an old pedestal FAN, facing RIGHT. As separate parts: the stand with motor housing and round wire cage; the three-blade pale blue propeller seen exactly front-on, perfectly symmetrical so it can be rotated; a motion-blurred disc version of the spinning propeller; an icy snowflake projectile; a small cold wind streak.
-[хвост]
-```
-
-**`microwave.png`**
+Приложи: `style_anchor`, `tpl_items_magenta`, `items_base_1`, `items_base_2`
 
 ```
 [STYLE]
-Sprite sheet, 1:1, of a beige 1990s MICROWAVE OVEN with a dial and a worried face in the door window, facing RIGHT. Three states in a row: idle and dark; humming with an orange glow inside and a fork sparking; critical, glowing red-hot, bulging, about to explode.
-[хвост]
+[ITEMS with {BG} = pure magenta #FF00FF]
+Column 1: a tall glass WATER PIPE (bong) with a little bowl on the side, bubbling blue water inside. Action: puffing a big round smoke ring forward.
+Column 2: a plastic SODA BOTTLE with no brand, white candy mints stuck in the open neck. Action: erupting a huge fountain of brown foam.
+Column 3: the metal grinder with a battery duct-taped to its side and a little motor on top. Action: spinning wildly, sparks flying, teeth a blur.
+Column 4: the metal grinder mounted on a chips bag like a stubby shotgun barrel. Action: blasting a wide cone of chip crumbs forward.
+Where an object reuses parts of the items on the attached item sheets (the grinder, the battery, the bottle, the action figure, the chips bag, the pizza boxes, the lava lamp), draw those parts exactly the same way so the player recognizes what it was combined from.
 ```
 
-**`tv.png`**
+**`items_t2_2.png`** — Второй уровень 2: Лава-лампа, Неоновая вывеска, Аниме-плакат, Благовония. Фон зелёный.
 
-```
-[STYLE]
-Sprite sheet, 1:1, of a chunky wooden-cased CRT TV with rabbit-ear antennas and two knobs, facing RIGHT. Three states in a row: screen showing grey static with a simple green pixel face; screen flashing bright yellow-white; screen cracked and dark. Plus a separate jagged yellow static lightning bolt projectile.
-[хвост]
-```
-
-**`roomba.png`**
+Приложи: `style_anchor`, `tpl_items_green`, `items_base_1`, `items_base_2`
 
 ```
 [STYLE]
-Sprite sheet, 1:1, of a round white ROBOT VACUUM CLEANER seen from a low 3/4 side angle, facing RIGHT. Two states: idle with a green light; berserk with a red light, kitchen knife taped on top and speed lines behind it.
-[хвост]
+[ITEMS with {BG} = pure chroma green #00FF00]
+Column 1: a retro LAVA LAMP with slow orange and yellow blobs in a tapered glass. Action: blobs glowing hot, soft light rays around the lamp.
+Column 2: a buzzing NEON SIGN shaped like a mushroom on a small black frame, tubes unlit pale. Action: tubes blazing bright pink and cyan with light rays.
+Column 3: a poster of an original cute anime girl with big sparkly eyes, standing on a small easel. Action: poster glowing, pink hearts flying out of it.
+Column 4: an INCENSE holder: a little carved wooden stand with three thin smoking sticks. Action: thick purple smoke curling up and spreading around.
+Where an object reuses parts of the items on the attached item sheets (the grinder, the battery, the bottle, the action figure, the chips bag, the pizza boxes, the lava lamp), draw those parts exactly the same way so the player recognizes what it was combined from.
 ```
 
-**`fx.png`** (16:9) — эффекты и мелочь.
+**`items_t2_3.png`** — Второй уровень 3: Попкорн-пушка, Фигурка-самурай, Робот-трансформер, Коробки от пиццы. Фон маджента.
+
+Приложи: `style_anchor`, `tpl_items_magenta`, `items_base_1`, `items_base_2`
 
 ```
 [STYLE]
-Sprite sheet, 16:9, of small game effects in a grid with wide gaps, nothing touching: a glowing yellow lightbulb (the game currency) in three brightness steps; the pink fluffy house slipper from the attached style reference; four frames of a cartoon explosion from small to large; four frames of a rainbow smoke puff dissolving; three dizzy stars; a "sleepy Z"; a splash of water; a broom; a cracked-ground dust cloud; a speech bubble, empty. Only the dark purple ink outline, no white sticker border. Background: one perfectly flat solid pure chroma green #00FF00 reaching all four edges of the image, no white margin or strip at any edge, no shadows on the background, no text, no labels, no numbers.
+[ITEMS with {BG} = pure magenta #FF00FF]
+Column 1: a red-and-white striped POPCORN BUCKET turned into a little cannon with a lighter for a fuse. Action: blasting popcorn kernels forward in a fan.
+Column 2: the action figure now in samurai armor, holding a tiny katana, on a round base. Action: mid-slash with a white crescent arc.
+Column 3: a chunky toy ROBOT figure with a battery backpack and one round visor eye. Action: firing a thick red laser beam from the eye.
+Column 4: a stack of three greasy PIZZA BOXES with a stern face drawn in marker. Action: dented and bitten, grease stains, still standing.
+Where an object reuses parts of the items on the attached item sheets (the grinder, the battery, the bottle, the action figure, the chips bag, the pizza boxes, the lava lamp), draw those parts exactly the same way so the player recognizes what it was combined from.
 ```
+
+**`items_t3_1.png`** — Третий уровень 1: Кальян, Диско-шар, Алтарь фигурок, Голограмма. Фон зелёный.
+
+Приложи: `style_anchor`, `tpl_items_green`, `items_t2_1`, `items_t2_2`, `items_t2_3`
+
+```
+[STYLE]
+[ITEMS with {BG} = pure chroma green #00FF00]
+Column 1: a fancy ornate HOOKAH with four hoses and a glowing lava-lamp glass base. Action: billowing a huge wall of colorful smoke.
+Column 2: a big mirrored DISCO BALL hanging from a bent floor-lamp stand. Action: spinning, throwing colorful light beams in every direction.
+Column 3: a small wooden shelf SHRINE crowded with action figures, incense and candles, an anime poster behind. Action: glowing, a tiny figure jumping off the shelf.
+Column 4: a small projector robot projecting a glitchy translucent hologram of an anime girl. Action: hologram flickering bigger with scanlines.
+Where an object reuses parts of the items on the attached item sheets (the grinder, the battery, the bottle, the action figure, the chips bag, the pizza boxes, the lava lamp), draw those parts exactly the same way so the player recognizes what it was combined from.
+```
+
+**`items_t3_2.png`** — Третий уровень 2: Вейп-мортира, Попкорн-миномёт, Огнемёт из баллончика, Пицца-крепость. Фон маджента.
+
+Приложи: `style_anchor`, `tpl_items_magenta`, `items_t2_1`, `items_t2_2`, `items_t2_3`
+
+```
+[STYLE]
+[ITEMS with {BG} = pure magenta #FF00FF]
+Column 1: a giant chunky VAPE MOD with a soda-bottle tank, mounted on a stand like a mortar. Action: launching a dense ball of vapor upward.
+Column 2: a little red POPCORN MACHINE on wheels with a launch tube on top. Action: launching a flaming popcorn bucket upward.
+Column 3: an AEROSOL SPRAY CAN with a lighter duct-taped in front of the nozzle. Action: spraying a big cone of fire forward.
+Column 4: a little fortress built from pizza boxes with a grinder turret on top. Action: turret firing a stream of crumbs.
+Where an object reuses parts of the items on the attached item sheets (the grinder, the battery, the bottle, the action figure, the chips bag, the pizza boxes, the lava lamp), draw those parts exactly the same way so the player recognizes what it was combined from.
+```
+
+**`items_t3_3.png`** — Третий уровень 3: Тесла-лампа, Неоновая катана, Мега-меха, Блендер. Фон зелёный.
+
+Приложи: `style_anchor`, `tpl_items_green`, `items_t2_1`, `items_t2_2`, `items_t2_3`
+
+```
+[STYLE]
+[ITEMS with {BG} = pure chroma green #00FF00]
+Column 1: a PLASMA BALL lamp on a base built from grinder parts and a battery. Action: shooting forked purple lightning forward.
+Column 2: a KATANA with a glowing neon-tube blade stuck upright in a small stand. Action: releasing a long glowing slash wave forward.
+Column 3: a big toy MECHA robot in samurai armor with a katana and a laser visor. Action: firing the laser and swinging the katana at once.
+Column 4: a kitchen BLENDER jar full of grinder teeth, with a hungry face on the jar. Action: spinning with a vortex and splashes, lid rattling.
+Where an object reuses parts of the items on the attached item sheets (the grinder, the battery, the bottle, the action figure, the chips bag, the pizza boxes, the lava lamp), draw those parts exactly the same way so the player recognizes what it was combined from.
+```
+
+**`items_t3_4.png`** — Третий уровень 4 и секреты: Картонный танк, Третий глаз, Пати-хата. Фон маджента.
+
+Приложи: `style_anchor`, `tpl_items_magenta`, `items_t2_1`, `items_t2_2`, `items_t2_3`
+
+```
+[STYLE]
+[ITEMS with {BG} = pure magenta #FF00FF]
+Column 1: a cardboard-box TANK with a paper-tube cannon and a toy robot driver in the hatch. Action: rolling forward, the cardboard cannon firing.
+Column 2: a small floating stone PYRAMID with one giant glowing eye, wisps of smoke around. Action: the eye opening wide and sweeping a golden beam.
+Column 3: a tiny house made of pizza boxes with a disco ball on the roof and two speakers. Action: bass shockwave rings, confetti and party lights.
+Where an object reuses parts of the items on the attached item sheets (the grinder, the battery, the bottle, the action figure, the chips bag, the pizza boxes, the lava lamp), draw those parts exactly the same way so the player recognizes what it was combined from.
+Column 4: leave empty.
+```
+
+**`fx_items_1.png`** — Эффекты 1: снаряды и удары. Фон зелёный.
+
+Приложи: `style_anchor`, `tpl_items_green`
+
+```
+[STYLE]
+A game effects sprite sheet, 16:9, 4K. Follow the attached grey layout template: eight cells in four columns and two rows with wide empty gaps, nothing touching; each cell holds ONE separate effect, centered and about the same size. Effects in reading order: a white smoke ring; a purple poison cloud; three popped popcorn kernels; a short thick red laser beam segment; a cone-shaped blast of chip crumbs; a brown foam explosion splash; a glowing pink-and-cyan crescent slash wave; a forked purple lightning bolt. Bold flat shapes with the dark purple ink outline, no white sticker border, no soft blur. Background: one perfectly flat solid pure chroma green #00FF00 reaching all four edges of the image, no white margin or strip at any edge, no shadows, no text, no labels, no numbers. Do not copy the grey colour of the template.
+```
+
+**`fx_items_2.png`** — Эффекты 2: ауры и вспышки. Фон маджента.
+
+Приложи: `style_anchor`, `tpl_items_magenta`
+
+```
+[STYLE]
+A game effects sprite sheet, 16:9, 4K. Follow the attached grey layout template: eight cells in four columns and two rows with wide empty gaps, nothing touching; each cell holds ONE separate effect, centered and about the same size. Effects in reading order: a cone of orange fire; a sticky grey duct-tape puddle on the floor; three pink hearts; a cluster of colorful disco light beams; a white-and-gold starburst flash for merging items; a small dust poof for an item landing on the ground; a tiny walking action figure helper; a glitchy translucent cyan hologram square with scanlines. Bold flat shapes with the dark purple ink outline, no white sticker border, no soft blur. Background: one perfectly flat solid pure magenta #FF00FF reaching all four edges of the image, no white margin or strip at any edge, no shadows, no text, no labels, no numbers. Do not copy the grey colour of the template.
+```
+
+Пылесос (`roomba`) остаётся последним рубежом в каждом ряду — он уже загружен.
+<!-- items:end -->
+
+
 
 ## 6. Окружение
 
@@ -591,8 +670,8 @@ App icon, 1:1, full bleed. Close-up of the zombie neighbour's dopey green face o
 | Очередь | Файлы |
 |---|---|
 | 1. Стиль | `style_anchor` |
-| 2. Минимум, чтобы игра ожила | `vovan`, `vovan_faces`, `dimon`, `dimon_faces`, `zombie`, `zombie_faces`, `alien`, `alien_faces`, `kettle`, `cat`, `fridge`, `doshik`, `roomba`, `fx`, `bg_yard_night` |
-| 3. Остальные глюки и оборона | `ballerina`, `ballerina_faces`, `kolobok`, `pirate`, `pirate_faces`, `jesus`, `jesus_faces`, `dracula`, `dracula_faces`, `kraken`, `kraken_faces`, `zombie_tough`, `zombie_tough_faces`, `fan`, `microwave`, `tv` |
+| 2. Минимум, чтобы игра ожила | `vovan`, `vovan_faces`, `dimon`, `dimon_faces`, `zombie`, `zombie_faces`, `alien`, `alien_faces`, `items_base_1`, `items_base_2`, `items_t2_1`, `items_t2_2`, `items_t2_3`, `fx_items_1`, `fx_items_2`, `bg_yard_night` |
+| 3. Остальные глюки и предметы | `ballerina`, `ballerina_faces`, `kolobok`, `pirate`, `pirate_faces`, `jesus`, `jesus_faces`, `dracula`, `dracula_faces`, `kraken`, `kraken_faces`, `zombie_tough`, `zombie_tough_faces`, `items_t3_1`, `items_t3_2`, `items_t3_3`, `items_t3_4` |
 | 4. Катсцены | `bg_livingroom`, `cs_intro_01`–`06`, `cs_boss`, `cs_win`, `cs_lose`, `cs_endless` |
 | 5. Полировка | `bg_yard_fog`, `bg_yard_rain`, `bg_yard_trip`, `bg_yard_kraken`, `fg_props`, `logo`, `ui`, `icon` |
 

@@ -87,8 +87,23 @@ def faces_sheet(bg):
         head(d, 270 + (i % 4) * 460, 290 + (i // 4) * 500, 1.15)
     return im
 
+def items_sheet(bg):
+    """4 колонки = 4 предмета; сверху покой, снизу действие (с «вспышкой» справа)."""
+    im = Image.new('RGB', (W, H), BGS[bg]); d = ImageDraw.Draw(im)
+    for i in range(4):
+        cx = 240 + i * 480
+        for row, cy in enumerate((300, 800)):
+            d.rounded_rectangle((cx - 120, cy - 150, cx + 120, cy + 150), 40, fill=FILL, outline=OUT, width=LW)
+            d.ellipse((cx - 50, cy - 60, cx - 20, cy - 25), outline=OUT, width=LW - 2); d.ellipse((cx + 10, cy - 60, cx + 40, cy - 25), outline=OUT, width=LW - 2)
+            d.arc((cx - 35, cy - 10, cx + 35, cy + 35), 20, 160, fill=OUT, width=LW - 2)
+            d.rounded_rectangle((cx - 90, cy + 150, cx + 90, cy + 175), 12, fill=SHADE, outline=OUT, width=LW - 2)
+            if row:
+                d.polygon([(cx + 130, cy - 40), (cx + 215, cy - 80), (cx + 190, cy - 10), (cx + 230, cy + 20), (cx + 140, cy + 20)], fill=SHADE, outline=OUT)
+    return im
+
 if __name__ == '__main__':
     for bg in BGS:
+        items_sheet(bg).save(f'assets/templates/tpl_items_{bg}.png')
         for kind, im in (('body', body_sheet(bg)), ('faces', faces_sheet(bg))):
             im.save(f'assets/templates/tpl_{kind}_{bg}.png')
             # для глюков: фигура смотрит влево, собранная фигура справа
