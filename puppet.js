@@ -38,40 +38,107 @@ function drawPuppet(c, p, x, y, h, pose, flip = false) {
     c.restore(); }
   c.restore(); return true;
 }
-/* ---------- клипы ---------- */
-const legs = (ph, amp, knee) => ({ sy: 1 - 0.025 * Math.abs(Math.cos(ph)), sx: 1 + 0.015 * Math.abs(Math.cos(ph)), lift: Math.abs(Math.sin(ph)) * 3, thighA: S(ph) * amp, shinA: -max(0, S(ph - 1.9)) * knee, footA: max(0, S(ph - 1.9)) * knee * 0.5 - S(ph) * amp * 0.5,
-  thighB: -S(ph) * amp, shinB: -max(0, S(ph - 1.9 + Math.PI)) * knee, footB: max(0, S(ph + Math.PI - 1.9)) * knee * 0.5 + S(ph) * amp * 0.5 });
-/* Кривая укуса на цикл 0..1: упреждение назад (0..0.55), резкий выпад (0.55..0.65), отдача. Возвращает -0.4..1. */
-function bite(u) { u -= Math.floor(u); const sm = x => x * x * (3 - 2 * x);
-  if (u < 0.55) return -0.4 * sm(u / 0.55); if (u < 0.65) return -0.4 + 1.4 * sm((u - 0.55) / 0.1); return 1 - sm((u - 0.65) / 0.35); }
-/* Смерть: колени подламываются, корпус заваливается назад, голова запрокидывается. u = 0..1. */
-const death = u => { const g = u * u; return { rot: 1.25 * g, torso: -0.35 * u, head: -0.55 * Math.min(1, u * 1.6), thighA: 0.5 * u, shinA: -0.9 * u, thighB: 0.35 * u, shinB: -0.7 * u, uarmA: -0.35 * u, uarmB: -0.5 * u, farmA: 0.3 * u, farmB: 0.4 * u, sy: 1 - 0.08 * u }; };
+/* ---------- клипы на ключевых кадрах ----------
+   По скилу spine-animation: ключи с безье-кривыми (пресеты Spine), ритмы idle 2.0 с, walk 0.8 с, атака 0.6 с
+   «замах → удар → доводка», прыжок «присед → толчок → полёт → приземление». Голова отстаёт от корпуса на ~0.1 с,
+   крупные кости двигаются сильнее мелких, циклы возвращаются в исходную позу.
+   Трек: [[u, значение, кривая], ...], u = 0..1 доли клипа; кривая задаёт отрезок, который заканчивается на этом ключе.
+   Углы в треках — в градусах (плюс = вперёд по взгляду), x и lift — в пикселях экрана, sx/sy — множители. */
+const D2R = Math.PI / 180, ANG = /^(head|torso|neck|uarm|farm|thigh|shin|foot|rot)/;
+function bezier(x1, y1, x2, y2) {
+  const cx = (s, a, b) => 3 * (1 - s) * (1 - s) * s * a + 3 * (1 - s) * s * s * b + s * s * s;
+  return t => { let s = t; for (let i = 0; i < 8; i++) { const x = cx(s, x1, x2) - t, d = 3 * (1 - s) * (1 - s) * x1 + 6 * (1 - s) * s * (x2 - x1) + 3 * s * s * (1 - x2); if (Math.abs(x) < 1e-5 || !d) break; s = Math.min(1, Math.max(0, s - x / d)); } return cx(s, y1, y2); };
+}
+const EASE = { ease: bezier(0.25, 0, 0.75, 1), in: bezier(0.42, 0, 1, 1), out: bezier(0, 0, 0.58, 1), bounce: bezier(0.34, 1.56, 0.64, 1), fast: bezier(0.4, 0, 0.2, 1), lin: t => t };
+function sample(tr, u) {
+  if (u <= tr[0][0]) return tr[0][1];
+  for (let i = 1; i < tr.length; i++) if (u <= tr[i][0]) { const [u0, v0] = tr[i - 1], [u1, v1, c] = tr[i], k = (EASE[c] || EASE.ease)((u - u0) / Math.max(1e-6, u1 - u0)); return v0 + (v1 - v0) * k; }
+  return tr[tr.length - 1][1];
+}
+const wrap01 = u => u - Math.floor(u);
+/* Клип: tracks по ключам; loop — u берётся по модулю; out переводит градусы в радианы. */
+function clip(tracks, extra) {
+  return u => { const o = {}; for (const k in tracks) { const v = sample(tracks[k], u); o[k] = ANG.test(k) ? v * D2R : v; } if (extra) extra(o, u); return o; };
+}
+/* Шаг (пресет walk 0.8 с): ноги ±25°, передняя нога прямая на контакте, задняя согнута 35°, руки против ног,
+   таз подпрыгивает в фазе переноса, корпус качается ±3°, голова — встречно и с запаздыванием 0.125 цикла.
+   Множители: leg — размах бёдер, knee — сгиб колен, arm — размах рук (руки вырезаны из фигуры — держим малым),
+   bob — подскок, lean/droop — постоянный наклон корпуса и головы. */
+const TH = [[0, 25], [0.25, 0], [0.5, -25], [0.75, 0], [1, 25]], SH = [[0, -5], [0.25, -35], [0.5, -35], [0.75, -5], [1, -5]];
+function walk(o) {
+  const st = Object.assign({ leg: 1, knee: 1, arm: 0.3, bob: 4, lean: 3, droop: 0, sway: 3, rate: 1 }, o);
+  return u => { u = wrap01(u * st.rate); const b = wrap01(u + 0.5), p = {};
+    p.thighA = sample(TH, u) * st.leg * D2R; p.thighB = sample(TH, b) * st.leg * D2R;
+    p.shinA = sample(SH, u) * st.knee * D2R; p.shinB = sample(SH, b) * st.knee * D2R;
+    p.footA = -(p.thighA + p.shinA) * 0.7; p.footB = -(p.thighB + p.shinB) * 0.7; // стопа держится почти параллельно земле
+    p.uarmA = -sample(TH, u) * 0.8 * st.arm * D2R; p.uarmB = -sample(TH, b) * 0.8 * st.arm * D2R;
+    p.farmA = (10 + 20 * (0.5 - 0.5 * Math.cos(u * 6.283))) * st.arm * D2R; p.farmB = (10 + 20 * (0.5 - 0.5 * Math.cos(b * 6.283))) * st.arm * D2R;
+    p.lift = sample([[0, 0], [0.25, 1], [0.5, 0], [0.75, 1], [1, 0]], u) * st.bob;
+    p.torso = (st.lean + sample([[0, 0], [0.25, 1], [0.5, 0], [0.75, -1], [1, 0]], u) * st.sway) * D2R;
+    p.head = (st.droop - sample([[0, 0], [0.25, 1], [0.5, 0], [0.75, -1], [1, 0]], wrap01(u - 0.125)) * st.sway * 0.6) * D2R;
+    p.sy = 1 - 0.02 * sample([[0, 1], [0.25, 0], [0.5, 1], [0.75, 0], [1, 1]], u); p.sx = 2 - p.sy;
+    return p; };
+}
+/* Атака-укус (пресет attack 0.6 с, зациклен): замах назад → резкий выпад → доводка → возврат. */
+const BITE = clip({
+  torso: [[0, 2], [0.17, -8, 'in'], [0.42, 14, 'fast'], [0.67, 6], [1, 2, 'out']],
+  head: [[0, 3], [0.22, -12, 'in'], [0.47, 18, 'fast'], [0.72, 7], [1, 3, 'out']],
+  x: [[0, 0], [0.17, -6, 'in'], [0.42, 12, 'fast'], [0.67, 5], [1, 0, 'out']],
+  rot: [[0, 0], [0.17, -2], [0.42, 4, 'fast'], [1, 0, 'out']],
+  uarmA: [[0, 0], [0.17, -5], [0.42, 8, 'fast'], [1, 0]], uarmB: [[0, 2], [0.17, -4], [0.45, 9, 'fast'], [1, 2]],
+  farmA: [[0, 6], [0.42, 14, 'fast'], [1, 6]], farmB: [[0, 8], [0.45, 16, 'fast'], [1, 8]],
+  thighA: [[0, 8], [1, 8]], shinA: [[0, -12], [0.42, -18], [1, -12]], thighB: [[0, -10], [1, -10]], shinB: [[0, -6], [1, -6]],
+  sy: [[0, 1], [0.17, 1.03], [0.42, 0.96, 'fast'], [0.67, 1.01], [1, 1, 'out']]
+});
+/* Оглушение (1.2 с, цикл): покачивание всего тела, голова отстаёт и болтается сильнее. */
+const STUN = clip({ rot: [[0, -4], [0.5, 4], [1, -4]], torso: [[0, -3], [0.1, -4], [0.6, 5], [1, -3]], head: [[0, -6], [0.2, -12], [0.7, 12], [1, -6]],
+  uarmA: [[0, -4], [0.6, 6], [1, -4]], uarmB: [[0, 5], [0.55, -5], [1, 5]], farmA: [[0, 8], [1, 8]], farmB: [[0, 10], [1, 10]], thighA: [[0, 4], [0.5, -4], [1, 4]], thighB: [[0, -4], [0.5, 4], [1, -4]] });
+/* Покой (пресет idle 2.0 с): таз ±3 px, корпус ±1°, голова ±1.5° встречно и позже. */
+const IDLE = clip({ lift: [[0, 0], [0.5, 3], [1, 0]], torso: [[0, 0], [0.5, 1.2], [1, 0]], head: [[0, 0], [0.6, -1.5], [1, 0]],
+  uarmA: [[0, 0], [0.5, 1.5], [1, 0]], uarmB: [[0, 0], [0.5, -1.5], [1, 0]], farmA: [[0, 2], [0.55, 3], [1, 2]], farmB: [[0, 2], [0.55, 1], [1, 2]], sy: [[0, 1], [0.5, 1.008], [1, 1]] });
+/* Крик (1.5 с, такты): вдох-замах назад, взрыв вперёд, удержание с дрожью, возврат. */
+const YELL = clip({ torso: [[0, 0], [0.17, -8, 'out'], [0.23, 9, 'fast'], [0.8, 7], [1, 0, 'ease']], head: [[0, 0], [0.17, -14, 'out'], [0.26, -4, 'fast'], [0.8, -7], [1, 0]],
+  x: [[0, 0], [0.17, -5], [0.25, 7, 'fast'], [0.8, 4], [1, 0]], lift: [[0, 0], [0.17, 4, 'out'], [0.23, 0, 'fast'], [1, 0]],
+  sy: [[0, 1], [0.17, 1.05, 'out'], [0.23, 0.95, 'fast'], [0.32, 1.01], [1, 1]], uarmA: [[0, 0], [0.17, -4], [0.25, 6, 'fast'], [0.8, 5], [1, 0]], uarmB: [[0, 0], [0.17, -4], [0.25, 6, 'fast'], [0.8, 5], [1, 0]],
+  thighA: [[0, 0], [0.23, 8], [0.8, 8], [1, 0]], shinA: [[0, 0], [0.23, -14], [0.8, -14], [1, 0]], thighB: [[0, 0], [0.23, -8], [1, 0]] },
+  (o, u) => { if (u > 0.23 && u < 0.8) { const k = Math.sin((u - 0.23) / 0.57 * Math.PI); o.x += Math.sin(u * 140) * 2.5 * k; o.head += Math.sin(u * 170) * 0.02 * k; } });
+/* Бросок (0.7 с, такты): замах назад (0..0.4), хлёст (0.4..0.55, кривая fast), доводка с удержанием, возврат. */
+const THROW = clip({ torso: [[0, 0], [0.4, -10, 'in'], [0.55, 14, 'fast'], [0.75, 9], [1, 0, 'out']], head: [[0, 0], [0.45, -7], [0.62, 9, 'fast'], [0.8, 6], [1, 0, 'out']],
+  uarmB: [[0, 0], [0.4, -16, 'in'], [0.55, 20, 'fast'], [0.75, 14], [1, 0, 'out']], farmB: [[0, 0], [0.4, 14], [0.55, -4, 'fast'], [1, 0]], uarmA: [[0, 0], [0.4, 6], [0.55, -8], [1, 0]],
+  thighA: [[0, 0], [0.4, 10], [0.55, -12, 'fast'], [0.8, -8], [1, 0]], shinA: [[0, 0], [0.4, -14], [0.55, 0], [1, 0]], thighB: [[0, 0], [0.4, -10], [0.55, 14, 'fast'], [0.8, 10], [1, 0]], shinB: [[0, 0], [0.55, -14], [1, 0]],
+  x: [[0, 0], [0.4, -6, 'in'], [0.55, 12, 'fast'], [0.75, 8], [1, 0, 'out']], lift: [[0, 0], [0.55, 5, 'fast'], [0.75, 2], [1, 0]], rot: [[0, 0], [0.4, -3], [0.55, 4, 'fast'], [1, 0]] });
+/* Паника (0.5 с, цикл): частый переступ, голова мотается. */
+const PANIC = clip({ lift: [[0, 0], [0.25, 6, 'out'], [0.5, 0, 'in'], [0.75, 6, 'out'], [1, 0, 'in']], head: [[0, -8], [0.3, 10], [0.6, -10], [1, -8]], torso: [[0, -3], [0.5, 3], [1, -3]],
+  thighA: [[0, 14], [0.5, -6], [1, 14]], shinA: [[0, -24], [0.5, -4], [1, -24]], thighB: [[0, -6], [0.5, 14], [1, -6]], shinB: [[0, -4], [0.5, -24], [1, -4]], rot: [[0, -2], [0.5, 2], [1, -2]] });
+/* Радость (пресет jump 1.0 с, цикл): присед → толчок → полёт → приземление → выпрямление. */
+const CHEER = clip({ lift: [[0, 0], [0.15, 0], [0.35, 40, 'out'], [0.55, 36], [0.8, 0, 'in'], [1, 0]], sy: [[0, 1], [0.15, 0.92, 'in'], [0.35, 1.06, 'out'], [0.55, 1], [0.8, 0.93, 'in'], [1, 1, 'out']],
+  torso: [[0, 0], [0.15, 8], [0.35, -5, 'out'], [0.8, 5, 'in'], [1, 0]], head: [[0, 0], [0.18, 5], [0.4, -9], [0.83, 3], [1, 0]],
+  thighA: [[0, 0], [0.15, 20], [0.35, -15], [0.55, 10], [0.8, 15], [1, 0]], shinA: [[0, 0], [0.15, -30], [0.35, 10], [0.55, -15], [0.8, -20], [1, 0]],
+  thighB: [[0, 0], [0.15, 18], [0.35, -12], [0.55, 12], [0.8, 14], [1, 0]], shinB: [[0, 0], [0.15, -28], [0.35, 8], [0.55, -18], [0.8, -18], [1, 0]],
+  uarmA: [[0, 0], [0.15, 4], [0.35, -8, 'out'], [0.8, 3], [1, 0]], uarmB: [[0, 0], [0.15, 4], [0.35, -8, 'out'], [0.8, 3], [1, 0]] });
+/* Смерть (0.45 с): колени подламываются, корпус заваливается назад с ускорением, голова запрокидывается позже. */
+const DEATH = clip({ rot: [[0, 0], [0.3, 6, 'out'], [1, 72, 'in']], torso: [[0, 0], [0.3, 8], [1, -20, 'in']], head: [[0, 0], [0.4, 6], [1, -32, 'in']],
+  thighA: [[0, 0], [0.3, 25, 'out'], [1, 30]], shinA: [[0, 0], [0.3, -45, 'out'], [1, -50]], thighB: [[0, 0], [0.3, 18], [1, 22]], shinB: [[0, 0], [0.3, -35], [1, -40]],
+  uarmA: [[0, 0], [0.5, -10], [1, -22]], uarmB: [[0, 0], [0.5, -14], [1, -28]], farmA: [[0, 0], [1, 18]], farmB: [[0, 0], [1, 22]], sy: [[0, 1], [0.3, 0.92, 'out'], [1, 0.95]] });
+const death = u => DEATH(Math.min(1, u));
+const bite = u => sample([[0, 0], [0.17, -0.4, 'in'], [0.42, 1, 'fast'], [0.67, 0.4], [1, 0, 'out']], wrap01(u));
+const cyc = (f, dur) => (ph, t, u) => f(u !== undefined ? u : wrap01(t / dur));
 const CLIPS = {
-  /* глюки: ph — фаза шага (растёт с пройденным путём), t — время */
-  zombie_walk: (ph, t) => Object.assign(legs(ph, 0.3, 0.5), { torso: 0.06 + S(ph * 2) * 0.02, head: 0.08 + S(ph + 0.6) * 0.07, uarmA: S(ph) * 0.06, farmA: 0.05 + S(ph + 1) * 0.07, uarmB: -S(ph) * 0.08, farmB: 0.1 - S(ph + 1) * 0.1, rot: S(ph) * 0.035 }),
-  alien_walk: (ph, t) => Object.assign(legs(ph, 0.5, 0.75), { torso: 0.1, head: S(ph * 2) * 0.06 - 0.04, uarmA: -S(ph) * 0.32, farmA: 0.2 + S(ph) * 0.15, uarmB: S(ph) * 0.32, farmB: 0.2 - S(ph) * 0.15 }),
-  tough_walk: (ph, t) => Object.assign(legs(ph, 0.3, 0.45), { torso: 0.03 + S(ph) * 0.035, head: -S(ph) * 0.03, uarmA: -S(ph) * 0.22 + 0.08, farmA: 0.35, uarmB: S(ph) * 0.22 + 0.08, farmB: 0.35, rot: S(ph) * 0.025 }),
-  ballerina_walk: (ph, t) => Object.assign(legs(ph * 2, 0.16, 0.2), { torso: S(ph * 2) * 0.03, head: S(ph * 2 + 1) * 0.05, lift: abs(S(ph * 2)) * 7, sy: 1 + S(ph * 4) * 0.015 }),
-  eat: (ph, t) => { const b = bite(t * 1.7);
-    return { torso: 0.04 + b * 0.24, head: 0.04 + b * 0.3, rot: b * 0.07, x: b * 9, thighA: 0.12 + b * 0.1, shinA: -0.2 - b * 0.15, thighB: -0.2, sy: 1 - b * 0.04, sx: 1 + b * 0.03,
-      uarmA: b * 0.12, farmA: 0.08 + b * 0.1, uarmB: 0.04 + b * 0.1, farmB: 0.12 + b * 0.08 }; },
-  eat_old: (ph, t) => ({ torso: 0.1 + abs(S(t * 9)) * 0.12, head: 0.12 + S(t * 18) * 0.16, rot: -abs(S(t * 9)) * 0.05, uarmA: S(t * 9) * 0.05, farmA: 0.06 + S(t * 9 + 1) * 0.07, uarmB: 0.06 - S(t * 9) * 0.07, farmB: 0.14 - S(t * 9 + 1) * 0.12, thighA: 0.15, shinA: -0.2, thighB: -0.2, x: -abs(S(t * 9)) * 6 }),
-  stun: (ph, t) => ({ rot: S(t * 4.5) * 0.07, torso: S(t * 4.5 + 1) * 0.08, head: S(t * 4.5 + 2) * 0.2, uarmA: S(t * 4.5 + 0.5) * 0.3, uarmB: S(t * 4.5 + 0.9) * 0.3, farmA: 0.2, farmB: 0.2 }),
+  /* глюки: ph — фаза шага в радианах (растёт с пройденным путём), t — время */
+  zombie_walk: (ph) => walk({ leg: 0.6, knee: 0.65, arm: 0.25, bob: 3, lean: 6, droop: 7, sway: 2.5 })(ph / 6.283),
+  alien_walk: (ph) => walk({ leg: 1, knee: 0.9, arm: 0.55, bob: 4, lean: 5, sway: 3 })(ph / 6.283),
+  tough_walk: (ph) => Object.assign(walk({ leg: 0.65, knee: 0.55, arm: 0.35, bob: 6, lean: 2, sway: 4 })(ph / 6.283), { rot: Math.sin(ph) * 0.03 }),
+  ballerina_walk: (ph) => walk({ leg: 0.35, knee: 0.15, arm: 0, bob: 7, lean: 0, sway: 2, rate: 2 })(ph / 6.283),
+  eat: cyc(BITE, 0.6), stun: cyc(STUN, 1.2),
   /* кореша */
-  idle: (ph, t) => ({ head: S(t * 0.9) * 0.025, torso: S(t * 1.7) * 0.012, uarmA: S(t * 1.7) * 0.03, uarmB: -S(t * 1.7) * 0.03, farmA: 0.04, farmB: 0.04, sy: 1 + S(t * 1.7) * 0.008 }),
-  yell: (ph, t) => ({ head: -0.2 + S(t * 30) * 0.02, torso: -0.07, uarmA: S(t * 26) * 0.04, farmA: 0.1, uarmB: -S(t * 26) * 0.04, farmB: 0.1, rot: -0.04, thighA: 0.12, shinA: -0.2, thighB: -0.12, lift: abs(S(t * 13)) * 8, x: S(t * 47) * 2 }),
-  panic: (ph, t) => ({ head: S(t * 16) * 0.12, torso: S(t * 16) * 0.03, uarmA: S(t * 19) * 0.07, farmA: 0.1, uarmB: -S(t * 19) * 0.07, farmB: 0.1, rot: S(t * 16) * 0.04, thighA: S(t * 16) * 0.2, shinA: -0.25, thighB: -S(t * 16) * 0.2, shinB: -0.25, lift: abs(S(t * 16)) * 6 }),
-  cheer: (ph, t) => ({ head: -0.12, uarmA: S(t * 12) * 0.06, farmA: 0.1, uarmB: -S(t * 12) * 0.06, farmB: 0.1, rot: S(t * 8) * 0.04, lift: max(0, S(t * 8)) * 22, thighA: 0.1, shinA: -0.3 * max(0, -S(t * 8)), thighB: -0.1, shinB: -0.3 * max(0, -S(t * 8)) }),
-  /* бросок: u = 0..1 — доля клипа. Замах назад, хлёст вперёд, возврат. */
-  throw: (ph, t, u) => { const e = (a, b) => Math.min(1, max(0, (u - a) / (b - a))), sm = x => x * x * (3 - 2 * x), w = sm(e(0, 0.35)), r = sm(e(0.35, 0.5)), f = sm(e(0.6, 1));
-    return { torso: -0.14 * w + 0.3 * r - 0.16 * f, head: -0.08 * w + 0.12 * r - 0.04 * f, uarmB: -0.1 * w + 0.22 * r - 0.12 * f, farmB: 0.1 * w, uarmA: 0.06 * w - 0.12 * r + 0.06 * f, farmA: 0.05, rot: 0.1 * w - 0.2 * r + 0.1 * f, lift: 10 * r * (1 - f),
-      thighA: 0.2 * w - 0.45 * r + 0.25 * f, shinA: -0.25 * w + 0.25 * r, thighB: -0.2 * w + 0.4 * r - 0.2 * f, shinB: -0.3 * r + 0.3 * f, x: (-6 * w + 16 * r - 10 * f) }; }
+  idle: cyc(IDLE, 2.0), panic: cyc(PANIC, 0.5), cheer: cyc(CHEER, 1.0),
+  yell: (ph, t, u) => YELL(u !== undefined ? u : Math.min(1, t / 1.5)), throw: (ph, t, u) => THROW(u !== undefined ? u : Math.min(1, t / 0.7))
 };
 /* ---------- пружины ----------
    Клип задаёт цель, кость тянется к ней пружиной. Тяжёлое (ноги, корпус) — жёстко и без перелёта,
    лёгкое (голова, предплечья) — мягче и с перелётом: получаются запаздывание, захлёст и затухающие колебания.
    stiffness k и коэффициент затухания z (1 = без перелёта). */
-const SPRING = { thigh: [520, 1], shin: [520, 1], foot: [520, 1], torso: [260, 0.75], head: [150, 0.42], uarm: [190, 0.55], farm: [120, 0.45], x: [300, 0.8], lift: [380, 0.7], rot: [240, 0.7], sx: [420, 0.5], sy: [420, 0.5] };
+const SPRING = { thigh: [700, 1], shin: [700, 1], foot: [700, 1], torso: [380, 0.8], head: [240, 0.5], uarm: [260, 0.6], farm: [190, 0.5], x: [300, 0.8], lift: [380, 0.7], rot: [240, 0.7], sx: [420, 0.5], sy: [420, 0.5] };
 const springOf = key => SPRING[key.replace(/[AB]$/, '')] || [300, 0.8];
 function animate(st, target, dt) {
   st.cur = st.cur || {}; st.vel = st.vel || {};
@@ -90,5 +157,5 @@ function animate(st, target, dt) {
 }
 /* Толчок: мгновенная скорость костям (удар, приземление). */
 function kick(st, imp) { st.vel = st.vel || {}; for (const k in imp) st.vel[k] = (st.vel[k] || 0) + imp[k]; }
-window.Puppets = { PUP, loadPuppet, drawPuppet, CLIPS, animate, kick, death, bite };
+window.Puppets = { PUP, loadPuppet, drawPuppet, CLIPS, animate, kick, death, bite, EASE, bezier, sample };
 })();

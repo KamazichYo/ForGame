@@ -21,8 +21,9 @@ const IMG = {};
 function load(name, src) { const im = new Image(); im.src = src; IMG[name] = im; }
 for (const n of ['vovan', 'dimon', 'zombie', 'alien', 'ballerina', 'tough', 'kettle', 'kettle_blow', 'kettle_pop', 'doshik_0', 'doshik_1', 'doshik_2', 'fridge_0', 'fridge_1', 'fridge_2', 'roomba', 'roomba_on', 'bulb', 'slipper',
   'boom_0', 'boom_1', 'boom_2', 'boom_3', 'boom_4', 'puff_0', 'puff_1', 'puff_2', 'puff_3', 'stars']) load(n, `assets/sprites/${n}.png`);
+for (const w of ['zombie', 'alien', 'ballerina', 'tough']) for (const f of ['blink', 'bite', 'chew', 'hurt', 'furious', 'stunned', 'fading']) load(`${w}_f_${f}`, `assets/puppets/faces/${w}_${f}.png`);
 load('bg', 'assets/sprites/bg_yard_night.jpg'); load('cover', 'assets/sprites/style_anchor.jpg');
-for (const w of ['vovan', 'dimon']) for (const f of ['neutral', 'yell', 'laugh', 'scared']) load(`${w}_${f}`, `assets/chars/${w}/head_${f}.png`);
+for (const w of ['vovan', 'dimon']) for (const f of ['neutral', 'blink', 'yell', 'laugh', 'scared']) load(`${w}_${f}`, `assets/chars/${w}/head_${f}.png`);
 const has = n => IMG[n] && IMG[n].complete && IMG[n].naturalWidth > 0;
 /* Куклы с костями (puppet.js): ноги шагают, голова и корпус качаются, лица подменяются. */
 const { PUP, loadPuppet, drawPuppet, CLIPS, animate, kick, death } = window.Puppets;
@@ -188,6 +189,7 @@ EDRAW.tough = e => { c.scale(1.2, 1.2); EDRAW.zombie(e); };
 /* Глюки с готовым артом: бумажная кукла целиком — покачивание при ходьбе, выпады при укусе. */
 const FOE_SPR = { zombie: ['zombie', 150], alien: ['alien', 130], hitler: ['ballerina', 146], tough: ['tough', 180] };
 const foeH = e => FOE_SPR[e.type] && has(FOE_SPR[e.type][0]) ? FOE_SPR[e.type][1] * 1.25 : ENEMY[e.type].big ? 225 : 122;
+const FOE_FACE_FIT = { zombie: [1, 0, 0], alien: [1, 0, 0], ballerina: [1, 0, 0], tough: [1, 0, 0] };
 function drawFoe(e) {
   const f = FOE_SPR[e.type]; if (!f || !has(f[0])) return EDRAW[e.type](e);
   const pup = PUP[f[0]];
@@ -195,6 +197,10 @@ function drawFoe(e) {
     const clip = e.stun > 0 ? 'stun' : e.eating ? 'eat' : f[0] + '_walk';
     let target = e.dying !== undefined ? death(Math.min(1, e.dying / 0.45)) : CLIPS[clip](e.ph * 1.6, T + e.seed);
     const age = T - (e.born || 0); if (age < 0.45) { const k = age / 0.45, o = 1 + Math.sin(k * Math.PI) * 0.18 * (1 - k); target = Object.assign({}, target, { sy: (target.sy || 1) * o, sx: (target.sx || 1) / o }); } // появление с перелётом
+    // лицо: такты атаки, боль, оглушение, исчезновение, моргание; нейтральное — родная голова куклы
+    const bu = ((T + e.seed) % 0.6) / 0.6, face = e.dying !== undefined ? 'fading' : e.stun > 0 ? 'stunned' : T - (e.hurtT || -9) < 0.28 ? 'hurt'
+      : e.eating ? (bu < 0.17 || bu > 0.9 ? 'furious' : bu < 0.62 ? 'bite' : 'chew') : ((T * 0.9 + e.seed * 1.7) % 3.3 < 0.13 ? 'blink' : null);
+    if (face && has(`${f[0]}_f_${face}`)) { target = Object.assign({}, target, { face: IMG[`${f[0]}_f_${face}`], faceFit: pup.faceFit || FOE_FACE_FIT[f[0]] }); }
     e.anim = e.anim || {}; const pose = animate(e.anim, target, DT);
     if (e.type === 'hitler' && !e.eating && e.stun <= 0 && e.dying === undefined && Math.sin(T * 0.9 + e.seed) > 0.75) c.scale(Math.cos(T * 9), 1);
     drawPuppet(c, pup, 0, 0, f[1], pose);
@@ -295,7 +301,7 @@ function say(who, s) { G.bubble = { who, s, life: 3 }; }
 /* ---------- логика ---------- */
 function damage(e, dmg) {
   if (e.dying !== undefined) return;
-  e.hp -= dmg; e.hit = 0.12; if (e.anim) kick(e.anim, { head: -5 - Math.min(10, dmg / 30), torso: -2.5, x: 40 });
+  e.hp -= dmg; e.hit = 0.12; e.hurtT = T; if (e.anim) kick(e.anim, { head: -5 - Math.min(10, dmg / 30), torso: -2.5, x: 40 });
   if (e.hp > 0) return;
   if (e.type === 'jesus' && !e.revived) { e.revived = true; e.hp = e.max * 0.6; e.stun = 1.6; floatTxt('ВОСКРЕС!', e.x, e.y - 120, '#ffe14a', 26); puff(e.x, e.y - 50, 14, 50); sfx(520, 0.5, 'sine', 0.06, 500); return; }
   G.kills++; if (FOE_SPR[e.type] && PUP[FOE_SPR[e.type][0]] && PUP[FOE_SPR[e.type][0]].ready) { e.dying = 0; e.eating = false; } else { e.dead = true; puff(e.x, e.y - 50, ENEMY[e.type].big ? 40 : 5); G.fx.push({ k: 'cloud', x: e.x, y: e.y, life: 0.5, max: 0.5 }); } sfx(180, 0.18, 'sawtooth', 0.04, -120);
@@ -312,7 +318,7 @@ function ability(i) {
   if (G.ab[i] > 0 || G.over) return;
   if (i === 0) { G.ab[0] = 40; G.shake = 0.5; say(0, 'ААААААА!!!'); sfx(300, 0.7, 'sawtooth', 0.08, 500); for (const e of G.enemies) { e.x += ENEMY[e.type].big ? 30 : 90; e.stun = 3; } const o = toField({ x: PORCH[0].x, y: PORCH[0].y - 110 }); G.fx.push({ k: 'wave', x: o.x, y: o.y, life: 0.7, max: 0.7 }); }
   else { const e = G.enemies.filter(e => e.x < W).sort((a, b) => b.hp - a.hp)[0]; if (!e) { say(1, 'Не в кого кидать, братан'); return; }
-    G.ab[1] = 25; say(1, 'Тапок судьбы!'); sfx(700, 0.25, 'square', 0.05, -500); const o = toField({ x: PORCH[1].x + 30, y: PORCH[1].y - 140 }); G.fx.push({ k: 'tapok', x: o.x, y: o.y, tx: e.x, ty: e.y - 50, e, life: 0.45, max: 0.45, wait: 0.32 }); }
+    G.ab[1] = 25; say(1, 'Тапок судьбы!'); sfx(700, 0.25, 'square', 0.05, -500); const o = toField({ x: PORCH[1].x + 30, y: PORCH[1].y - 140 }); G.fx.push({ k: 'tapok', x: o.x, y: o.y, tx: e.x, ty: e.y - 50, e, life: 0.45, max: 0.45, wait: 0.36 }); }
 }
 function update(dt) {
   if (G.over || G.paused) return;
@@ -395,10 +401,11 @@ function drawFriend(i) {
   if (pup && pup.ready) {
     let clip = 'idle', face = null, u = 0;
     if (panic) { clip = 'panic'; face = 'scared'; } else if (win) { clip = 'cheer'; face = 'laugh'; }
-    else if (G && i === 0 && since < 1.5) { clip = 'yell'; face = 'yell'; }
-    else if (G && i === 1 && since < 0.7) { clip = 'throw'; u = since / 0.7; face = u > 0.35 ? 'yell' : null; }
+    else if (G && i === 0 && since < 1.5) { clip = 'yell'; u = since / 1.5; face = u > 0.17 && u < 0.85 ? 'yell' : null; }
+    else if (G && i === 1 && since < 0.7) { clip = 'throw'; u = since / 0.7; face = u > 0.4 ? 'yell' : null; }
+    else if (!face && (T * 0.8 + i * 1.3) % 3.6 < 0.13) face = 'blink';
     else if (G && i === 1 && since < 1.6) face = 'laugh';
-    const pose = CLIPS[clip](0, T + i * 2, u); if (face && has(`${who0}_${face}`)) { pose.face = IMG[`${who0}_${face}`]; pose.faceFit = FACE_FIT[who0]; }
+    const pose = CLIPS[clip](0, T + i * 2, clip === 'yell' || clip === 'throw' ? u : undefined); if (face && has(`${who0}_${face}`)) { pose.face = IMG[`${who0}_${face}`]; pose.faceFit = FACE_FIT[who0]; }
     P.anim = P.anim || {}; drawPuppet(c, pup, 0, 0, P.h, animate(P.anim, pose, DT));
   }
   else if (has(P.spr)) { const q = 1 + Math.sin(t) * 0.012 + (act ? 0.06 : 0); c.translate(0, act ? -Math.abs(Math.sin(T * 14)) * 10 : 0); c.rotate(act ? (i ? 0.12 : -0.08) : Math.sin(t * 0.5) * 0.012); c.scale(1 / q, q); spr(P.spr, P.h); }

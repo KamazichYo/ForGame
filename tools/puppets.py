@@ -53,7 +53,8 @@ def build(name, cfg, debug_dir=None):
     for i, m in enumerate(out):
         layer = a.copy(); layer[..., 3] = np.where(m, a[..., 3], 0); atlas.paste(Image.fromarray(layer), (i * W, 0))
     os.makedirs('assets/puppets', exist_ok=True); atlas.save(f'assets/puppets/{name}.png')
-    hy, hx = np.nonzero(masks[0]); head_box = [int(hx.min()), int(hy.min()), int(hx.max()), int(min(hy.max(), J['neck'][1]))]
+    # рамка головы — весь непрозрачный силуэт выше шеи (уши, шапка, антенна), а не только маска кости
+    top = opaque[:int(J['neck'][1])]; hy, hx = np.nonzero(top); head_box = [int(hx.min()), int(hy.min()), int(hx.max()), int(J['neck'][1])]
     meta = dict(w=W, h=H, dir=cfg['dir'], near=cfg['near'], headBox=head_box, joints={k: [round(v[0], 1), round(v[1], 1)] for k, v in J.items()},
                 bones=[dict(name=b[0], pivot=b[1], end=b[2], parent=b[4]) for b in bones])
     json.dump(meta, open(f'assets/puppets/{name}.json', 'w'))
