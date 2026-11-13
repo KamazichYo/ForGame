@@ -341,14 +341,61 @@ A boss puppet sheet for 2D cut-out animation, 16:9, 4K. A giant purple KRAKEN ha
 Character: the KRAKEN from the attached puppet sheet. Instead of a head, draw eight copies of the whole bulbous head-body piece, identical size and outline; only the eyes, brows and beak change. Default mood: menacing.
 ```
 
-### Запас на потом (свои типажи, тот же шаблон)
+### Запас на потом
 
-Лист тела собирается из `[STYLE] + [PUPPET] + Character: ...` с фоном и шаблоном, указанными ниже. Эмоции к ним — по образцу любого глюка выше.
+Свои типажи на будущее, по той же схеме, что глюки выше. Эмоции к ним — по образцу любого `*_faces`.
 
-- **`unicorn.png`** — `GOPNIK UNICORN, facing LEFT: a bipedal white unicorn squatting-type street tough in a black tracksuit with three stripes and a flat cap, rainbow mane, gold tooth, sunflower seeds in one hoof.` Фон зелёный.
-- **`knight.png`** — `CARDBOARD KNIGHT, facing LEFT: a kid-sized knight in armour made of taped cardboard boxes, a colander helmet, a pot-lid shield and a mop for a lance.` Фон зелёный.
-- **`hamster.png`** — `GIANT HAMSTER, facing LEFT: a human-sized fat orange-and-white hamster walking upright with stuffed cheeks and tiny furious eyes.` Фон зелёный.
-- **`grandma.png`** — `GHOST GRANDMA, facing LEFT: a translucent floating granny in a headscarf and floral dress with a rolling pin; instead of thigh, shin and foot draw one ghostly wisp tail piece in the leg row.` Фон маджента.
+**`unicorn.png`** — запасной глюк, лист тела. Фон зелёный.
+
+Приложи: `style_anchor`, `zombie`, `tpl_body_green_left`
+
+```
+A flat 2D cut-out puppet sheet for skeletal game animation, drawn in a grimy underground-comix sticker style, 16:9, 4K, following the attached grey layout template exactly. On the side shown in the template stands the fully assembled character in a neutral pose, arms hanging, in a three-quarter view turned to the left; next to it the same character is taken apart at exactly the same scale into twelve separate pieces with wide gaps: the head ending at the jaw, a short neck, the chest, a briefs-like pelvis without trouser legs, an upper arm, a forearm, an open hand, a fist, a hand gripping a round handle, a thigh, a shin and a side-view foot. Every joint end is a fully rounded cap so pieces overlap when they rotate, limbs hang straight down, sleeves and trousers split at the elbow and knee. The character: a bipedal white unicorn street tough squatting low, in a black tracksuit with three white stripes and a flat cap, a rainbow mane spilling out from under the cap as part of the head, a gold tooth and a smug squint; the horn is part of the head. Props: a paper cone of sunflower seeds sized to fit the gripping hand. As a hallucination it carries a thin solid neon pink-and-cyan rim line just inside the dark outline, with no soft glow. Flat even lighting with one hard cel-shading step and no cast shadows; thick uneven dark-purple #1B1030 marker outlines, faint paper grain, no white sticker border. The background is one perfectly flat pure chroma green #00FF00 reaching all four edges, with no text, labels or numbers.
+```
+
+Доработка:
+```
+Separate any touching pieces with wider gaps and remove the white outline around them, keeping every piece's design and scale identical.
+```
+
+**`knight.png`** — запасной глюк, лист тела. Фон зелёный.
+
+Приложи: `style_anchor`, `zombie`, `tpl_body_green_left`
+
+```
+A flat 2D cut-out puppet sheet for skeletal game animation, drawn in a grimy underground-comix sticker style, 16:9, 4K, following the attached grey layout template exactly. On the side shown in the template stands the fully assembled character in a neutral pose, arms hanging, in a three-quarter view turned to the left; next to it the same character is taken apart at exactly the same scale into twelve separate pieces with wide gaps: the head ending at the jaw, a short neck, the chest, a briefs-like pelvis without trouser legs, an upper arm, a forearm, an open hand, a fist, a hand gripping a round handle, a thigh, a shin and a side-view foot. Every joint end is a fully rounded cap so pieces overlap when they rotate, limbs hang straight down, sleeves and trousers split at the elbow and knee. The character: a kid-sized knight whose armor is taped-together cardboard boxes with visible duct tape and printed shipping arrows, a metal colander helmet fused to the head with eyes peeking through the holes. Props: a pot-lid shield and a string mop used as a lance. As a hallucination it carries a thin solid neon pink-and-cyan rim line just inside the dark outline, with no soft glow. Flat even lighting with one hard cel-shading step and no cast shadows; thick uneven dark-purple #1B1030 marker outlines, faint paper grain, no white sticker border. The background is one perfectly flat pure chroma green #00FF00 reaching all four edges, with no text, labels or numbers.
+```
+
+Доработка:
+```
+Separate any touching pieces with wider gaps and remove the white outline around them, keeping every piece's design and scale identical.
+```
+
+**`hamster.png`** — запасной глюк, лист тела. Фон маджента.
+
+Приложи: `style_anchor`, `zombie`, `tpl_body_magenta_left`
+
+```
+A flat 2D cut-out puppet sheet for skeletal game animation, drawn in a grimy underground-comix sticker style, 16:9, 4K, following the attached grey layout template exactly. On the side shown in the template stands the fully assembled character in a neutral pose, arms hanging, in a three-quarter view turned to the left; next to it the same character is taken apart at exactly the same scale into twelve separate pieces with wide gaps: the head ending at the jaw, a short neck, the chest, a briefs-like pelvis without trouser legs, an upper arm, a forearm, an open hand, a fist, a hand gripping a round handle, a thigh, a shin and a side-view foot. Every joint end is a fully rounded cap so pieces overlap when they rotate, limbs hang straight down, sleeves and trousers split at the elbow and knee. The character: a human-sized fat orange-and-white hamster walking upright, cheeks stuffed to bursting with seeds, tiny furious black eyes and twitching whiskers; the fur is drawn as flat clumps with a few stray hairs at the edges. Props: a single huge sunflower seed held like a club. As a hallucination it carries a thin solid neon pink-and-cyan rim line just inside the dark outline, with no soft glow. Flat even lighting with one hard cel-shading step and no cast shadows; thick uneven dark-purple #1B1030 marker outlines, faint paper grain, no white sticker border. The background is one perfectly flat pure magenta #FF00FF reaching all four edges, with no text, labels or numbers.
+```
+
+Доработка:
+```
+Separate any touching pieces with wider gaps and remove the white outline around them, keeping every piece's design and scale identical.
+```
+
+**`grandma.png`** — запасной глюк, лист тела. Фон маджента.
+
+Приложи: `style_anchor`, `zombie`, `tpl_body_magenta_left`
+
+```
+A flat 2D cut-out puppet sheet for skeletal game animation, drawn in a grimy underground-comix sticker style, 16:9, 4K, following the attached grey layout template exactly. On the side shown in the template stands the fully assembled character in a neutral pose, arms hanging, in a three-quarter view turned to the left; next to it the same character is taken apart at exactly the same scale into twelve separate pieces with wide gaps: the head ending at the jaw, a short neck, the chest, a briefs-like pelvis without trouser legs, an upper arm, a forearm, an open hand, a fist, a hand gripping a round handle, a thigh, a shin and a side-view foot. Every joint end is a fully rounded cap so pieces overlap when they rotate, limbs hang straight down, sleeves and trousers split at the elbow and knee. The character: a translucent floating ghost granny in a flowered headscarf fused to the head and a faded floral dress, scowling over half-moon glasses; instead of thigh, shin and foot draw one ghostly wisp tail piece in the leg row. Props: a wooden rolling pin sized to fit the gripping hand. As a hallucination it carries a thin solid neon pink-and-cyan rim line just inside the dark outline, with no soft glow. Flat even lighting with one hard cel-shading step and no cast shadows; thick uneven dark-purple #1B1030 marker outlines, faint paper grain, no white sticker border. The background is one perfectly flat pure magenta #FF00FF reaching all four edges, with no text, labels or numbers.
+```
+
+Доработка:
+```
+Separate any touching pieces with wider gaps and remove the white outline around them, keeping every piece's design and scale identical.
+```
 
 <!-- items:start -->
 ## 5. Предметы
@@ -359,23 +406,19 @@ Character: the KRAKEN from the attached puppet sheet. Instead of a head, draw ei
 
 Лист — 4 предмета в колонках. Сверху предмет в покое, снизу он же в действии: в той же позе и того же размера, меняются только детали действия. Звёзды (★) рисую в игре, на листе их нет.
 
-### Блок ITEMS
-
-```
-ITEMS: An item sprite sheet for a 2D tower-defense game, 16:9, 4K. Follow the attached grey layout template EXACTLY: four columns and two rows with wide empty gaps, nothing touching. Each COLUMN is one object: the TOP cell shows it idle, the BOTTOM cell shows the same object in its action pose. Both cells of a column show the same object at exactly the same size, angle and position; only the action details change. All objects on the sheet are drawn at the same scale so each fits one square floor tile, standing on the ground, in a 3/4 view turned toward the RIGHT. Each object is a living household thing with a small cartoon face (eyes and mouth) on its body, like the kettle and the fridge in the attached style reference. Real-world muted palette, no neon halo on the objects themselves; only effects in the action poses may glow. Only the dark purple ink outline, no white sticker border. Background: one perfectly flat solid {BG} reaching all four edges of the image, no white margin or strip at any edge, no shadows on the background, no floor, no text, no labels, no numbers, no stars. Do not copy the grey colour of the template.
-```
+Промты по гайду Nano Banana Pro: одно плотное описание листа без служебных блоков — формат и стиль, предметы с материалами и физикой действия, раскладка, свет, исполнение, формат в конце. Ниже каждого промта — команда доработки для второго сообщения в том же чате.
 
 **`items_base_1.png`** — Базовые 1: Зажигалка, Пустая бутылка, Гриндер, Батарейка. Фон маджента.
 
 Приложи: `style_anchor`, `tpl_items_magenta`
 
 ```
-[STYLE]
-[ITEMS with {BG} = pure magenta #FF00FF]
-Column 1: a cheap plastic disposable LIGHTER, bright orange, standing upright. Action: flicking a big flame jet to the right.
-Column 2: an empty brown glass BEER BOTTLE with a blank peeling label. Action: cracked all over and wobbling, a few glass shards flying.
-Column 3: a round four-piece metal HERB GRINDER, shiny silver with visible teeth. Action: lid flipped open like a jaw, metal teeth biting forward.
-Column 4: a big chunky AA-style BATTERY standing upright, copper top, lightning bolt label. Action: crackling with small blue electric arcs all around.
+A flat 2D game sprite sheet in a grimy underground-comix sticker style, 16:9, of 4 living objects from a stoner geek's apartment. Copy the attached grey template: four columns, two rows, wide empty gaps; each column is one object, idle on top and in action directly below at the identical size, angle and footprint. Column 1: a cheap plastic disposable LIGHTER, bright orange, standing upright; below, in action: flicking a big flame jet to the right. Column 2: an empty brown glass BEER BOTTLE with a blank peeling label; below, in action: cracked all over and wobbling, a few glass shards flying. Column 3: a round four-piece metal HERB GRINDER, shiny silver with visible teeth; below, in action: lid flipped open like a jaw, metal teeth biting forward. Column 4: a big chunky AA-style BATTERY standing upright, copper top, lightning bolt label; below, in action: crackling with small blue electric arcs all around. Each object stands in a three-quarter view facing right, fits one floor tile and has a small cartoon face with heavy-lidded eyes, like the attached style reference. Wear shows as texture, not gloss: scuffed plastic, chipped paint, greasy cardboard, smudged glass, dented metal; only action effects may glow, the objects keep a muted real-world palette. Flat even light, one hard cel-shading step, no cast shadows; thick uneven dark-purple #1B1030 marker outlines, faint paper grain, no white sticker border. Background: one perfectly flat pure magenta #FF00FF to all four edges, no text, labels, numbers or stars. 16:9 sheet, 4K.
+```
+
+Доработка:
+```
+Keep the layout, every other object and the flat background exactly the same, and redraw only the bottom cell of column 2 so the object has the same size and angle as the idle cell above it.
 ```
 
 **`items_base_2.png`** — Базовые 2: Фигурка, Плакат, Чипсы, Кубик D20. Фон зелёный.
@@ -383,12 +426,12 @@ Column 4: a big chunky AA-style BATTERY standing upright, copper top, lightning 
 Приложи: `style_anchor`, `tpl_items_green`
 
 ```
-[STYLE]
-[ITEMS with {BG} = pure chroma green #00FF00]
-Column 1: a small plastic ACTION FIGURE of an original muscular space hero in a cape on a round base. Action: throwing a tiny plastic part forward with one arm.
-Column 2: a rolled-up psychedelic POSTER with a rubber band, slightly unrolled showing a trippy spiral. Action: unrolled flat on the ground with sticky tape strips on the corners.
-Column 3: a crinkled bag of paprika POTATO CHIPS with no brand name. Action: bag torn open, chips flying out and a glowing yellow lightbulb popping out.
-Column 4: a big translucent purple twenty-sided D20 DICE. Action: spinning in the air, glowing, the 20 face pointing at the viewer.
+A flat 2D game sprite sheet in a grimy underground-comix sticker style, 16:9, of 4 living objects from a stoner geek's apartment. Copy the attached grey template: four columns, two rows, wide empty gaps; each column is one object, idle on top and in action directly below at the identical size, angle and footprint. Column 1: a small plastic ACTION FIGURE of an original muscular space hero in a cape on a round base; below, in action: throwing a tiny plastic part forward with one arm. Column 2: a rolled-up psychedelic POSTER with a rubber band, slightly unrolled showing a trippy spiral; below, in action: unrolled flat on the ground with sticky tape strips on the corners. Column 3: a crinkled bag of paprika POTATO CHIPS with no brand name; below, in action: bag torn open, chips flying out and a glowing yellow lightbulb popping out. Column 4: a big translucent purple twenty-sided D20 DICE; below, in action: spinning in the air, glowing, the 20 face pointing at the viewer. Each object stands in a three-quarter view facing right, fits one floor tile and has a small cartoon face with heavy-lidded eyes, like the attached style reference. Wear shows as texture, not gloss: scuffed plastic, chipped paint, greasy cardboard, smudged glass, dented metal; only action effects may glow, the objects keep a muted real-world palette. Flat even light, one hard cel-shading step, no cast shadows; thick uneven dark-purple #1B1030 marker outlines, faint paper grain, no white sticker border. Background: one perfectly flat pure chroma green #00FF00 to all four edges, no text, labels, numbers or stars. 16:9 sheet, 4K.
+```
+
+Доработка:
+```
+Keep the layout, every other object and the flat background exactly the same, and redraw only the bottom cell of column 2 so the object has the same size and angle as the idle cell above it.
 ```
 
 **`items_t2_1.png`** — Второй уровень 1: Бонг, Кола с ментосом, Электрогриндер, Крошкомёт. Фон маджента.
@@ -396,13 +439,12 @@ Column 4: a big translucent purple twenty-sided D20 DICE. Action: spinning in th
 Приложи: `style_anchor`, `tpl_items_magenta`, `items_base_1`, `items_base_2`
 
 ```
-[STYLE]
-[ITEMS with {BG} = pure magenta #FF00FF]
-Column 1: a tall glass WATER PIPE (bong) with a little bowl on the side, bubbling blue water inside. Action: puffing a big round smoke ring forward.
-Column 2: a plastic SODA BOTTLE with no brand, white candy mints stuck in the open neck. Action: erupting a huge fountain of brown foam.
-Column 3: the metal grinder with a battery duct-taped to its side and a little motor on top. Action: spinning wildly, sparks flying, teeth a blur.
-Column 4: the metal grinder mounted on a chips bag like a stubby shotgun barrel. Action: blasting a wide cone of chip crumbs forward.
-Where an object reuses parts of the items on the attached item sheets (the grinder, the battery, the bottle, the action figure, the chips bag, the pizza boxes, the lava lamp), draw those parts exactly the same way so the player recognizes what it was combined from.
+A flat 2D game sprite sheet in a grimy underground-comix sticker style, 16:9, of 4 living objects from a stoner geek's apartment. Copy the attached grey template: four columns, two rows, wide empty gaps; each column is one object, idle on top and in action directly below at the identical size, angle and footprint. Column 1: a tall glass WATER PIPE (bong) with a little bowl on the side, bubbling blue water inside; below, in action: puffing a big round smoke ring forward. Column 2: a plastic SODA BOTTLE with no brand, white candy mints stuck in the open neck; below, in action: erupting a huge fountain of brown foam. Column 3: the metal grinder with a battery duct-taped to its side and a little motor on top; below, in action: spinning wildly, sparks flying, teeth a blur. Column 4: the metal grinder mounted on a chips bag like a stubby shotgun barrel; below, in action: blasting a wide cone of chip crumbs forward. Parts taken from the attached item sheets are drawn exactly as there, so each combination stays recognizable. Each object stands in a three-quarter view facing right, fits one floor tile and has a small cartoon face with heavy-lidded eyes, like the attached style reference. Wear shows as texture, not gloss: scuffed plastic, chipped paint, greasy cardboard, smudged glass, dented metal; only action effects may glow, the objects keep a muted real-world palette. Flat even light, one hard cel-shading step, no cast shadows; thick uneven dark-purple #1B1030 marker outlines, faint paper grain, no white sticker border. Background: one perfectly flat pure magenta #FF00FF to all four edges, no text, labels, numbers or stars. 16:9 sheet, 4K.
+```
+
+Доработка:
+```
+Keep the layout, every other object and the flat background exactly the same, and redraw only the bottom cell of column 2 so the object has the same size and angle as the idle cell above it.
 ```
 
 **`items_t2_2.png`** — Второй уровень 2: Лава-лампа, Неоновая вывеска, Аниме-плакат, Благовония. Фон зелёный.
@@ -410,13 +452,12 @@ Where an object reuses parts of the items on the attached item sheets (the grind
 Приложи: `style_anchor`, `tpl_items_green`, `items_base_1`, `items_base_2`
 
 ```
-[STYLE]
-[ITEMS with {BG} = pure chroma green #00FF00]
-Column 1: a retro LAVA LAMP with slow orange and yellow blobs in a tapered glass. Action: blobs glowing hot, soft light rays around the lamp.
-Column 2: a buzzing NEON SIGN shaped like a mushroom on a small black frame, tubes unlit pale. Action: tubes blazing bright pink and cyan with light rays.
-Column 3: a poster of an original cute anime girl with big sparkly eyes, standing on a small easel. Action: poster glowing, pink hearts flying out of it.
-Column 4: an INCENSE holder: a little carved wooden stand with three thin smoking sticks. Action: thick purple smoke curling up and spreading around.
-Where an object reuses parts of the items on the attached item sheets (the grinder, the battery, the bottle, the action figure, the chips bag, the pizza boxes, the lava lamp), draw those parts exactly the same way so the player recognizes what it was combined from.
+A flat 2D game sprite sheet in a grimy underground-comix sticker style, 16:9, of 4 living objects from a stoner geek's apartment. Copy the attached grey template: four columns, two rows, wide empty gaps; each column is one object, idle on top and in action directly below at the identical size, angle and footprint. Column 1: a retro LAVA LAMP with slow orange and yellow blobs in a tapered glass; below, in action: blobs glowing hot, soft light rays around the lamp. Column 2: a buzzing NEON SIGN shaped like a mushroom on a small black frame, tubes unlit pale; below, in action: tubes blazing bright pink and cyan with light rays. Column 3: a poster of an original cute anime girl with big sparkly eyes, standing on a small easel; below, in action: poster glowing, pink hearts flying out of it. Column 4: an INCENSE holder: a little carved wooden stand with three thin smoking sticks; below, in action: thick purple smoke curling up and spreading around. Parts taken from the attached item sheets are drawn exactly as there, so each combination stays recognizable. Each object stands in a three-quarter view facing right, fits one floor tile and has a small cartoon face with heavy-lidded eyes, like the attached style reference. Wear shows as texture, not gloss: scuffed plastic, chipped paint, greasy cardboard, smudged glass, dented metal; only action effects may glow, the objects keep a muted real-world palette. Flat even light, one hard cel-shading step, no cast shadows; thick uneven dark-purple #1B1030 marker outlines, faint paper grain, no white sticker border. Background: one perfectly flat pure chroma green #00FF00 to all four edges, no text, labels, numbers or stars. 16:9 sheet, 4K.
+```
+
+Доработка:
+```
+Keep the layout, every other object and the flat background exactly the same, and redraw only the bottom cell of column 2 so the object has the same size and angle as the idle cell above it.
 ```
 
 **`items_t2_3.png`** — Второй уровень 3: Попкорн-пушка, Фигурка-самурай, Робот-трансформер, Коробки от пиццы. Фон маджента.
@@ -424,13 +465,12 @@ Where an object reuses parts of the items on the attached item sheets (the grind
 Приложи: `style_anchor`, `tpl_items_magenta`, `items_base_1`, `items_base_2`
 
 ```
-[STYLE]
-[ITEMS with {BG} = pure magenta #FF00FF]
-Column 1: a red-and-white striped POPCORN BUCKET turned into a little cannon with a lighter for a fuse. Action: blasting popcorn kernels forward in a fan.
-Column 2: the action figure now in samurai armor, holding a tiny katana, on a round base. Action: mid-slash with a white crescent arc.
-Column 3: a chunky toy ROBOT figure with a battery backpack and one round visor eye. Action: firing a thick red laser beam from the eye.
-Column 4: a stack of three greasy PIZZA BOXES with a stern face drawn in marker. Action: dented and bitten, grease stains, still standing.
-Where an object reuses parts of the items on the attached item sheets (the grinder, the battery, the bottle, the action figure, the chips bag, the pizza boxes, the lava lamp), draw those parts exactly the same way so the player recognizes what it was combined from.
+A flat 2D game sprite sheet in a grimy underground-comix sticker style, 16:9, of 4 living objects from a stoner geek's apartment. Copy the attached grey template: four columns, two rows, wide empty gaps; each column is one object, idle on top and in action directly below at the identical size, angle and footprint. Column 1: a red-and-white striped POPCORN BUCKET turned into a little cannon with a lighter for a fuse; below, in action: blasting popcorn kernels forward in a fan. Column 2: the action figure now in samurai armor, holding a tiny katana, on a round base; below, in action: mid-slash with a white crescent arc. Column 3: a chunky toy ROBOT figure with a battery backpack and one round visor eye; below, in action: firing a thick red laser beam from the eye. Column 4: a stack of three greasy PIZZA BOXES with a stern face drawn in marker; below, in action: dented and bitten, grease stains, still standing. Parts taken from the attached item sheets are drawn exactly as there, so each combination stays recognizable. Each object stands in a three-quarter view facing right, fits one floor tile and has a small cartoon face with heavy-lidded eyes, like the attached style reference. Wear shows as texture, not gloss: scuffed plastic, chipped paint, greasy cardboard, smudged glass, dented metal; only action effects may glow, the objects keep a muted real-world palette. Flat even light, one hard cel-shading step, no cast shadows; thick uneven dark-purple #1B1030 marker outlines, faint paper grain, no white sticker border. Background: one perfectly flat pure magenta #FF00FF to all four edges, no text, labels, numbers or stars. 16:9 sheet, 4K.
+```
+
+Доработка:
+```
+Keep the layout, every other object and the flat background exactly the same, and redraw only the bottom cell of column 2 so the object has the same size and angle as the idle cell above it.
 ```
 
 **`items_t3_1.png`** — Третий уровень 1: Кальян, Диско-шар, Алтарь фигурок, Голограмма. Фон зелёный.
@@ -438,13 +478,12 @@ Where an object reuses parts of the items on the attached item sheets (the grind
 Приложи: `style_anchor`, `tpl_items_green`, `items_t2_1`, `items_t2_2`, `items_t2_3`
 
 ```
-[STYLE]
-[ITEMS with {BG} = pure chroma green #00FF00]
-Column 1: a fancy ornate HOOKAH with four hoses and a glowing lava-lamp glass base. Action: billowing a huge wall of colorful smoke.
-Column 2: a big mirrored DISCO BALL hanging from a bent floor-lamp stand. Action: spinning, throwing colorful light beams in every direction.
-Column 3: a small wooden shelf SHRINE crowded with action figures, incense and candles, an anime poster behind. Action: glowing, a tiny figure jumping off the shelf.
-Column 4: a small projector robot projecting a glitchy translucent hologram of an anime girl. Action: hologram flickering bigger with scanlines.
-Where an object reuses parts of the items on the attached item sheets (the grinder, the battery, the bottle, the action figure, the chips bag, the pizza boxes, the lava lamp), draw those parts exactly the same way so the player recognizes what it was combined from.
+A flat 2D game sprite sheet in a grimy underground-comix sticker style, 16:9, of 4 living objects from a stoner geek's apartment. Copy the attached grey template: four columns, two rows, wide empty gaps; each column is one object, idle on top and in action directly below at the identical size, angle and footprint. Column 1: a fancy ornate HOOKAH with four hoses and a glowing lava-lamp glass base; below, in action: billowing a huge wall of colorful smoke. Column 2: a big mirrored DISCO BALL hanging from a bent floor-lamp stand; below, in action: spinning, throwing colorful light beams in every direction. Column 3: a small wooden shelf SHRINE crowded with action figures, incense and candles, an anime poster behind; below, in action: glowing, a tiny figure jumping off the shelf. Column 4: a small projector robot projecting a glitchy translucent hologram of an anime girl; below, in action: hologram flickering bigger with scanlines. Parts taken from the attached item sheets are drawn exactly as there, so each combination stays recognizable. Each object stands in a three-quarter view facing right, fits one floor tile and has a small cartoon face with heavy-lidded eyes, like the attached style reference. Wear shows as texture, not gloss: scuffed plastic, chipped paint, greasy cardboard, smudged glass, dented metal; only action effects may glow, the objects keep a muted real-world palette. Flat even light, one hard cel-shading step, no cast shadows; thick uneven dark-purple #1B1030 marker outlines, faint paper grain, no white sticker border. Background: one perfectly flat pure chroma green #00FF00 to all four edges, no text, labels, numbers or stars. 16:9 sheet, 4K.
+```
+
+Доработка:
+```
+Keep the layout, every other object and the flat background exactly the same, and redraw only the bottom cell of column 2 so the object has the same size and angle as the idle cell above it.
 ```
 
 **`items_t3_2.png`** — Третий уровень 2: Вейп-мортира, Попкорн-миномёт, Огнемёт из баллончика, Пицца-крепость. Фон маджента.
@@ -452,13 +491,12 @@ Where an object reuses parts of the items on the attached item sheets (the grind
 Приложи: `style_anchor`, `tpl_items_magenta`, `items_t2_1`, `items_t2_2`, `items_t2_3`
 
 ```
-[STYLE]
-[ITEMS with {BG} = pure magenta #FF00FF]
-Column 1: a giant chunky VAPE MOD with a soda-bottle tank, mounted on a stand like a mortar. Action: launching a dense ball of vapor upward.
-Column 2: a little red POPCORN MACHINE on wheels with a launch tube on top. Action: launching a flaming popcorn bucket upward.
-Column 3: an AEROSOL SPRAY CAN with a lighter duct-taped in front of the nozzle. Action: spraying a big cone of fire forward.
-Column 4: a little fortress built from pizza boxes with a grinder turret on top. Action: turret firing a stream of crumbs.
-Where an object reuses parts of the items on the attached item sheets (the grinder, the battery, the bottle, the action figure, the chips bag, the pizza boxes, the lava lamp), draw those parts exactly the same way so the player recognizes what it was combined from.
+A flat 2D game sprite sheet in a grimy underground-comix sticker style, 16:9, of 4 living objects from a stoner geek's apartment. Copy the attached grey template: four columns, two rows, wide empty gaps; each column is one object, idle on top and in action directly below at the identical size, angle and footprint. Column 1: a giant chunky VAPE MOD with a soda-bottle tank, mounted on a stand like a mortar; below, in action: launching a dense ball of vapor upward. Column 2: a little red POPCORN MACHINE on wheels with a launch tube on top; below, in action: launching a flaming popcorn bucket upward. Column 3: an AEROSOL SPRAY CAN with a lighter duct-taped in front of the nozzle; below, in action: spraying a big cone of fire forward. Column 4: a little fortress built from pizza boxes with a grinder turret on top; below, in action: turret firing a stream of crumbs. Parts taken from the attached item sheets are drawn exactly as there, so each combination stays recognizable. Each object stands in a three-quarter view facing right, fits one floor tile and has a small cartoon face with heavy-lidded eyes, like the attached style reference. Wear shows as texture, not gloss: scuffed plastic, chipped paint, greasy cardboard, smudged glass, dented metal; only action effects may glow, the objects keep a muted real-world palette. Flat even light, one hard cel-shading step, no cast shadows; thick uneven dark-purple #1B1030 marker outlines, faint paper grain, no white sticker border. Background: one perfectly flat pure magenta #FF00FF to all four edges, no text, labels, numbers or stars. 16:9 sheet, 4K.
+```
+
+Доработка:
+```
+Keep the layout, every other object and the flat background exactly the same, and redraw only the bottom cell of column 2 so the object has the same size and angle as the idle cell above it.
 ```
 
 **`items_t3_3.png`** — Третий уровень 3: Тесла-лампа, Неоновая катана, Мега-меха, Блендер. Фон зелёный.
@@ -466,13 +504,12 @@ Where an object reuses parts of the items on the attached item sheets (the grind
 Приложи: `style_anchor`, `tpl_items_green`, `items_t2_1`, `items_t2_2`, `items_t2_3`
 
 ```
-[STYLE]
-[ITEMS with {BG} = pure chroma green #00FF00]
-Column 1: a PLASMA BALL lamp on a base built from grinder parts and a battery. Action: shooting forked purple lightning forward.
-Column 2: a KATANA with a glowing neon-tube blade stuck upright in a small stand. Action: releasing a long glowing slash wave forward.
-Column 3: a big toy MECHA robot in samurai armor with a katana and a laser visor. Action: firing the laser and swinging the katana at once.
-Column 4: a kitchen BLENDER jar full of grinder teeth, with a hungry face on the jar. Action: spinning with a vortex and splashes, lid rattling.
-Where an object reuses parts of the items on the attached item sheets (the grinder, the battery, the bottle, the action figure, the chips bag, the pizza boxes, the lava lamp), draw those parts exactly the same way so the player recognizes what it was combined from.
+A flat 2D game sprite sheet in a grimy underground-comix sticker style, 16:9, of 4 living objects from a stoner geek's apartment. Copy the attached grey template: four columns, two rows, wide empty gaps; each column is one object, idle on top and in action directly below at the identical size, angle and footprint. Column 1: a PLASMA BALL lamp on a base built from grinder parts and a battery; below, in action: shooting forked purple lightning forward. Column 2: a KATANA with a glowing neon-tube blade stuck upright in a small stand; below, in action: releasing a long glowing slash wave forward. Column 3: a big toy MECHA robot in samurai armor with a katana and a laser visor; below, in action: firing the laser and swinging the katana at once. Column 4: a kitchen BLENDER jar full of grinder teeth, with a hungry face on the jar; below, in action: spinning with a vortex and splashes, lid rattling. Parts taken from the attached item sheets are drawn exactly as there, so each combination stays recognizable. Each object stands in a three-quarter view facing right, fits one floor tile and has a small cartoon face with heavy-lidded eyes, like the attached style reference. Wear shows as texture, not gloss: scuffed plastic, chipped paint, greasy cardboard, smudged glass, dented metal; only action effects may glow, the objects keep a muted real-world palette. Flat even light, one hard cel-shading step, no cast shadows; thick uneven dark-purple #1B1030 marker outlines, faint paper grain, no white sticker border. Background: one perfectly flat pure chroma green #00FF00 to all four edges, no text, labels, numbers or stars. 16:9 sheet, 4K.
+```
+
+Доработка:
+```
+Keep the layout, every other object and the flat background exactly the same, and redraw only the bottom cell of column 2 so the object has the same size and angle as the idle cell above it.
 ```
 
 **`items_t3_4.png`** — Третий уровень 4 и секреты: Картонный танк, Третий глаз, Пати-хата. Фон маджента.
@@ -480,13 +517,12 @@ Where an object reuses parts of the items on the attached item sheets (the grind
 Приложи: `style_anchor`, `tpl_items_magenta`, `items_t2_1`, `items_t2_2`, `items_t2_3`
 
 ```
-[STYLE]
-[ITEMS with {BG} = pure magenta #FF00FF]
-Column 1: a cardboard-box TANK with a paper-tube cannon and a toy robot driver in the hatch. Action: rolling forward, the cardboard cannon firing.
-Column 2: a small floating stone PYRAMID with one giant glowing eye, wisps of smoke around. Action: the eye opening wide and sweeping a golden beam.
-Column 3: a tiny house made of pizza boxes with a disco ball on the roof and two speakers. Action: bass shockwave rings, confetti and party lights.
-Where an object reuses parts of the items on the attached item sheets (the grinder, the battery, the bottle, the action figure, the chips bag, the pizza boxes, the lava lamp), draw those parts exactly the same way so the player recognizes what it was combined from.
-Column 4: leave empty.
+A flat 2D game sprite sheet in a grimy underground-comix sticker style, 16:9, of 3 living objects from a stoner geek's apartment. Copy the attached grey template: four columns, two rows, wide empty gaps; each column is one object, idle on top and in action directly below at the identical size, angle and footprint. Column 1: a cardboard-box TANK with a paper-tube cannon and a toy robot driver in the hatch; below, in action: rolling forward, the cardboard cannon firing. Column 2: a small floating stone PYRAMID with one giant glowing eye, wisps of smoke around; below, in action: the eye opening wide and sweeping a golden beam. Column 3: a tiny house made of pizza boxes with a disco ball on the roof and two speakers; below, in action: bass shockwave rings, confetti and party lights. Column 4 stays empty. Parts taken from the attached item sheets are drawn exactly as there, so each combination stays recognizable. Each object stands in a three-quarter view facing right, fits one floor tile and has a small cartoon face with heavy-lidded eyes, like the attached style reference. Wear shows as texture, not gloss: scuffed plastic, chipped paint, greasy cardboard, smudged glass, dented metal; only action effects may glow, the objects keep a muted real-world palette. Flat even light, one hard cel-shading step, no cast shadows; thick uneven dark-purple #1B1030 marker outlines, faint paper grain, no white sticker border. Background: one perfectly flat pure magenta #FF00FF to all four edges, no text, labels, numbers or stars. 16:9 sheet, 4K.
+```
+
+Доработка:
+```
+Keep the layout, every other object and the flat background exactly the same, and redraw only the bottom cell of column 2 so the object has the same size and angle as the idle cell above it.
 ```
 
 **`fx_items_1.png`** — Эффекты 1: снаряды и удары. Фон зелёный.
@@ -494,8 +530,12 @@ Column 4: leave empty.
 Приложи: `style_anchor`, `tpl_items_green`
 
 ```
-[STYLE]
-A game effects sprite sheet, 16:9, 4K. Follow the attached grey layout template: eight cells in four columns and two rows with wide empty gaps, nothing touching; each cell holds ONE separate effect, centered and about the same size. Effects in reading order: a white smoke ring; a purple poison cloud; three popped popcorn kernels; a short thick red laser beam segment; a cone-shaped blast of chip crumbs; a brown foam explosion splash; a glowing pink-and-cyan crescent slash wave; a forked purple lightning bolt. Bold flat shapes with the dark purple ink outline, no white sticker border, no soft blur. Background: one perfectly flat solid pure chroma green #00FF00 reaching all four edges of the image, no white margin or strip at any edge, no shadows, no text, no labels, no numbers. Do not copy the grey colour of the template.
+A flat 2D game effects sprite sheet in a grimy underground-comix sticker style, 16:9, following the attached grey layout template: eight cells in four columns and two rows with wide empty gaps, nothing touching, each cell holding one separate centered effect of about the same size. In reading order: a white smoke ring; a purple poison cloud; three popped popcorn kernels; a short thick red laser beam segment; a cone-shaped blast of chip crumbs; a brown foam explosion splash; a glowing pink-and-cyan crescent slash wave; a forked purple lightning bolt. Each effect is built from bold flat shapes with crisp edges and one hard cel-shading step, never soft blur or airbrush, so it can be cut out and layered over the game; glows are drawn as flat solid halo bands. Thick uneven dark-purple #1B1030 marker outlines, faint paper grain, no white sticker border. The background is one perfectly flat pure chroma green #00FF00 reaching all four edges, with no shadows, text, labels or numbers. 16:9 sheet, 4K.
+```
+
+Доработка:
+```
+Replace any soft blur with flat solid shapes and crisp edges, keeping every effect and the layout identical.
 ```
 
 **`fx_items_2.png`** — Эффекты 2: ауры и вспышки. Фон маджента.
@@ -503,8 +543,12 @@ A game effects sprite sheet, 16:9, 4K. Follow the attached grey layout template:
 Приложи: `style_anchor`, `tpl_items_magenta`
 
 ```
-[STYLE]
-A game effects sprite sheet, 16:9, 4K. Follow the attached grey layout template: eight cells in four columns and two rows with wide empty gaps, nothing touching; each cell holds ONE separate effect, centered and about the same size. Effects in reading order: a cone of orange fire; a sticky grey duct-tape puddle on the floor; three pink hearts; a cluster of colorful disco light beams; a white-and-gold starburst flash for merging items; a small dust poof for an item landing on the ground; a tiny walking action figure helper; a glitchy translucent cyan hologram square with scanlines. Bold flat shapes with the dark purple ink outline, no white sticker border, no soft blur. Background: one perfectly flat solid pure magenta #FF00FF reaching all four edges of the image, no white margin or strip at any edge, no shadows, no text, no labels, no numbers. Do not copy the grey colour of the template.
+A flat 2D game effects sprite sheet in a grimy underground-comix sticker style, 16:9, following the attached grey layout template: eight cells in four columns and two rows with wide empty gaps, nothing touching, each cell holding one separate centered effect of about the same size. In reading order: a cone of orange fire; a sticky grey duct-tape puddle on the floor; three pink hearts; a cluster of colorful disco light beams; a white-and-gold starburst flash for merging items; a small dust poof for an item landing on the ground; a tiny walking action figure helper; a glitchy translucent cyan hologram square with scanlines. Each effect is built from bold flat shapes with crisp edges and one hard cel-shading step, never soft blur or airbrush, so it can be cut out and layered over the game; glows are drawn as flat solid halo bands. Thick uneven dark-purple #1B1030 marker outlines, faint paper grain, no white sticker border. The background is one perfectly flat pure magenta #FF00FF reaching all four edges, with no shadows, text, labels or numbers. 16:9 sheet, 4K.
+```
+
+Доработка:
+```
+Replace any soft blur with flat solid shapes and crisp edges, keeping every effect and the layout identical.
 ```
 
 Пылесос (`roomba`) остаётся последним рубежом в каждом ряду — он уже загружен.
@@ -512,11 +556,13 @@ A game effects sprite sheet, 16:9, 4K. Follow the attached grey layout template:
 
 
 
+
+
 ## 6. Окружение
 
-Фоны без персонажей и без предметов на игровом поле. Камера как в настольной игре: вид сбоку-сверху, поле плоское. Игровое поле занимает правые 80% кадра и нижние 80% высоты — там 5 рядов по 9 клеток, сетку наложу сам.
+Промты по гайду Nano Banana Pro: плотное режиссёрское описание без тегов-усилителей, чёткие планы (передний, средний, задний), физика света и материалов, формат в конце. Для фонов-вариантов — редактирование готового двора, чтобы планировка совпала пиксель в пиксель. Под каждым промтом — команда для точечной доработки, её пишешь вторым сообщением в тот же чат генератора.
 
-**`bg_yard_night.png`** (16:9, 4K) — основной фон.
+**`bg_yard_night.png`** (16:9, 4K) — основной фон. Готово, уже загружено.
 
 Приложи: `style_anchor`
 
@@ -525,14 +571,60 @@ A game effects sprite sheet, 16:9, 4K. Follow the attached grey layout template:
 Game background, 16:9, no characters. The same shabby backyard as in the attached style reference, at night, seen from a high 3/4 top-down side angle like a board game. LEFT 20% of the frame: the back wall of the same weathered wooden house with the open back door spilling warm yellow light and the wooden porch with steps, empty, no characters. RIGHT 80% of the frame, lower 80% of the height: one large flat rectangular yard of trampled dirt and patchy dry grass with a few cracked concrete paving slabs, completely EMPTY and evenly lit so game pieces can be placed on it, no objects, no furniture, no holes, no strong shadows crossing it. TOP 20% strip above the yard: a sagging wooden fence, a clothesline with laundry, a rusty garage wall, dark trees, one yellow street lamp. FAR RIGHT edge: the fence is broken and a swirling psychedelic neon fog in pink, cyan and acid green leaks in. Muted dusty purple night palette with warm lamp yellow; neon only in the fog on the right. No text.
 ```
 
-Варианты ночей делай **редактированием** основного фона (приложи `bg_yard_night.png` и попроси изменить), чтобы планировка совпала пиксель в пиксель:
 
-- **`bg_yard_fog.png`** — `Edit the attached image, keep the exact same layout and camera: add thick low green-tinted fog over the right half of the yard and around the fence, dim the street lamp.`
-- **`bg_yard_rain.png`** — `Edit the attached image, keep the exact same layout and camera: heavy rain, puddles reflecting the yellow lamp, wet shiny mud, laundry soaked.`
-- **`bg_yard_trip.png`** — `Edit the attached image, keep the exact same layout and camera: the sky and the fence melt into swirling psychedelic patterns, the yard ground gets faint rainbow ripples, a giant eye opens in the moon.`
-- **`bg_yard_kraken.png`** — `Edit the attached image, keep the exact same layout and camera: the yard is flooded ankle-deep with dark water, a blue inflatable kiddie pool at the far right edge overflows and glows purple from inside, tentacle shadows on the fence.`
+**`bg_yard_fog.png`** — туманная ночь. Туман стелется справа от портала и редеет к крыльцу, фонарь даёт объёмный луч, площадка остаётся читаемой для игры.
 
-**`bg_livingroom.png`** (16:9) — для меню и катсцен.
+Приложи: `bg_yard_night`
+
+```
+Edit the attached backyard illustration while keeping the camera, the layout and every object exactly where they are. A low, dense ground fog rolls in through the broken fence on the far right and creeps leftward across the yard, knee-high and thickest in the right third, thinning to wisps before it reaches the porch steps. Where the fog touches the swirling neon portal it picks up a faint sickly mint-green tint that fades to neutral grey further left. The street lamp dims slightly, and its warm 2700K cone becomes a visible volumetric beam cutting through the haze in the upper midground. The trampled dirt of the central yard stays evenly lit and fully readable through the thin fog so game pieces remain clear on it. Keep the same thick dark-purple marker outlines, flat cel-shaded fills and paper grain. Cinematic 16:9 widescreen framing.
+```
+
+Доработка:
+```
+Make the fog thinner over the central yard so the ground is fully visible, keeping everything else identical.
+```
+
+**`bg_yard_rain.png`** — дождливая ночь. Дождь косой, лужи отражают фонарь, мокрая грязь бликует — но без бликов, мешающих видеть поле.
+
+Приложи: `bg_yard_night`
+
+```
+Edit the attached backyard illustration while keeping the camera, the layout and every object exactly where they are. Heavy night rain falls in thin slanted streaks drawn as flat light-blue strokes, angled from the upper right to the lower left as if driven by wind. Shallow puddles form in the low spots of the trampled yard, each reflecting a stretched, wobbling smear of the yellow street lamp; raindrops break the reflections into rings. The dirt turns darker and wet with soft flat highlights, the laundry on the clothesline hangs soaked and heavy, and water drips off the porch roof edge in a thin curtain in the left foreground. The swirling neon portal on the far right hisses where rain hits it, throwing small pink and cyan sparks. Keep the central yard evenly lit and readable for game pieces, the same thick dark-purple marker outlines, flat cel-shaded fills and paper grain. Cinematic 16:9 widescreen framing.
+```
+
+Доработка:
+```
+Reduce the number of rain streaks over the central yard by half, keeping everything else identical.
+```
+
+**`bg_yard_trip.png`** — двор «плывёт». Реальность плавится только по краям кадра, центр поля остаётся спокойным для игры.
+
+Приложи: `bg_yard_night`
+
+```
+Edit the attached backyard illustration while keeping the camera, the layout and every object exactly where they are. Reality starts to melt at the edges of the frame: the night sky in the upper band twists into slow concentric swirls of hot pink, mint green and cyan, the fence planks in the background bend and drip like warm wax, and the full moon opens a single huge heavy-lidded eye that looks down at the yard. The trampled dirt of the central yard stays solid and calm, with only faint rainbow ripple rings spreading across it, so game pieces remain clear. The warm porch light on the left stays real and untouched, a small island of normality, and casts a clean yellow wedge onto the steps. Neon colors spill as flat tinted reflections onto the house siding and the fence. Same thick dark-purple marker outlines, flat cel-shaded fills and paper grain. Cinematic 16:9 widescreen framing.
+```
+
+Доработка:
+```
+Make the melting effect weaker on the fence and stronger in the sky, keeping the rest of the image identical.
+```
+
+**`bg_yard_kraken.png`** — затопленный двор для босса. Детский бассейн у правого края светится изнутри, на заборе тени щупалец.
+
+Приложи: `bg_yard_night`, `kraken`
+
+```
+Edit the attached backyard illustration while keeping the camera, the layout and every object exactly where they are. The whole yard is flooded ankle-deep with dark still water that mirrors the street lamp and the house windows in long rippled reflections. At the far right edge, in front of the broken fence, a cheap blue inflatable kiddie pool printed with cartoon ducks sags and overflows, glowing violet from inside as if something huge lurks beneath; that violet light spills across the water surface in a widening fan. Giant tentacle shadows from the attached kraken sheet fall across the fence planks in the background. Floating debris drifts in the midground: a flip-flop, a chip bag, a rubber duck. The central yard stays evenly lit and readable through the shallow water so game pieces remain clear. Same thick dark-purple marker outlines, flat cel-shaded fills and paper grain. Cinematic 16:9 widescreen framing.
+```
+
+Доработка:
+```
+Make the water in the central yard clearer and lighter so the ground shows through, keeping everything else identical.
+```
+
+**`bg_livingroom.png`** (16:9) — для меню и катсцен. Готово, уже загружено.
 
 Приложи: `style_anchor`
 
@@ -541,26 +633,27 @@ Game background, 16:9, no characters. The same shabby backyard as in the attache
 Game background, 16:9, no characters. A messy bachelor LIVING ROOM at night seen straight-on like a theatre stage. An old brown sofa in the centre facing the viewer, a low table with pizza boxes, instant-noodle cups and mugs, a carpet hanging on the wall, a floor lamp, a window on the right showing a dark backyard, a door to the yard on the far right. The only light is the flickering blue-white glow of a TV that sits off-frame in front of the sofa. Muted dusty purple palette. No text.
 ```
 
-**`fg_props.png`** (16:9) — передний план для параллакса.
+
+**`fg_props.png`** — передний план для параллакса. Отдельные предметы, одинаково освещённые, чтобы их можно было расставить у нижнего края экрана.
+
+Приложи: `style_anchor`, `bg_yard_night`
 
 ```
-[STYLE]
-Sprite sheet, 16:9, of backyard foreground props as separate non-touching objects with wide gaps: a rusty barbecue grill, a stack of old car tyres, a tipped-over garden gnome, a dented metal bucket, a broken wooden fence section, a tuft of dry weeds, a garden hose coil, a plastic chair, a street lamp post with a yellow lamp. Real-world muted palette. Only the dark purple ink outline, no white sticker border. Background: one perfectly flat solid pure magenta #FF00FF reaching all four edges of the image, no white margin or strip at any edge, no shadows on the background, no text, no labels.
+A flat 2D game prop sprite sheet in a grimy underground-comix sticker style, 16:9, holding nine separate backyard foreground objects laid out in a loose three-by-three grid with wide empty gaps so nothing touches: a rusty kettle barbecue grill with flaking black paint, a leaning stack of three bald car tyres, a tipped-over garden gnome with a chipped nose, a dented galvanised metal bucket, a broken section of grey wooden fence with two missing planks, a tuft of dry weeds with seed heads, a coiled green garden hose, a cracked white plastic chair, and a street lamp post with a warm yellow glass head. Each object matches the house and yard of the attached background in color and wear, is seen from the same high three-quarter angle, and rests on an unseen floor. Lighting is flat and even with one hard cel-shading step and no cast shadows. Thick uneven dark-purple #1B1030 marker outlines, faint paper grain, no white sticker border. The background is one perfectly flat pure magenta #FF00FF reaching all four edges, with no text or labels. 16:9 sheet, 4K.
+```
+
+Доработка:
+```
+Move the objects further apart so none of them touch, keeping their designs identical.
 ```
 
 ## 7. Катсцены
 
-Статичные кадры 16:9 без текста и без облачков — подписи, панорамы, тряску, вспышки и звук добавлю сам. Ко всем прикладывай якорь стиля и готовые листы Вована и Димона, чтобы лица совпадали. Белая обводка-стикер на персонажах здесь уместна — это стиль обложки.
+Статичные кадры 16:9 без текста и облачков: подписи, панорамы, тряску и звук добавлю сам. К каждому прикладывай `style_anchor`, листы Вована и Димона (лица должны совпасть) и то, что указано в строке «Приложи». Белая обводка-стикер на персонажах здесь уместна — это стиль обложки.
 
-Общий хвост:
+Три варианта у каждого кадра: **1 — точный** (ровно сюжет, чистая постановка), **2 — атмосферный** (драматичный свет и необычный ракурс), **3 — фактурный** (печатная фактура комикса). Выбирай любой, но лучше держать все кадры интро в одном варианте, чтобы они смотрелись одной сценой.
 
-```
-Cinematic comic panel, 16:9. Keep both friends exactly as in the attached character references: Vovan in the red beanie and green hoodie, Dimon in the olive bucket hat, round glasses and purple smiley t-shirt, no hair showing under the hats. Same drawing style as the attached style reference. No text, no speech bubbles, no captions, no panel borders.
-```
-
-### Интро
-
-**`cs_intro_01.png`** — сидят у телека.
+**`cs_intro_01.png`** — сидят у телека. Готово, уже загружено.
 
 ```
 [STYLE]
@@ -568,101 +661,286 @@ Interior night. Vovan and Dimon slumped on an old brown sofa, seen from the fron
 [хвост]
 ```
 
-**`cs_intro_02.png`** — грохот.
 
-```
-[STYLE]
-Same living room, same angle. A loud crash comes from the backyard: both friends jolt upright and turn their heads to the dark window on the right, the cat's fur stands on end, a mug tips over. Shock lines around the window. Still no text.
-[хвост]
-```
+**`cs_intro_02.png`** — грохот во дворе. Кадр держится на внезапности: оба дёргаются к окну, кружка на лету, кот дыбом.
 
-**`cs_intro_03.png`** — идут смотреть.
+Приложи: `style_anchor`, `vovan`, `dimon`, `bg_livingroom`
 
+Вариант 1 — точный:
 ```
-[STYLE]
-Seen from outside in the dark backyard looking at the house: the back door opens a crack, warm yellow light spills out, Vovan and Dimon peek out one above the other, Vovan gripping a blue kettle, Dimon holding a pink slipper. Their long shadows stretch across the yard toward the viewer.
-[хвост]
+A cinematic comic-book panel in a grimy underground-comix sticker style, 16:9. In the messy living room from the attached background, Vovan and Dimon from the attached character sheets jolt upright on the sagging brown sofa at the exact moment a crash sounds from the backyard: both heads snap toward the dark window on the right, Vovan's bloodshot eyes bulging under his red beanie, Dimon's round glasses sliding down his nose under the olive bucket hat. In the immediate foreground a mug tips off the low table, cold tea arcing through the air over pizza boxes and noodle cups; the fat orange cat between them puffs up with every hair on end. In the background the window glass rattles inside jagged comic shock lines. The only light is the cold blue-white flicker of an off-frame TV, giving hard rim light on their faces and long shadows across the carpet. Thick uneven dark-purple marker outlines, flat fills with one hard cel step, faint paper grain, no text. Cinematic 16:9 widescreen framing.
 ```
 
-**`cs_intro_04.png`** — зомби.
-
+Вариант 2 — атмосферный:
 ```
-[STYLE]
-Backyard at night under a yellow street lamp. In the middle of the yard stands the zombie neighbour in a white tank top and tracksuit pants, green skin, chewing on a garden gnome, staring at the viewer. Around him a knocked-over metal bucket and trash cans — the source of the noise. He glows with a thin neon pink-and-cyan halo while the yard stays muted.
-[хвост]
+A cinematic comic-book panel in a grimy underground-comix sticker style, 16:9, staged as a low Dutch-angle shot from carpet level behind the coffee table. In the immediate foreground a tipping mug and a spilled bag of chips fill the lower left corner, slightly out of scale. In the midground Vovan and Dimon from the attached character sheets freeze mid-flinch on the sofa, heads snapped toward the window on the right; the fat orange cat between them is a puffed-up silhouette. Through the cracked window in the background a sickly glow of magenta and mint neon leaks in from the yard and spills across their cheeks, fighting the cold 6500K blue flicker of the off-frame TV. Deep indigo shadows swallow the room's corners. Split-complementary grade of cold TV blue and hot neon magenta. Thick uneven dark-purple marker outlines, flat cel fills, no text. Cinematic 16:9 widescreen framing.
 ```
 
-**`cs_intro_05.png`** — их там много.
-
+Вариант 3 — фактурный:
 ```
-[STYLE]
-Wide shot over the friends' shoulders from the porch: beyond the broken fence, under a swirling psychedelic neon sky, dozens of absurd glowing silhouettes shuffle toward the yard — zombies, a ballerina shape, a pirate hat, an alien head, a tentacle in the distance. The two friends in the foreground are dark silhouettes seen from behind.
-[хвост]
+A cinematic comic-book panel printed like a cheap 1990s risograph zine, 16:9, with two-ink misregistration, coarse halftone dot shading and visible paper fibers under thick uneven dark-purple marker lines. In the living room from the attached background, Vovan and Dimon from the attached character sheets jolt on the sagging sofa toward a crash from the backyard: both heads snapped to the window on the right, Vovan's red beanie and Dimon's olive bucket hat and round glasses unchanged. A mug tips off the low table in the foreground, its tea splash printed in flat halftone; the fat orange cat puffs up between them. Shock lines burst around the window in the background. Light from an off-frame TV is rendered as a single flat pale-blue ink pass layered over warm paper. Flat inks, slight ink bleed at the edges, no text. Cinematic 16:9 widescreen framing.
 ```
 
-**`cs_intro_06.png`** — решили отбиваться.
-
+Доработка:
 ```
-[STYLE]
-Heroic low-angle shot on the porch: Vovan and Dimon carry household stuff out of the house to build a defence — Vovan with the blue kettle raised like a torch, Dimon hugging an old wooden CRT TV, the fat orange cat riding on top of a fridge pushed between them. Determined, ridiculous, backlit by the warm doorway.
-[хвост]
+Make the shock lines around the window bigger and add a faint neon glow leaking through the window cracks, keeping both characters and the composition identical.
+```
+
+**`cs_intro_03.png`** — выходят посмотреть. Взгляд из тёмного двора на дом: щель двери, тёплый свет, две головы одна над другой.
+
+Приложи: `style_anchor`, `vovan`, `dimon`, `bg_yard_night`
+
+Вариант 1 — точный:
+```
+A cinematic comic-book panel in a grimy underground-comix sticker style, 16:9, seen from the dark backyard of the attached background looking back at the house. In the midground the back door opens a hand's width and warm 2700K light spills out in a sharp wedge across the porch boards; Vovan and Dimon from the attached character sheets peek through the gap one above the other, Dimon's olive bucket hat and round glasses on top, Vovan's red beanie and wide bloodshot eyes below. Vovan clutches a chips bag to his chest, Dimon holds a pink fluffy slipper raised like a weapon. Their long shadows stretch out of the doorway across the trampled yard toward the viewer in the immediate foreground. The yard around the camera is cold blue night, with a faint neon flicker from the off-frame right edge. Thick uneven dark-purple marker outlines, flat cel fills, faint paper grain, no text. Cinematic 16:9 widescreen framing.
+```
+
+Вариант 2 — атмосферный:
+```
+A cinematic comic-book panel in a grimy underground-comix sticker style, 16:9, shot from ground level among weeds in the dark yard, with tall dry grass blades blurred in the immediate foreground framing the view. Far in the midground the back door of the house cracks open and a narrow blade of warm 2700K light cuts across the porch; Vovan and Dimon from the attached character sheets peer out, stacked, only their faces and hats lit, eyes catching the light. Their shadows stretch impossibly long across the yard right up to the camera. Cold moonlight rims the house roof, and an unseen neon source off the right edge throws a thin magenta streak across the siding. Heavy chiaroscuro: most of the frame is deep indigo with two warm faces in it. Thick uneven dark-purple marker outlines, flat cel fills, no text. Cinematic 16:9 widescreen framing.
+```
+
+Вариант 3 — фактурный:
+```
+A cinematic comic-book panel printed like a cheap 1990s risograph zine, 16:9, with two-ink misregistration, coarse halftone shading and visible paper fibers under thick dark-purple marker lines. Seen from the dark backyard of the attached background, the back door opens a hand's width; warm yellow ink floods the doorway and porch boards in one flat pass. Vovan and Dimon from the attached character sheets peek out one above the other, hats and faces unchanged, Vovan hugging a chips bag, Dimon raising a pink fluffy slipper. Their shadows stretch across the yard toward the viewer as flat dark-blue ink shapes with slight bleed at the edges. The night yard is a single cold blue halftone field. Flat inks, no gradients, no text. Cinematic 16:9 widescreen framing.
+```
+
+Доработка:
+```
+Make the door gap narrower and the light wedge sharper, keeping both faces and the composition identical.
+```
+
+**`cs_intro_04.png`** — зомби-сосед. Первый глюк крупно: жуёт садового гнома посреди двора, вокруг опрокинутое ведро — источник грохота.
+
+Приложи: `style_anchor`, `zombie`, `bg_yard_night`
+
+Вариант 1 — точный:
+```
+A cinematic comic-book panel in a grimy underground-comix sticker style, 16:9. In the center of the trampled backyard from the attached background stands the zombie neighbour from the attached sheet, pot-bellied in a stained white tank top and blue tracksuit pants, gnawing on a garden gnome held in both green hands, ceramic crumbs falling from its chipped hat; he stares straight at the viewer with mismatched eyes. Around his slippers lie the culprits of the crash: a knocked-over galvanised bucket still rolling and a toppled trash can spilling cans in the foreground. Behind him in the background the yellow street lamp throws a warm 2700K cone, while the zombie alone is outlined by a thin solid neon pink-and-cyan rim line, as if pasted over reality. The rest of the yard stays muted dusty purple. Thick uneven dark-purple marker outlines, flat cel fills, faint paper grain, no text. Cinematic 16:9 widescreen framing.
+```
+
+Вариант 2 — атмосферный:
+```
+A cinematic comic-book panel in a grimy underground-comix sticker style, 16:9, shot from an extreme low angle near the ground, a rolling dented bucket huge in the immediate foreground. Towering in the midground, the zombie neighbour from the attached sheet gnaws a garden gnome, crumbs raining down toward the lens, his belly and slack jaw dominating the frame. The street lamp directly behind his head creates a harsh warm backlight halo, so his face is in shadow except for two glinting mismatched eyes and a thin solid neon pink-and-cyan rim line around his silhouette. Cold blue night fills the sky behind. Strong silhouette contrast, deep indigo shadows, one warm 2700K source, neon accent only on the zombie. Thick uneven dark-purple marker outlines, flat cel fills, no text. Cinematic 16:9 widescreen framing.
+```
+
+Вариант 3 — фактурный:
+```
+A cinematic comic-book panel printed like a cheap 1990s risograph zine, 16:9, with misregistered fluorescent pink and teal inks over muted purple, coarse halftone dots and visible paper fibers. In the center of the backyard from the attached background the zombie neighbour from the attached sheet chews a garden gnome, ceramic crumbs printed as scattered flat dots, staring at the viewer. A knocked-over bucket and toppled trash can lie in the foreground. The zombie is printed with a fluorescent pink ink pass that sits slightly off his outline, so he looks pasted onto the muted yard. Thick uneven dark-purple marker lines, flat inks, slight bleed, no text. Cinematic 16:9 widescreen framing.
+```
+
+Доработка:
+```
+Make the gnome bigger in his hands and add a few more ceramic crumbs falling, keeping the zombie's design and the composition identical.
+```
+
+**`cs_intro_05.png`** — их там много. Кадр через плечи друзей: за забором под психоделическим небом шагает толпа силуэтов.
+
+Приложи: `style_anchor`, `vovan`, `dimon`, `bg_yard_night`, `zombie`, `alien`, `ballerina`, `pirate`
+
+Вариант 1 — точный:
+```
+A cinematic comic-book panel in a grimy underground-comix sticker style, 16:9, an over-the-shoulder wide shot from the porch. In the immediate foreground Vovan and Dimon from the attached character sheets are dark backlit silhouettes seen from behind, the red beanie and the olive bucket hat still readable at the frame's lower left and right. In the midground the backyard from the attached background stretches to the broken fence. Beyond the fence, under a swirling sky of hot pink, mint and cyan, dozens of hallucinations shuffle toward the yard: the zombie neighbour, the grey alien, the ballerina caricature and the pirate from the attached sheets in front, a crowd of glowing silhouettes behind them, and a giant tentacle rising in the deep background. Only the hallucinations carry a thin solid neon rim line; the real yard stays muted. Thick uneven dark-purple marker outlines, flat cel fills, no text. Cinematic 16:9 widescreen framing.
+```
+
+Вариант 2 — атмосферный:
+```
+A cinematic comic-book panel in a grimy underground-comix sticker style, 16:9, an ultra-wide shot from low behind the porch railing. Vovan and Dimon from the attached character sheets fill the left and right edges of the immediate foreground as black cut-out silhouettes, their hats outlined in warm doorway light. The entire upper two thirds of the frame is a churning psychedelic sky that pours down like a waterfall of hot pink, mint and cyan into the deep background, where a horde of glowing hallucinations, led by the zombie, alien, ballerina and pirate from the attached sheets, marches through a breached fence toward the camera. The neon floods the yard with colored spill, casting long multicolored shadows back toward the porch. Extreme scale contrast, deep indigo foreground, saturated neon background. Thick uneven dark-purple marker outlines, flat cel fills, no text. Cinematic 16:9 widescreen framing.
+```
+
+Вариант 3 — фактурный:
+```
+A cinematic comic-book panel printed like a cheap 1990s risograph zine, 16:9, with fluorescent pink, teal and yellow inks misregistered over muted purple, coarse halftone dots and visible paper fibers. Over the shoulders of Vovan and Dimon from the attached character sheets, printed as flat black silhouettes in the foreground, the backyard stretches to a broken fence; beyond it a crowd of hallucinations, the zombie, alien, ballerina and pirate from the attached sheets in front, shuffles forward under a sky of overprinted spirals where the inks overlap into new colors. A giant tentacle rises in the deep background as a single teal ink shape. Thick uneven dark-purple marker lines, flat inks with slight bleed, no text. Cinematic 16:9 widescreen framing.
+```
+
+Доработка:
+```
+Push the crowd further back and make the sky swirls larger, keeping the two silhouettes in the foreground identical.
+```
+
+**`cs_intro_06.png`** — решили отбиваться. Героический нижний ракурс: друзья выносят из хаты хлам, из которого дальше собирается оборона.
+
+Приложи: `style_anchor`, `vovan`, `dimon`, `items_base_1`, `items_base_2`
+
+Вариант 1 — точный:
+```
+A cinematic comic-book panel in a grimy underground-comix sticker style, 16:9, a heroic low-angle shot on the porch. Vovan and Dimon from the attached character sheets stride out of the warm doorway carrying the apartment's junk as weapons: Vovan hugs an armful of chips bags, a big battery and a rolled psychedelic poster, Dimon carries a crate overflowing with action figures, a grinder and an empty beer bottle, all matching the attached item sheets. The fat orange cat rides on top of a stack of greasy pizza boxes between them. In the background the doorway blazes with warm 2700K light, rim-lighting their hats and shoulders, while a hint of neon from the yard tints their faces from the right. Determined and ridiculous. Thick uneven dark-purple marker outlines, flat cel fills, faint paper grain, no text. Cinematic 16:9 widescreen framing.
+```
+
+Вариант 2 — атмосферный:
+```
+A cinematic comic-book panel in a grimy underground-comix sticker style, 16:9, an extreme low angle from the porch boards, wide lens distortion making the two friends tower over the camera. Vovan and Dimon from the attached character sheets stand shoulder to shoulder like an action-movie poster, backlit by the blazing doorway so their silhouettes are edged in hot gold, arms full of junk from the attached item sheets: chips bags, a battery, a poster tube, a crate of action figures, a grinder. Dust motes swirl in the light shaft between them. Their faces are lit from below by magenta and mint neon spilling from the yard, giving a heroic, slightly unhinged glow. Teal-and-orange grade, deep indigo sky. Thick uneven dark-purple marker outlines, flat cel fills, no text. Cinematic 16:9 widescreen framing.
+```
+
+Вариант 3 — фактурный:
+```
+A cinematic comic-book panel printed like a cheap 1990s risograph zine, 16:9, with misregistered warm yellow and fluorescent pink inks over muted purple, coarse halftone shading and visible paper fibers. A low-angle shot on the porch: Vovan and Dimon from the attached character sheets march out of the doorway carrying junk from the attached item sheets, chips bags, a battery, a rolled poster, a crate of action figures and a grinder, while the fat orange cat rides a stack of pizza boxes between them. The doorway behind them is one flat yellow ink block. Thick uneven dark-purple marker lines, flat inks with slight bleed, no text. Cinematic 16:9 widescreen framing.
+```
+
+Доработка:
+```
+Make Dimon carry the crate higher so it does not cover his face, keeping everything else identical.
 ```
 
 ### Остальные
 
-**`cs_boss.png`** — выход Кракена перед пятой ночью.
+**`cs_boss.png`** — выход кракена. Масштаб: огромный монстр из детского бассейна и крошечные друзья на переднем плане.
 
-```
-[STYLE]
-Flooded backyard at night. A blue inflatable kiddie pool with ducks on it bulges and bursts as a giant purple kraken with yellow slit eyes rises out of it, tentacles curling over the fence. Tiny in the foreground, Vovan and Dimon look up with their jaws dropped. Neon halo on the monster only.
-[хвост]
-```
+Приложи: `style_anchor`, `vovan`, `dimon`, `kraken`, `bg_yard_night`
 
-**`cs_win.png`** — «Отпустило».
-
+Вариант 1 — точный:
 ```
-[STYLE]
-Early morning, soft pink sunrise, the same backyard completely normal and empty: no monsters, just trash, a tipped-over bucket and a garden gnome. Vovan and Dimon sit exhausted on the porch steps wrapped in a blanket, sipping tea from the blue kettle, the cat asleep on Dimon's lap. A normal, alive, slightly annoyed neighbour in a white tank top waves from behind the fence. No neon anywhere.
-[хвост]
+A cinematic comic-book panel in a grimy underground-comix sticker style, 16:9. In the flooded backyard from the attached background, a cheap blue inflatable kiddie pool printed with cartoon ducks bulges and bursts at the seams as the giant purple kraken from the attached sheet rises out of it, water sheeting off its warty head, yellow slit eyes glaring, tentacles curling over the broken fence in the background. Water from the burst pool surges across the yard in the midground in a flat, scalloped wave. In the immediate foreground, tiny by comparison, Vovan and Dimon from the attached character sheets stand on the porch with jaws dropped, seen from behind and slightly to the side. Only the kraken carries the thin solid neon pink-and-cyan rim line; the yard stays muted, lit by the street lamp. Thick uneven dark-purple marker outlines, flat cel fills, no text. Cinematic 16:9 widescreen framing.
 ```
 
-**`cs_lose.png`** — «Вас накрыло».
-
+Вариант 2 — атмосферный:
 ```
-[STYLE]
-The living room overrun by hallucinations: the zombie neighbour, the alien and the pirate sit on the sofa watching TV and eating the friends' noodles, while Vovan and Dimon lie flat on the carpet staring at the ceiling with spiral eyes. Everything, including the walls, now glows neon and melts slightly.
-[хвост]
+A cinematic comic-book panel in a grimy underground-comix sticker style, 16:9, an extreme worm's-eye view from the waterline of the flooded yard. The giant kraken from the attached sheet erupts out of a bursting blue kiddie pool and fills the whole upper frame, its belly and tentacles lit from below by a violet glow coming from the pool water, while the cold street lamp rims its head from behind. Spray and droplets hang frozen in the air in the foreground. At the very bottom edge, small and half-submerged in shadow, Vovan and Dimon from the attached character sheets look up in horror, their faces catching violet light. Deep indigo and violet grade with one warm lamp highlight. Thick uneven dark-purple marker outlines, flat cel fills, no text. Cinematic 16:9 widescreen framing.
 ```
 
-**`cs_endless.png`** — заставка бесконечного режима.
-
+Вариант 3 — фактурный:
 ```
-[STYLE]
-The backyard dissolved into pure psychedelia: the ground is a checkerboard bending into a spiral tunnel, the fence floats in pieces, endless rows of glowing hallucinations march out of a giant eye in the sky. Vovan and Dimon stand back to back in the centre, tiny, armed with the kettle and the slipper.
-[хвост]
+A cinematic comic-book panel printed like a cheap 1990s risograph zine, 16:9, with misregistered violet and teal inks over muted purple, coarse halftone dots and visible paper fibers. The giant kraken from the attached sheet rises from a bursting blue kiddie pool printed with ducks, its warty skin rendered in overlapping halftone layers, tentacles curling over the fence. Tiny Vovan and Dimon from the attached character sheets stand on the porch in the foreground with jaws dropped. Water is printed as flat scalloped teal shapes with slight ink bleed. Thick uneven dark-purple marker lines, flat inks, no text. Cinematic 16:9 widescreen framing.
+```
+
+Доработка:
+```
+Make the kraken bigger so its head reaches the top edge, keeping the friends and the composition identical.
+```
+
+**`cs_win.png`** — «отпустило». Утро, всё нормальное, ни капли неона: контраст с остальными кадрами — и есть пуанта.
+
+Приложи: `style_anchor`, `vovan`, `dimon`, `bg_yard_night`
+
+Вариант 1 — точный:
+```
+A cinematic comic-book panel in a grimy underground-comix sticker style, 16:9, set in early morning. The backyard from the attached background is completely normal and empty: trash, a tipped-over bucket and an intact garden gnome on the dewy grass, no monsters and no neon anywhere. In the foreground Vovan and Dimon from the attached character sheets sit exhausted on the porch steps wrapped together in one checked blanket, hats on, Dimon's glasses askew, both sipping tea from chipped mugs; the fat orange cat sleeps on Dimon's lap. In the background an ordinary, alive, slightly annoyed neighbour in a white tank top waves from behind the fence. Soft pink-and-gold 4000K sunrise light rakes in from the right, long gentle shadows, dew sparkling on the grass. Thick uneven dark-purple marker outlines, flat cel fills, faint paper grain, no text. Cinematic 16:9 widescreen framing.
+```
+
+Вариант 2 — атмосферный:
+```
+A cinematic comic-book panel in a grimy underground-comix sticker style, 16:9, a quiet wide shot from the far end of the yard looking back at the house at sunrise. The sun rises directly behind the roof, flooding the scene with hazy gold backlight and visible morning mist over the wet grass. Small on the porch steps in the midground, Vovan and Dimon from the attached character sheets sit wrapped in a blanket, silhouettes softened by the glare, steam curling from their mugs; the cat is a small orange curl beside them. In the immediate foreground lie the night's leftovers, a crushed chips bag and a lone action figure face-down in the dew. No neon anywhere, only gold, rose and pale blue. Thick uneven dark-purple marker outlines, flat cel fills, no text. Cinematic 16:9 widescreen framing.
+```
+
+Вариант 3 — фактурный:
+```
+A cinematic comic-book panel printed like a cheap 1990s risograph zine, 16:9, with two soft inks, rose and gold, misregistered over warm cream paper, fine halftone shading and visible paper fibers. Vovan and Dimon from the attached character sheets sit on the porch steps wrapped in one blanket, sipping tea, the fat orange cat asleep on Dimon's lap. The yard is calm and empty, a normal neighbour waves from behind the fence. No neon, no fluorescent inks. Thick uneven dark-purple marker lines, flat inks with slight bleed, no text. Cinematic 16:9 widescreen framing.
+```
+
+Доработка:
+```
+Make the sunrise warmer and add more steam from the mugs, keeping both characters and the composition identical.
+```
+
+**`cs_lose.png`** — «вас накрыло». Глюки захватили хату и смотрят телек, друзья лежат на ковре со спиралями в глазах.
+
+Приложи: `style_anchor`, `vovan`, `dimon`, `vovan_faces`, `dimon_faces`, `bg_livingroom`, `zombie`, `alien`, `pirate`
+
+Вариант 1 — точный:
+```
+A cinematic comic-book panel in a grimy underground-comix sticker style, 16:9. The living room from the attached background is overrun: on the sagging sofa in the midground the zombie neighbour, the grey alien and the pirate from the attached sheets lounge watching TV, eating the friends' instant noodles and chips, the pirate's boots up on the table. In the immediate foreground Vovan and Dimon from the attached character sheets lie flat on their backs on the carpet staring at the ceiling, faces matching the dizzy spiral-eyed expressions on the attached face sheets, the cat sitting on Vovan's chest unimpressed. The walls in the background melt and drip, glowing hot pink, mint and cyan; the neon spill tints everything, including the friends' clothes. Thick uneven dark-purple marker outlines, flat cel fills, faint paper grain, no text. Cinematic 16:9 widescreen framing.
+```
+
+Вариант 2 — атмосферный:
+```
+A cinematic comic-book panel in a grimy underground-comix sticker style, 16:9, a top-down shot looking straight down from the ceiling. Vovan and Dimon from the attached character sheets lie spread-eagled on the carpet in the center, spiral eyes from the attached face sheets, the cat asleep on Vovan's chest. Around them the room's edges melt inward in concentric drips of hot pink, mint and cyan, and from the top edge the legs and snack-filled hands of the zombie, alien and pirate from the attached sheets dangle off the sofa. The only light is the flickering TV, painting the scene in pulsing neon spill. Disorienting, claustrophobic, saturated grade. Thick uneven dark-purple marker outlines, flat cel fills, no text. Cinematic 16:9 widescreen framing.
+```
+
+Вариант 3 — фактурный:
+```
+A cinematic comic-book panel printed like a cheap 1990s risograph zine, 16:9, with fluorescent pink and teal inks overprinted heavily over muted purple until the colors mix, coarse halftone and visible paper fibers. The zombie, alien and pirate from the attached sheets lounge on the sofa eating noodles and watching TV, while Vovan and Dimon from the attached character sheets lie on the carpet in the foreground with spiral eyes. The walls drip as overprinted ink runs. Thick uneven dark-purple marker lines, flat inks with heavy bleed, no text. Cinematic 16:9 widescreen framing.
+```
+
+Доработка:
+```
+Make the friends' spiral eyes bigger and more visible, keeping everything else identical.
+```
+
+**`cs_endless.png`** — заставка бесконечного режима. Двор распался в чистую психоделию, друзья спина к спине в центре.
+
+Приложи: `style_anchor`, `vovan`, `dimon`, `items_base_1`, `items_base_2`
+
+Вариант 1 — точный:
+```
+A cinematic comic-book panel in a grimy underground-comix sticker style, 16:9. The backyard has dissolved into pure psychedelia: the ground is a checkerboard of dusty purple tiles bending away into a spiral tunnel that recedes into the deep background, fence planks float apart in the midground, and endless rows of glowing hallucinations march out of a giant heavy-lidded eye in the sky. In the exact center of the foreground, small and determined, Vovan and Dimon from the attached character sheets stand back to back on a single real patch of trampled dirt, holding a grinder and a pink fluffy slipper, junk from the attached item sheets orbiting around them. Hot pink, mint and cyan dominate everything except the two friends, who stay in muted real-world colors lit by a warm 2700K glow from below. Thick uneven dark-purple marker outlines, flat cel fills, no text. Cinematic 16:9 widescreen framing.
+```
+
+Вариант 2 — атмосферный:
+```
+A cinematic comic-book panel in a grimy underground-comix sticker style, 16:9, a dizzying overhead spiral composition: the camera looks down a vortex of checkerboard floor tiles that twists toward a giant eye at the center of the frame. On a small solid island of dirt in the lower third, Vovan and Dimon from the attached character sheets stand back to back, foreshortened, weapons raised, a halo of floating junk from the attached item sheets circling them. Hallucinations pour out of the eye along the spiral arms. Strong radial motion, saturated neon grade, one warm light source on the friends. Thick uneven dark-purple marker outlines, flat cel fills, no text. Cinematic 16:9 widescreen framing.
+```
+
+Вариант 3 — фактурный:
+```
+A cinematic comic-book panel printed like a cheap 1990s risograph zine, 16:9, with four fluorescent inks overprinted in misregistered layers, coarse halftone and visible paper fibers. A checkerboard floor bends into a spiral tunnel toward a giant eye; hallucinations march out of it. In the center Vovan and Dimon from the attached character sheets stand back to back holding a grinder and a pink slipper, junk from the attached item sheets floating around them, printed in one warm ink pass. Thick uneven dark-purple marker lines, flat inks with bleed, no text. Cinematic 16:9 widescreen framing.
+```
+
+Доработка:
+```
+Make the spiral tunnel deeper and the friends slightly bigger, keeping the composition identical.
 ```
 
 ## 8. Интерфейс
 
-**`logo.png`** (16:9). Кириллицу модель может исказить — проверь каждую букву. Если не выйдет, логотип останется шрифтом, как сейчас.
+**`logo.png`** — логотип. Кириллица только в кавычках, шрифт и способ нанесения заданы явно — так Nano Banana Pro рендерит текст точнее всего. Проверь каждую букву; если не выйдет, логотип останется шрифтом в игре.
 
-```
-[STYLE]
-Game logo on one perfectly flat solid pure chroma green #00FF00 background reaching all four edges, no white margin. Two lines of chunky hand-drawn dripping-paint lettering with thick dark purple outlines. Top line, large, hot pink: the Russian word "ГЛЮКИ". Bottom line, smaller, acid mint green: "vs КОРЕША". Spell the Cyrillic letters exactly as written. No extra words, no extra symbols, no characters.
-```
+Приложи: `style_anchor`
 
-**`ui.png`** (16:9)
-
+Вариант 1 — точный:
 ```
-[STYLE]
-Game UI kit sprite sheet, 16:9, separate non-touching elements with wide gaps, all empty with no text: a wide horizontal top bar panel made of taped cardboard and duct tape; a vertical item card frame made of a torn cardboard box flap with a blank picture area and a small blank price tag at the bottom; the same card frame in a highlighted selected state with a yellow marker outline; a large rounded hot-pink button and a smaller dark purple button, both blank; a round pause button and a round sound button with simple icons; an empty progress bar frame and a pink fill strip; a small skull-flag marker for the wave indicator; a blank speech bubble; a blank wooden sign for level titles. Only the dark purple ink outline, no white sticker border. Background: one perfectly flat solid pure chroma green #00FF00 reaching all four edges of the image, no white margin or strip at any edge, no shadows on the background, no text, no numbers.
+A game logo lettering piece in a grimy underground-comix sticker style, 16:9, centered on one perfectly flat pure chroma green #00FF00 background reaching all four edges. Two stacked lines of chunky hand-painted letters: the top line reads exactly "ГЛЮКИ" in huge heavy rounded brush capitals, hot pink #FF5AD1, with thick paint drips running off the bottom of every letter; the bottom line, smaller and slightly offset to the right, reads exactly "vs КОРЕША" in mint green #7DFFB0 drippy capitals with a lowercase "vs". Both lines carry thick uneven dark-purple #1B1030 marker outlines and a single hard cel-shading step on the lower half of each letter, plus faint paper grain inside the fills. The letters wobble slightly as if painted by hand on a wall. No other words, no symbols, no characters, no shadows on the background. 16:9, 4K.
 ```
 
-**`icon.png`** (1:1) — иконка игры.
+Вариант 2 — атмосферный:
+```
+A game logo lettering piece in a grimy underground-comix sticker style, 16:9, centered on one perfectly flat pure chroma green #00FF00 background reaching all four edges. The words are built as bent glass neon tubes mounted on a dark-purple backing board cut to the letter shapes: the top line reads exactly "ГЛЮКИ" in thick hot pink tubes, the bottom line reads exactly "vs КОРЕША" in thinner mint-green tubes. The glow is drawn as flat solid halo shapes hugging each tube, not soft blur, so the logo can be cut out cleanly; small mounting clips and a flickering half-dead tube in the letter "Ю" add wear. Thick uneven dark-purple marker outlines, one hard cel step, faint paper grain. No other words, no symbols, no shadows on the background. 16:9, 4K.
+```
+
+Вариант 3 — фактурный:
+```
+A game logo lettering piece styled as a peeling vinyl bumper sticker, 16:9, centered on one perfectly flat pure chroma green #00FF00 background reaching all four edges. The sticker is an irregular die-cut shape with a dark-purple border; the top line reads exactly "ГЛЮКИ" in fat hot pink drippy capitals, the bottom line reads exactly "vs КОРЕША" in mint green, both printed with slight misregistration and a coarse halftone in the shadows. One corner of the sticker curls up, showing the pale paper backing, and fine scratches cross the vinyl surface. Thick uneven dark-purple marker outlines, flat inks. No other words, no symbols, no shadows on the background. 16:9, 4K.
+```
+
+Доработка:
+```
+Fix the letter shapes so the text reads exactly "ГЛЮКИ" and "vs КОРЕША", keeping the style, colors and layout identical.
+```
+
+**`ui.png`** — набор интерфейса. Всё из хлама квартиры: картон, скотч, маркер — пустые элементы без текста, текст наложу в игре.
+
+Приложи: `style_anchor`, `items_base_1`
 
 ```
-[STYLE]
-App icon, 1:1, full bleed. Close-up of the zombie neighbour's dopey green face on the right and the fat orange cat's grumpy face on the left, nose to nose, on a hot-pink-to-purple swirling flat background. Thick outlines, bold and readable at tiny size. No text.
+A flat 2D game UI kit sprite sheet in a grimy underground-comix sticker style, 16:9, every element separate with wide empty gaps so nothing touches and all of them blank with no text. Across the top third: a wide horizontal top-bar panel made of torn brown cardboard held together with silver duct tape, its edges slightly frayed. In the middle third, left to right: an empty item-slot tile cut from a cardboard box flap with a soft grease stain, the same tile in a highlighted selected state with a hand-drawn yellow marker outline, a large rounded hot-pink #FF5AD1 button and a smaller dark-purple button both blank, a round pause button and a round sound button with simple flat icons. In the bottom third: an empty progress-bar frame of taped cardboard, a separate pink fill strip, a small skull-flag wave marker, a blank speech bubble, a blank wooden sign board, and a small gold star badge. Flat even lighting, no cast shadows, thick uneven dark-purple #1B1030 marker outlines, faint paper grain, no white sticker border. The background is one perfectly flat pure chroma green #00FF00 reaching all four edges. 16:9 sheet, 4K.
+```
+
+Доработка:
+```
+Make the selected tile's yellow outline thicker and remove any text that appeared, keeping all other elements identical.
+```
+
+**`icon.png`** — иконка игры. Читается в 48 пикселях: два лица нос к носу, крупно, без мелочей.
+
+Приложи: `style_anchor`, `zombie`, `items_base_2`
+
+Вариант 1 — точный:
+```
+A square app icon in a grimy underground-comix sticker style, 1:1, full bleed. An extreme close-up of two faces nose to nose: on the right, the dopey green zombie neighbour from the attached sheet with mismatched eyes and missing teeth, a thin solid neon pink-and-cyan rim line around his head; on the left, the fat grumpy orange tabby cat glaring back with half-closed eyes and flattened ears. The faces fill the frame edge to edge, overlapping slightly where the noses touch in the center. The background behind them is a flat swirl of hot pink and deep purple bands. Bold silhouettes, few details, so the icon reads at a tiny size. Thick uneven dark-purple #1B1030 marker outlines, flat fills with one hard cel step, no text. Square 1:1 composition.
+```
+
+Вариант 2 — атмосферный:
+```
+A square app icon in a grimy underground-comix sticker style, 1:1, full bleed, framed as a low-angle close-up. The zombie neighbour's green face from the attached sheet looms from the upper right, lit from below by a hot pink neon glow, jaw hanging open, while a bag of paprika chips from the attached item sheet sits in the lower left foreground, torn open, a glowing lightbulb popping out of it and throwing warm yellow light up into the zombie's face. Deep indigo background with a single cyan rim light. High contrast, bold shapes, readable at a tiny size. Thick uneven dark-purple marker outlines, flat cel fills, no text. Square 1:1 composition.
+```
+
+Вариант 3 — фактурный:
+```
+A square app icon styled as a round vinyl sticker on a laptop lid, 1:1, full bleed with the laptop surface as a flat dark-grey border. On the sticker, the green zombie neighbour's face from the attached sheet and the fat grumpy orange cat press nose to nose over a pink-and-purple swirl, printed with slight misregistration and coarse halftone shadows. Fine scratches cross the vinyl, one edge lifts a little. Bold shapes readable at a tiny size. Thick uneven dark-purple marker outlines, flat inks, no text. Square 1:1 composition.
+```
+
+Доработка:
+```
+Simplify the background to a flat two-tone swirl and make both faces bigger, keeping the characters identical.
 ```
 
 ## 9. Чек-лист файлов

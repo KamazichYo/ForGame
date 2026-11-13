@@ -56,7 +56,19 @@ for i, l in enumerate(lines):
             j += 1
         note = re.sub(r'^\([^)]*\)[\s—.]*', '', note)
         note = note[:1].upper() + note[1:]
-        slot = {'id': name, 'note': note, 'prompt': expand(fence(i)[0], sec)}
+        # все блоки кода до следующего заголовка: варианты промта и команда доработки
+        variants, edit, j = [], None, i + 1
+        while j < len(lines) and not re.match(r'(\*\*`\w+\.png`\*\*|## |### |- \*\*`|<!-- items:end)', lines[j]):
+            if lines[j].startswith('```'):
+                k = j - 1
+                while k > i and not lines[k].strip(): k -= 1
+                label = lines[k].strip().rstrip(':') if k > i and not lines[k].startswith(('```', 'Приложи:')) else ''
+                text, j = fence(j)
+                if label.startswith('Доработка'): edit = text
+                else: variants.append({'label': label or 'Промт', 'text': expand(text, sec)})
+            j += 1
+        slot = {'id': name, 'note': note, 'prompt': variants[0]['text'], 'variants': variants}
+        if edit: slot['edit'] = edit
         if refs is not None:
             slot['refs'] = refs
         slots.append(slot)

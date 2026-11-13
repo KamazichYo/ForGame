@@ -62,6 +62,14 @@ button:focus-visible, .drop:focus-visible, input:focus-visible { outline: 3px so
 .status.ok { color: var(--mint); }
 [data-hide="1"] { display: none; }
 @media (max-width: 720px) { .card { grid-template-columns: minmax(0, 1fr); } }
+/* варианты промта и доработка */
+.variants { display: flex; flex-wrap: wrap; gap: 6px; }
+.variants:empty { display: none; }
+.vbtn { font-size: 13px; padding: 5px 11px; }
+.vbtn.on { background: var(--lamp); border-color: var(--lamp); color: #2a1a00; font-weight: 700; }
+.edit { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; border-top: 1px dashed var(--line); padding-top: 8px; }
+.elabel { font-size: 12.5px; color: var(--muted); }
+pre.small { max-height: none; font-size: 12px; align-self: stretch; }
 /* вкладки и навигация по очередям */
 .tabs { display: flex; flex-wrap: wrap; gap: 8px; }
 .tab { font: 700 15px var(--body); padding: 9px 16px; border-radius: 10px; }
@@ -127,17 +135,24 @@ function build() {
     const items = DATA.slots.filter(s => s.queue === qi); if (!items.length) return;
     const sec = $('section', 'list'); sec.id = 'q-' + qi; sec.append($('h2', '', 'Очередь ' + q)); board.append(sec);
     for (const s of items) {
-      const card = $('article', 'card'), info = $('div', 'info'), tags = $('div', 'tags'), pre = $('pre', '', s.prompt), row = $('div', 'row');
+      const card = $('article', 'card'), info = $('div', 'info'), tags = $('div', 'tags'), pre = $('pre', '', s.variants ? s.variants[0].text : s.prompt), row = $('div', 'row');
       tags.append($('span', '', s.ratio + (s.k4 ? ' · 4K' : '')));
       if (s.refs.length) tags.append($('span', 'ref', 'приложи: ' + s.refs.join(', ')));
       const refs = $('div', 'refs');
       const copy = $('button', 'main', 'Скопировать промт'), more = $('button', '', 'Развернуть');
       copy.id = 'copy-' + s.id; more.id = 'more-' + s.id;
-      copy.onclick = async () => { try { await navigator.clipboard.writeText(s.prompt); copy.textContent = 'Скопировано'; } catch (e) { pre.classList.add('open'); const r = document.createRange(); r.selectNodeContents(pre); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); copy.textContent = 'Выделено — нажми Ctrl+C'; } setTimeout(() => copy.textContent = 'Скопировать промт', 1800); };
+      let cur = s.variants ? s.variants[0].text : s.prompt;
+      copy.onclick = async () => { try { await navigator.clipboard.writeText(cur); copy.textContent = 'Скопировано'; } catch (e) { pre.classList.add('open'); const r = document.createRange(); r.selectNodeContents(pre); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); copy.textContent = 'Выделено — нажми Ctrl+C'; } setTimeout(() => copy.textContent = 'Скопировать промт', 1800); };
       more.onclick = () => more.textContent = pre.classList.toggle('open') ? 'Свернуть' : 'Развернуть';
       row.append(copy, more);
       info.append($('div', 'name', s.id + '.png'), tags); if (s.note) info.append($('p', 'desc', s.note));
-      if (s.contains) { const c = $('div', 'contains', 'Внутри:'); s.contains.forEach(n => c.append($('i', '', n))); info.append(c); } info.append(refs, pre, row);
+      if (s.contains) { const c = $('div', 'contains', 'Внутри:'); s.contains.forEach(n => c.append($('i', '', n))); info.append(c); } const vs = $('div', 'variants');
+      if (s.variants && s.variants.length > 1) s.variants.forEach((v, k) => { const b = $('button', 'vbtn' + (k ? '' : ' on'), v.label); b.id = 'v-' + s.id + '-' + k;
+        b.onclick = () => { cur = v.text; pre.textContent = cur; vs.querySelectorAll('.vbtn').forEach(x => x.classList.toggle('on', x === b)); }; vs.append(b); });
+      info.append(refs, vs, pre, row);
+      if (s.edit) { const ed = $('div', 'edit'), ep = $('pre', 'small', s.edit), eb = $('button', '', 'Скопировать доработку'); eb.id = 'ed-' + s.id;
+        eb.onclick = async () => { try { await navigator.clipboard.writeText(s.edit); flash(eb, 'Скопировано'); } catch (e) { const r = document.createRange(); r.selectNodeContents(ep); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); flash(eb, 'Выделено — Ctrl+C'); } };
+        ed.append($('div', 'elabel', 'Доработка: вторым сообщением в тот же чат, если результат почти готов'), ep, eb); info.append(ed); }
       const side = $('div', 'info'), drop = $('div', 'drop'), status = $('div', 'status'), input = $('input'), del = $('button', '', 'Удалить');
       input.type = 'file'; input.accept = TYPES.join(','); input.hidden = true; input.id = 'file-' + s.id; del.id = 'del-' + s.id; del.hidden = true;
       drop.tabIndex = 0; drop.setAttribute('role', 'button'); drop.setAttribute('aria-label', 'Загрузить ' + s.id);
