@@ -25,7 +25,8 @@ load('bg', 'assets/sprites/bg_yard_night.jpg'); load('cover', 'assets/sprites/st
 for (const w of ['vovan', 'dimon']) for (const f of ['neutral', 'yell', 'laugh', 'scared']) load(`${w}_${f}`, `assets/chars/${w}/head_${f}.png`);
 const has = n => IMG[n] && IMG[n].complete && IMG[n].naturalWidth > 0;
 /* Куклы с костями (puppet.js): ноги шагают, голова и корпус качаются, лица подменяются. */
-const { PUP, loadPuppet, drawPuppet, CLIPS } = window.Puppets;
+const { PUP, loadPuppet, drawPuppet, CLIPS, animate, kick, death } = window.Puppets;
+let DT = 1 / 60; // длительность кадра для пружин
 for (const n of ['vovan', 'dimon', 'zombie', 'alien', 'ballerina', 'tough']) loadPuppet(n);
 const FACE_FIT = { vovan: [1.02, 0, 0], dimon: [1, 0, 0] };
 const COARSE = matchMedia('(pointer: coarse)').matches;
@@ -191,8 +192,11 @@ function drawFoe(e) {
   const f = FOE_SPR[e.type]; if (!f || !has(f[0])) return EDRAW[e.type](e);
   const pup = PUP[f[0]];
   if (pup && pup.ready) {
-    const clip = e.stun > 0 ? 'stun' : e.eating ? 'eat' : f[0] + '_walk', pose = CLIPS[clip](e.ph * 1.6, T + e.seed);
-    if (e.type === 'hitler' && !e.eating && e.stun <= 0 && Math.sin(T * 0.9 + e.seed) > 0.75) c.scale(Math.cos(T * 9), 1);
+    const clip = e.stun > 0 ? 'stun' : e.eating ? 'eat' : f[0] + '_walk';
+    let target = e.dying !== undefined ? death(Math.min(1, e.dying / 0.45)) : CLIPS[clip](e.ph * 1.6, T + e.seed);
+    const age = T - (e.born || 0); if (age < 0.45) { const k = age / 0.45, o = 1 + Math.sin(k * Math.PI) * 0.18 * (1 - k); target = Object.assign({}, target, { sy: (target.sy || 1) * o, sx: (target.sx || 1) / o }); } // появление с перелётом
+    e.anim = e.anim || {}; const pose = animate(e.anim, target, DT);
+    if (e.type === 'hitler' && !e.eating && e.stun <= 0 && e.dying === undefined && Math.sin(T * 0.9 + e.seed) > 0.75) c.scale(Math.cos(T * 9), 1);
     drawPuppet(c, pup, 0, 0, f[1], pose);
     if (e.hit > 0) { c.globalCompositeOperation = 'lighter'; c.globalAlpha = 0.55; drawPuppet(c, pup, 0, 0, f[1], pose); c.globalCompositeOperation = 'source-over'; }
     return;
@@ -214,7 +218,7 @@ function drawDef(type, d) {
 }
 function spawnEnemy(type, row, x = W + 40) {
   const d = ENEMY[type];
-  G.enemies.push({ type, row, x, y: rowY(row), hp: d.hp, max: d.hp, ph: rnd(0, 6), seed: rnd(0, 9), slow: 0, stun: 0, hit: 0, lane: rnd(3, 6), eating: false, revived: false });
+  G.enemies.push({ born: T, type, row, x, y: rowY(row), hp: d.hp, max: d.hp, ph: rnd(0, 6), seed: rnd(0, 9), slow: 0, stun: 0, hit: 0, lane: rnd(3, 6), eating: false, revived: false });
 }
 
 /* ---------- оборона ---------- */
@@ -290,10 +294,11 @@ function say(who, s) { G.bubble = { who, s, life: 3 }; }
 
 /* ---------- логика ---------- */
 function damage(e, dmg) {
-  e.hp -= dmg; e.hit = 0.12;
+  if (e.dying !== undefined) return;
+  e.hp -= dmg; e.hit = 0.12; if (e.anim) kick(e.anim, { head: -5 - Math.min(10, dmg / 30), torso: -2.5, x: 40 });
   if (e.hp > 0) return;
   if (e.type === 'jesus' && !e.revived) { e.revived = true; e.hp = e.max * 0.6; e.stun = 1.6; floatTxt('ВОСКРЕС!', e.x, e.y - 120, '#ffe14a', 26); puff(e.x, e.y - 50, 14, 50); sfx(520, 0.5, 'sine', 0.06, 500); return; }
-  e.dead = true; G.kills++; puff(e.x, e.y - 50, ENEMY[e.type].big ? 40 : 5); G.fx.push({ k: 'cloud', x: e.x, y: e.y, life: 0.5, max: 0.5 }); sfx(180, 0.18, 'sawtooth', 0.04, -120);
+  G.kills++; if (FOE_SPR[e.type] && PUP[FOE_SPR[e.type][0]] && PUP[FOE_SPR[e.type][0]].ready) { e.dying = 0; e.eating = false; } else { e.dead = true; puff(e.x, e.y - 50, ENEMY[e.type].big ? 40 : 5); G.fx.push({ k: 'cloud', x: e.x, y: e.y, life: 0.5, max: 0.5 }); } sfx(180, 0.18, 'sawtooth', 0.04, -120);
   if (ENEMY[e.type].big) { G.shake = 0.6; floatTxt('КРАКЕН ОТПУСТИЛ', e.x, e.y - 160, '#d9a0ff', 30); }
 }
 function explode(x, y, row, rad, rows, dmg) { G.shake = 0.35; puff(x, y - 30, 26, 30); sfx(90, 0.4, 'sawtooth', 0.09, -60); G.fx.push({ k: 'boom', x, y: y - 30, life: 0.35, max: 0.35, r: rad });
@@ -337,11 +342,12 @@ function update(dt) {
   }
   // снаряды
   for (const s of G.shots) { s.x += 400 * dt; if (s.x > W + 30) s.dead = true;
-    for (const e of G.enemies) { const big = ENEMY[e.type].big; if (!e.dead && e.row === s.row && s.x > e.x - (big ? 50 : 22) && s.x < e.x + 34) { damage(e, s.dmg); if (s.k === 'fan') e.slow = 4; s.dead = true; G.fx.push({ k: 'p', x: s.x, y: s.y, vx: 0, vy: 0, life: 0.15, max: 0.15, r: 12, col: s.k === 'fan' ? '#bfeaff' : s.k === 'tv' ? '#ffffa0' : '#c9a57a' }); break; } } }
+    for (const e of G.enemies) { const big = ENEMY[e.type].big; if (!e.dead && e.dying === undefined && e.row === s.row && s.x > e.x - (big ? 50 : 22) && s.x < e.x + 34) { damage(e, s.dmg); if (s.k === 'fan') e.slow = 4; s.dead = true; G.fx.push({ k: 'p', x: s.x, y: s.y, vx: 0, vy: 0, life: 0.15, max: 0.15, r: 12, col: s.k === 'fan' ? '#bfeaff' : s.k === 'tv' ? '#ffffa0' : '#c9a57a' }); break; } } }
   G.shots = G.shots.filter(s => !s.dead);
   // глюки
   for (const e of G.enemies) {
     const d = ENEMY[e.type]; e.slow -= dt; e.stun -= dt; e.hit -= dt; e.y += (rowY(e.row) - e.y) * Math.min(1, dt * 5);
+    if (e.dying !== undefined) { e.eating = false; continue; }
     if (e.stun > 0) { e.eating = false; continue; }
     const reach = d.big ? 85 : 50; let tgt = null;
     for (let col = 0; col < COLS; col++) { const p = G.grid[e.row][col]; if (p && e.x - p.x < reach && e.x - p.x > -25 && !(p.type === 'doshik' && p.t >= 9) && p.type !== 'micro') tgt = p; }
@@ -354,6 +360,7 @@ function update(dt) {
     if (e.x < 175) { G.over = 'lose'; sfx(200, 0.9, 'sawtooth', 0.09, -150); if (G.endless && G.kills > save.best) { save.best = G.kills; persist(); } }
   }
   for (const rb of G.roomba) if (rb.on && !rb.gone) { rb.x += 520 * dt; const r = G.roomba.indexOf(rb); for (const e of G.enemies) if (e.row === r && Math.abs(e.x - rb.x) < 50 && !e.dead) { if (ENEMY[e.type].big) { if (!e.vac) { e.vac = 1; damage(e, 1200); } } else { e.revived = true; damage(e, 99999); } } if (rb.x > W + 60) rb.gone = true; }
+  for (const e of G.enemies) if (e.dying !== undefined) { e.dying += dt; if (e.dying > 0.6) { e.dead = true; puff(e.x, e.y - 50, 6); G.fx.push({ k: 'cloud', x: e.x + 30, y: e.y, life: 0.5, max: 0.5 }); } }
   G.enemies = G.enemies.filter(e => !e.dead);
   // эффекты
   for (const f of G.fx) { if (f.wait > 0) { f.wait -= dt; continue; } f.life -= dt; if (f.k === 'p' || f.k === 't') { f.x += f.vx * dt; f.y += f.vy * dt; if (f.k === 'p') f.vy += 200 * dt; }
@@ -392,7 +399,7 @@ function drawFriend(i) {
     else if (G && i === 1 && since < 0.7) { clip = 'throw'; u = since / 0.7; face = u > 0.35 ? 'yell' : null; }
     else if (G && i === 1 && since < 1.6) face = 'laugh';
     const pose = CLIPS[clip](0, T + i * 2, u); if (face && has(`${who0}_${face}`)) { pose.face = IMG[`${who0}_${face}`]; pose.faceFit = FACE_FIT[who0]; }
-    drawPuppet(c, pup, 0, 0, P.h, pose);
+    P.anim = P.anim || {}; drawPuppet(c, pup, 0, 0, P.h, animate(P.anim, pose, DT));
   }
   else if (has(P.spr)) { const q = 1 + Math.sin(t) * 0.012 + (act ? 0.06 : 0); c.translate(0, act ? -Math.abs(Math.sin(T * 14)) * 10 : 0); c.rotate(act ? (i ? 0.12 : -0.08) : Math.sin(t * 0.5) * 0.012); c.scale(1 / q, q); spr(P.spr, P.h); }
   else { c.scale(-1.3, 1.3); humanoid(i ? SK.dimon : SK.vovan, { armF: 0.25, armB: -0.2, legF: 0.12, legB: -0.12 }); }
@@ -532,7 +539,7 @@ const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
 addEventListener('resize', fit); addEventListener('orientationchange', () => setTimeout(fit, 200)); fit();
 let last = performance.now();
 function frame(now) {
-  const dt = Math.min(0.05, (now - last) / 1000); last = now; T += dt;
+  const dt = Math.min(0.05, (now - last) / 1000); last = now; T += dt; DT = dt || 1 / 60;
   c.setTransform(cv.width / W, 0, 0, cv.height / H, 0, 0); btns = [];
   if (screen === 'menu') drawMenu();
   else { update(dt); drawScene();
