@@ -62,10 +62,19 @@ button:focus-visible, .drop:focus-visible, input:focus-visible { outline: 3px so
 .status.ok { color: var(--mint); }
 [data-hide="1"] { display: none; }
 @media (max-width: 720px) { .card { grid-template-columns: minmax(0, 1fr); } }
+/* вкладки и навигация по очередям */
+.tabs { display: flex; flex-wrap: wrap; gap: 8px; }
+.tab { font: 700 15px var(--body); padding: 9px 16px; border-radius: 10px; }
+.tab.on { background: var(--mint); border-color: var(--mint); color: #082a18; }
+.tab span { font-weight: 400; margin-left: 8px; opacity: .75; }
+.qnav { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 4px; }
+.qnav button { font-size: 13.5px; padding: 6px 12px; }
+.qnav button.main b { color: #2a0a22; }
+.qnav button b { color: var(--lamp); margin-left: 6px; font-variant-numeric: tabular-nums; }
+.contains { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 13px; color: var(--muted); }
+.contains i { font-style: normal; padding: 2px 10px; border-radius: 999px; background: var(--raised); color: var(--fg); }
+.uploadhint { font-size: 12.5px; color: var(--lamp); text-align: center; margin: 0; overflow-wrap: anywhere; }
 /* книга рецептов */
-.book { background: var(--panel); border: 2px solid var(--line); border-radius: 14px; padding: 6px 14px 14px; }
-.book > summary { cursor: pointer; font: 700 20px/1.2 var(--body); color: var(--mint); padding: 10px 0; }
-.book > summary span { color: var(--muted); font-size: 14px; font-weight: 400; margin-left: 8px; }
 .rules { margin: 0 0 6px; padding-left: 20px; color: var(--muted); font-size: 14px; display: flex; flex-direction: column; gap: 2px; max-width: 80ch; }
 .tier h3 { margin: 16px 0 8px; font: 700 16px/1.2 var(--body); color: var(--lamp); }
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
@@ -91,6 +100,7 @@ button:focus-visible, .drop:focus-visible, input:focus-visible { outline: 3px so
     <li>Скопируй промт и приложи в генераторе картинки, показанные над промтом: референсы и серый шаблон раскладки. У каждой есть «Скачать», «В буфер» (потом Ctrl+V в генераторе) и «Открыть»; уже загруженные листы подставляются сами.</li>
     <li>Каждый кореш — два листа: сначала тело, потом эмоции, к которым прикладываешь готовое тело.</li>
     <li>Загрузи результат в окно справа: клик, перетаскивание или клик по окну и <b>Ctrl+V</b>.</li>
+    <li>Предметы (новая механика слияния): листы <b>items_base_1</b> и <b>items_base_2</b> первыми, остальные прикладывают их как референс. Рецепты и дерево — на вкладке «Книга рецептов».</li>
     <li>Когда очередь готова, напиши мне в чат «забирай» — нарежу, соберу и анимирую.</li>
   </ol>
   <div class="bar">
@@ -99,8 +109,9 @@ button:focus-visible, .drop:focus-visible, input:focus-visible { outline: 3px so
     <button class="main" id="dlboard" hidden>Скачать всё</button>
   </div>
   <p class="note" id="note" hidden></p>
-  <details class="book" id="book" open><summary>Книга рецептов<span id="bookinfo"></span></summary><ul class="rules" id="rules"></ul><div id="tiers"></div></details>
-  <div id="board" class="list"></div>
+  <div class="tabs" role="tablist"><button class="tab on" id="tab-gen" role="tab" aria-selected="true">Промты и загрузка</button><button class="tab" id="tab-book" role="tab" aria-selected="false">Книга рецептов<span id="bookinfo"></span></button></div>
+  <div id="pane-gen"><nav class="qnav" id="qnav" aria-label="Очереди"></nav><div id="board" class="list"></div></div>
+  <div id="pane-book" hidden><ul class="rules" id="rules"></ul><div id="tiers"></div></div>
 </div>
 
 <script>
@@ -114,7 +125,7 @@ const say = t => { note.textContent = t; note.hidden = !t; };
 function build() {
   DATA.queues.forEach((q, qi) => {
     const items = DATA.slots.filter(s => s.queue === qi); if (!items.length) return;
-    const sec = $('section', 'list'); sec.append($('h2', '', 'Очередь ' + q)); board.append(sec);
+    const sec = $('section', 'list'); sec.id = 'q-' + qi; sec.append($('h2', '', 'Очередь ' + q)); board.append(sec);
     for (const s of items) {
       const card = $('article', 'card'), info = $('div', 'info'), tags = $('div', 'tags'), pre = $('pre', '', s.prompt), row = $('div', 'row');
       tags.append($('span', '', s.ratio + (s.k4 ? ' · 4K' : '')));
@@ -125,7 +136,8 @@ function build() {
       copy.onclick = async () => { try { await navigator.clipboard.writeText(s.prompt); copy.textContent = 'Скопировано'; } catch (e) { pre.classList.add('open'); const r = document.createRange(); r.selectNodeContents(pre); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); copy.textContent = 'Выделено — нажми Ctrl+C'; } setTimeout(() => copy.textContent = 'Скопировать промт', 1800); };
       more.onclick = () => more.textContent = pre.classList.toggle('open') ? 'Свернуть' : 'Развернуть';
       row.append(copy, more);
-      info.append($('div', 'name', s.id + '.png'), tags); if (s.note) info.append($('p', 'desc', s.note)); info.append(refs, pre, row);
+      info.append($('div', 'name', s.id + '.png'), tags); if (s.note) info.append($('p', 'desc', s.note));
+      if (s.contains) { const c = $('div', 'contains', 'Внутри:'); s.contains.forEach(n => c.append($('i', '', n))); info.append(c); } info.append(refs, pre, row);
       const side = $('div', 'info'), drop = $('div', 'drop'), status = $('div', 'status'), input = $('input'), del = $('button', '', 'Удалить');
       input.type = 'file'; input.accept = TYPES.join(','); input.hidden = true; input.id = 'file-' + s.id; del.id = 'del-' + s.id; del.hidden = true;
       drop.tabIndex = 0; drop.setAttribute('role', 'button'); drop.setAttribute('aria-label', 'Загрузить ' + s.id);
@@ -139,7 +151,7 @@ function build() {
       input.onchange = () => { if (input.files[0]) upload(s.id, input.files[0]); input.value = ''; };
       del.onclick = () => remove(s.id);
       const r2 = $('div', 'row'), rep = $('button', '', 'Заменить'); rep.id = 'rep-' + s.id; rep.hidden = true; rep.onclick = () => input.click(); r2.append(rep, del);
-      side.append(drop, status, r2, input); card.append(info, side); sec.append(card);
+      const hint = $('p', 'uploadhint', 'Сюда: ' + s.id + '.png'); side.append(hint, drop, status, r2, input); card.append(info, side); sec.append(card);
       ui[s.id] = { card, drop, status, del, rep, refs, slot: s };
       paint(s.id); renderRefs(s.id);
     }
@@ -190,7 +202,7 @@ function paint(id, msg, cls) {
   u.status.className = 'status ' + (cls || (d ? 'ok' : ''));
   u.status.textContent = msg || (d ? `Загружено · ${d.w}×${d.h} · ${(d.bytes / 1048576).toFixed(1)} МБ` : '');
   const n = DATA.slots.filter(s => state[s.id]).length; document.getElementById('count').textContent = `${n} из ${DATA.slots.length}`; document.getElementById('fill').style.width = n / DATA.slots.length * 100 + '%';
-  filter(); updateDlBoard();
+  filter(); updateDlBoard(); if (document.getElementById('qnav')) buildNav();
 }
 // «Скачать всё»: все загруженные листы + шаблоны раскладки одним ZIP-архивом (одно подтверждение вместо десятков)
 const CRC = (() => { const t = new Uint32Array(256); for (let n = 0; n < 256; n++) { let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; t[n] = c >>> 0; } return t; })();
@@ -307,6 +319,23 @@ addEventListener('paste', e => {
 });
 
 build(); buildBook(); paintBook();
+function buildNav() {
+  const nav = document.getElementById('qnav'); nav.replaceChildren();
+  DATA.queues.forEach((q, qi) => { const items = DATA.slots.filter(x => x.queue === qi); if (!items.length) return;
+    const b = $('button', '', q.replace(/^\d+\.\s*/, '')), n = $('b', '', items.filter(x => state[x.id]).length + '/' + items.length); b.append(n); b.id = 'nav-' + qi;
+    b.onclick = () => document.getElementById('q-' + qi).scrollIntoView({ behavior: 'smooth', block: 'start' }); nav.append(b); });
+  const its = DATA.slots.filter(x => /^(items_|fx_items)/.test(x.id)); if (its.length) { const b = $('button', 'main', 'Предметы (слияние)'); b.append($('b', '', its.filter(x => state[x.id]).length + '/' + its.length)); b.id = 'nav-items';
+    b.onclick = () => ui.items_base_1.card.scrollIntoView({ behavior: 'smooth', block: 'start' }); nav.prepend(b); }
+}
+function showTab(book) {
+  document.getElementById('pane-gen').hidden = book; document.getElementById('pane-book').hidden = !book;
+  document.getElementById('tab-gen').classList.toggle('on', !book); document.getElementById('tab-book').classList.toggle('on', book);
+  document.getElementById('tab-gen').setAttribute('aria-selected', String(!book)); document.getElementById('tab-book').setAttribute('aria-selected', String(book));
+}
+document.getElementById('tab-gen').onclick = () => showTab(false); document.getElementById('tab-book').onclick = () => showTab(true);
+if (location.hash.startsWith('#it-')) showTab(true);
+addEventListener('hashchange', () => { if (location.hash.startsWith('#it-')) showTab(true); });
+buildNav();
 (async () => {
   const use = n => (window.claude && window.claude.use ? window.claude.use(n) : Promise.resolve(null));
   [assets, db, downloads] = await Promise.all([use('assets'), use('db'), use('downloads')]);

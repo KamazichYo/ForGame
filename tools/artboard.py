@@ -82,6 +82,12 @@ for s in slots:
         s['refs'] = [] if n == 'style_anchor' else ['style_anchor'] + (['vovan', 'dimon'] if n.startswith('cs_') else [])
 slots.sort(key=lambda s: s['queue'])
 book = json.load(open(os.path.join(os.path.dirname(src), '..', 'data', 'items.json'), encoding='utf8'))
+for sl in slots:  # что лежит на листе предметов: по колонкам
+    inside = sorted([i for i in book['items'] if i['sheet'] == sl['id']], key=lambda i: i['col'])
+    if inside:
+        sl['contains'] = [i['name'] for i in inside]
+        if sl['id'].startswith('items_t'): sl['note'] = 'Лист предметов. Сначала загрузи и приложи базовые листы: по ним рисуются комбинации.'
+        else: sl['note'] = 'Лист предметов: 4 колонки, сверху покой, снизу действие.'
 data = json.dumps({'queues': QUEUES, 'slots': slots, 'book': book}, ensure_ascii=False).replace('</', '<\\/')
 open(out, 'w', encoding='utf8').write(open(tpl, encoding='utf8').read().replace('/*DATA*/null', data))
 print(len(slots), 'слотов:', ' '.join(s['id'] for s in slots))
