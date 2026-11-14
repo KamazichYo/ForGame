@@ -109,3 +109,73 @@ if __name__ == '__main__':
             # для глюков: фигура смотрит влево, собранная фигура справа
             im.transpose(Image.FLIP_LEFT_RIGHT).save(f'assets/templates/tpl_{kind}_{bg}_left.png')
     print('ok')
+
+
+# ---------- развёртка и лист деталей (новая схема) ----------
+import math
+def capsule(d, x, y, w, h, ang=0, fill=FILL):
+    """Капсула длиной h от точки (x, y) вниз, повёрнутая на ang градусов вокруг верхнего конца."""
+    a = math.radians(ang); dx, dy = math.sin(a), math.cos(a); nx, ny = dy, -dx; r = w / 2
+    pts = [(x + nx * r, y + ny * r), (x + nx * r + dx * h, y + ny * r + dy * h), (x - nx * r + dx * h, y - ny * r + dy * h), (x - nx * r, y - ny * r)]
+    d.polygon(pts, fill=fill, outline=OUT, width=LW)
+    for cx, cy in ((x, y), (x + dx * h, y + dy * h)): d.ellipse((cx - r, cy - r, cx + r, cy + r), fill=fill, outline=OUT, width=LW)
+
+def figure(d, cx, view, s=1.0):
+    """Фигура в A-позе: view = front | three | side | back. Земля на y=1000."""
+    g, H = 1000, 860 * s; head_r = 70 * s; top = g - H
+    tw = {'front': 150, 'three': 125, 'side': 85, 'back': 150}[view] * s
+    sh = top + 2 * head_r + 25 * s
+    for side in ((-1, 1) if view != 'side' else (1,)):  # ноги
+        lx = cx + side * tw * 0.22 if view != 'side' else cx
+        hip = sh + 300 * s; L = (g - 34 * s - hip) / 2
+        capsule(d, lx, hip, 46 * s, L, 0); capsule(d, lx, hip + L, 40 * s, L, 0)
+        if view == 'side': d.rounded_rectangle((lx - 25 * s, g - 30 * s, lx + 70 * s, g), 12, fill=SHADE, outline=OUT, width=LW)
+        else: d.rounded_rectangle((lx - 32 * s, g - 30 * s, lx + 32 * s, g), 12, fill=SHADE, outline=OUT, width=LW)
+    d.rounded_rectangle((cx - tw / 2, sh, cx + tw / 2, sh + 330 * s), 40, fill=FILL, outline=OUT, width=LW)  # торс и таз
+    d.line((cx - tw / 2 + 8, sh + 230 * s, cx + tw / 2 - 8, sh + 230 * s), fill=OUT, width=LW - 3)
+    arms = {'front': (-1, 1), 'back': (-1, 1), 'three': (-1, 1), 'side': (1,)}[view]
+    for side in arms:  # руки в A-позе: на ~20° от тела
+        ax = cx + side * (tw / 2 + 14 * s) if view != 'side' else cx; ang = side * 20 if view != 'side' else 0; a = math.radians(ang)
+        capsule(d, ax, sh + 20 * s, 40 * s, 150 * s, ang)
+        ex, ey = ax + math.sin(a) * 150 * s, sh + 20 * s + math.cos(a) * 150 * s
+        capsule(d, ex, ey, 36 * s, 140 * s, ang)
+    d.rounded_rectangle((cx - 18 * s, sh - 30 * s, cx + 18 * s, sh + 10 * s), 10, fill=FILL, outline=OUT, width=LW)
+    d.ellipse((cx - head_r, top, cx + head_r, top + 2 * head_r), fill=FILL, outline=OUT, width=LW)
+    d.chord((cx - head_r - 4, top - 20 * s, cx + head_r + 4, top + head_r * 1.1), 180, 360, fill=SHADE, outline=OUT, width=LW)
+    if view in ('front', 'three'):
+        off = 0 if view == 'front' else 20 * s
+        for ex in (-25, 25): d.ellipse((cx + ex * s + off - 9, top + 75 * s, cx + ex * s + off + 9, top + 95 * s), outline=OUT, width=4)
+    if view == 'side': d.polygon([(cx + head_r - 4, top + 85 * s), (cx + head_r + 18 * s, top + 100 * s), (cx + head_r - 4, top + 110 * s)], fill=FILL, outline=OUT)
+
+def turn_sheet(bg):
+    im = Image.new('RGB', (W, H), BGS[bg]); d = ImageDraw.Draw(im)
+    for i, view in enumerate(('front', 'three', 'side', 'back')): figure(d, 240 + i * 480, view, 1.0)
+    return im
+
+def hand2(d, x, y, kind):
+    if kind == 'point':
+        d.rounded_rectangle((x, y, x + 76, y + 90), 30, fill=FILL, outline=OUT, width=LW)
+        d.rounded_rectangle((x + 60, y + 18, x + 140, y + 42), 12, fill=FILL, outline=OUT, width=5)
+    else: hand(d, x, y, kind)
+
+def rig_sheet(bg):
+    global BG_NOW
+    BG_NOW = BGS[bg]
+    im = Image.new('RGB', (W, H), BGS[bg]); d = ImageDraw.Draw(im)
+    # ряд 1: торс спереди, торс сбоку, таз сбоку, шея
+    d.rounded_rectangle((120, 60, 400, 320), 60, fill=FILL, outline=OUT, width=LW); d.ellipse((215, 38, 305, 82), fill=SHADE, outline=OUT, width=LW - 2)
+    for sx in (120, 400): d.ellipse((sx - 40, 80, sx + 40, 160), fill=SHADE, outline=OUT, width=LW - 2)
+    d.rounded_rectangle((560, 60, 740, 320), 55, fill=FILL, outline=OUT, width=LW); d.ellipse((610, 38, 690, 82), fill=SHADE, outline=OUT, width=LW - 2); d.ellipse((610, 80, 690, 160), fill=SHADE, outline=OUT, width=LW - 2)
+    pelvis(d, 880, 150)
+    d.rounded_rectangle((1260, 140, 1330, 240), 30, fill=FILL, outline=OUT, width=LW)
+    # ряд 2: плечо, предплечье, четыре кисти
+    capsule(d, 200, 420, 70, 200); capsule(d, 360, 420, 62, 190)
+    for i, k in enumerate(('open', 'fist', 'grip', 'point')): hand2(d, 520 + i * 190, 470, k)
+    # ряд 3: бедро, голень, стопа сбоку, стопа спереди
+    capsule(d, 200, 720, 78, 220); capsule(d, 360, 720, 68, 220); foot(d, 520, 820)
+    d.rounded_rectangle((760, 790, 840, 860), 28, fill=FILL, outline=OUT, width=LW); d.rounded_rectangle((735, 840, 865, 905), 26, fill=SHADE, outline=OUT, width=LW)
+    return im
+
+for bg in BGS:
+    for kind, im in (('turn', turn_sheet(bg)), ('rig', rig_sheet(bg))):
+        im.save(f'assets/templates/tpl_{kind}_{bg}.png'); im.transpose(Image.FLIP_LEFT_RIGHT).save(f'assets/templates/tpl_{kind}_{bg}_left.png')

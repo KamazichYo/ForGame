@@ -7,7 +7,7 @@ import json, os, re, sys
 
 src, tpl, out = sys.argv[1:4]
 lines = open(src, encoding='utf8').read().split('\n')
-QUEUES = ['1. Стиль', '2. Минимум, чтобы игра ожила', '3. Остальные глюки и оборона', '4. Катсцены', '5. Полировка', '6. Запас на потом']
+QUEUES = []  # из таблицы чек-листа: | N. Название | файлы |
 
 def fence(i):
     """Текст fenced-блока, начинающегося на строке i или ниже; (text, end)."""
@@ -27,9 +27,10 @@ for i, l in enumerate(lines):
         blocks[m.group(1)] = fence(i)[0]
     if l.startswith('Общий хвост'):
         tails[sec] = fence(i)[0]
-    m = re.match(r'\| (\d)\. [^|]+\| (.+) \|', l)
+    m = re.match(r'\| (\d)\. ([^|]+)\| (.+) \|', l)
     if m:
-        for n in re.findall(r'`(\w+)`', m.group(2)):
+        QUEUES.append(m.group(1) + '. ' + m.group(2).strip())
+        for n in re.findall(r'`(\w+)`', m.group(3)):
             queue_of[n] = int(m.group(1)) - 1
 
 def expand(p, sec):
@@ -86,7 +87,7 @@ for i, l in enumerate(lines):
 
 for s in slots:
     n = s['id']
-    q = queue_of.get(n, 3 if n.startswith('cs_') else 5)
+    q = queue_of.get(n, len(QUEUES) - 1)
     s['queue'] = q
     s['ratio'] = '1:1' if re.search(r'\b1:1\b', s['prompt']) else '16:9'
     s['k4'] = '4K' in s['prompt']

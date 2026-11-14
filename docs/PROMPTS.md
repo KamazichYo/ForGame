@@ -107,7 +107,89 @@ RIGHT side, coming out of the dark across the trampled lawn and through a broken
 The real world is muted dusty purple with warm lamp yellow; the hallucinations are acid neon pink, mint green and cyan with a thin glowing pink-and-cyan halo around their outlines. Swirling psychedelic sky only above the right side. Clear empty band across the top for the logo. No text, no logo.
 ```
 
-## 3. Кореша (смотрят вправо)
+<!-- pilot:start -->
+## 3. Пилот: развёртка Вована
+
+Проверяем новую схему на одном герое, прежде чем перегенерировать всех. На персонажа три листа: развёртка в четырёх ракурсах, детали для рига (торс спереди и сбоку, руки и ноги по суставам, четыре кисти, стопа сбоку и спереди) и эмоции. Руки и ноги нарисованы отдельно и целиком, поэтому в игре ими можно будет махать широко, а не в пределах выреза из фигуры.
+
+Промты по гайду Nano Banana Pro: формат и стиль, герой и физика ткани, раскладка по планам, свет, исполнение, формат в конце. Три варианта на лист: **точный**, **строгий** (если модель путает раскладку — больше ограничений) и **фактурный** (сильнее печатная фактура). Драматичный свет и ракурсы из гайда тут не годятся: лист должен резаться и совпадать с другими. Порядок: `vovan_turn` → `vovan_rig` → `vovan_emote`.
+
+**`vovan_turn.png`** — развёртка: спереди, три четверти, сбоку, сзади. Фон маджента. Это эталон модели: по нему собирается риг и рисуются детали.
+
+Приложи: `style_anchor`, `vovan`, `vovan_faces`, `tpl_turn_magenta`
+
+Вариант 1 — точный:
+```
+A character turnaround sheet in a grimy underground-comix sticker style, 16:9, made as a construction reference for rigging a 2D game puppet. Copy the attached grey template exactly: four full-body views of the same character standing side by side on one invisible ground line, all at the identical height and evenly spaced — in the left quarter the front view, then a three-quarter view turned to the right, then a strict side profile facing right, and in the right quarter the back view. In every view the character stands in a relaxed A-pose with both arms held about twenty degrees away from the body so the hands never overlap the torso, feet shoulder-width apart. The character is Vovan, a short stocky slacker in his twenties with a round face, pale slightly tanned skin, wide bloodshot startled eyes with big pupils and a small mouth; a red knitted beanie pulled down to the eyebrows and over the ears so no hair shows; a green pullover hoodie with white drawstrings and a kangaroo pocket, the hood down and lying flat on the back; baggy blue jeans and white sneakers. The heavy cotton hoodie bunches in soft folds at the elbows and over the belly, the knitted beanie shows its rib texture and a slightly frayed fold, and the baggy jeans pile up in creases over the sneaker tongues, and these folds stay consistent from view to view. Every view uses the same flat even light with one hard cel-shading step and no cast shadows, so the four figures read as one model; thick uneven dark-purple #1B1030 marker outlines, faint paper grain inside the fills, no white sticker border. The background is one perfectly flat pure magenta #FF00FF reaching all four edges, with no floor, text, labels, numbers or arrows. Wide 16:9 sheet, 4K.
+```
+
+Вариант 2 — строгий, если модель путает раскладку:
+```
+A character turnaround sheet in a grimy underground-comix sticker style, 16:9, made as a construction reference for rigging a 2D game puppet. Copy the attached grey template exactly: four full-body views of the same character standing side by side on one invisible ground line, all at the identical height and evenly spaced — in the left quarter the front view, then a three-quarter view turned to the right, then a strict side profile facing right, and in the right quarter the back view. In every view the character stands in a relaxed A-pose with both arms held about twenty degrees away from the body so the hands never overlap the torso, feet shoulder-width apart. The character is Vovan, a short stocky slacker in his twenties with a round face, pale slightly tanned skin, wide bloodshot startled eyes with big pupils and a small mouth; a red knitted beanie pulled down to the eyebrows and over the ears so no hair shows; a green pullover hoodie with white drawstrings and a kangaroo pocket, the hood down and lying flat on the back; baggy blue jeans and white sneakers. The heavy cotton hoodie bunches in soft folds at the elbows and over the belly, the knitted beanie shows its rib texture and a slightly frayed fold, and the baggy jeans pile up in creases over the sneaker tongues, and these folds stay consistent from view to view. Draw it like an orthographic model sheet: no perspective, no foreshortening, the top of the head, the shoulders, the waist, the knees and the soles line up exactly across all four views, and parts hidden in one view are still drawn where they belong in the others. Use flat even light with one hard cel-shading step and no cast shadows; thick uneven dark-purple #1B1030 marker outlines, faint paper grain inside the fills, no white sticker border. The background is one perfectly flat pure magenta #FF00FF reaching all four edges, with no floor, text, labels, numbers or arrows. Wide 16:9 sheet, 4K.
+```
+
+Вариант 3 — фактурный:
+```
+A character turnaround sheet in a grimy underground-comix sticker style, 16:9, made as a construction reference for rigging a 2D game puppet. Copy the attached grey template exactly: four full-body views of the same character standing side by side on one invisible ground line, all at the identical height and evenly spaced — in the left quarter the front view, then a three-quarter view turned to the right, then a strict side profile facing right, and in the right quarter the back view. In every view the character stands in a relaxed A-pose with both arms held about twenty degrees away from the body so the hands never overlap the torso, feet shoulder-width apart. The character is Vovan, a short stocky slacker in his twenties with a round face, pale slightly tanned skin, wide bloodshot startled eyes with big pupils and a small mouth; a red knitted beanie pulled down to the eyebrows and over the ears so no hair shows; a green pullover hoodie with white drawstrings and a kangaroo pocket, the hood down and lying flat on the back; baggy blue jeans and white sneakers. The heavy cotton hoodie bunches in soft folds at the elbows and over the belly, the knitted beanie shows its rib texture and a slightly frayed fold, and the baggy jeans pile up in creases over the sneaker tongues, and these folds stay consistent from view to view. Push the tactile print look: marker ink pools slightly at the ends of strokes, the paper tooth shows through the flat fills, fabric carries a flat hand-drawn weave or knit pattern, and each flat color sits slightly off its outline like a cheap print, while the background stays perfectly clean. Use flat even light with one hard cel-shading step and no cast shadows; thick uneven dark-purple #1B1030 marker outlines, faint paper grain inside the fills, no white sticker border. The background is one perfectly flat pure magenta #FF00FF reaching all four edges, with no floor, text, labels, numbers or arrows. Wide 16:9 sheet, 4K.
+```
+
+Доработка:
+```
+Make all four views exactly the same height and stand them on one shared ground line, keeping the character design identical.
+```
+
+**`vovan_rig.png`** — детали для рига: торс спереди и сбоку, руки и ноги по суставам, кисти, стопы, реквизит. Фон маджента. Руки и ноги нарисованы целиком и отдельно — ими можно махать широко.
+
+Приложи: `vovan_turn`, `tpl_rig_magenta`
+
+Вариант 1 — точный:
+```
+A cut-out puppet parts sheet in a grimy underground-comix sticker style, 16:9, that takes the character from the attached turnaround apart for skeletal animation, every piece at exactly the scale of the turnaround figures. Copy the attached grey template: three rows with wide empty gaps so nothing touches. Top row, left to right: the torso seen from the front with the neck hole and both shoulder sockets, the same torso in side profile facing right, the pelvis in side profile as a short briefs-like block cut from the trousers with two round hip sockets and no trouser legs, and a short neck cylinder. Middle row: an upper arm from shoulder to elbow and a forearm from elbow to wrist, both hanging perfectly straight and vertical, then four hands in side view — open and relaxed, a clenched fist, gripping a round handle with an empty hole through the grip, and pointing forward with the index finger. Bottom row: a thigh from hip to knee and a shin from knee to ankle, both straight and vertical, then the foot in side profile with the toes toward the right, and the same foot seen from the front. The character is Vovan from the attached turnaround; the green sleeves split at the elbow with a ribbed cuff at the wrist, the jeans split at the knee, and the hood belongs to the back of the torso pieces. Props laid out at the far right of the middle and bottom rows: an old blue enamel kettle with chipped enamel and a black handle, sized to fit the gripping hand. Every piece is drawn complete, including the part normally hidden under its neighbour, and every joint end — shoulder, elbow, wrist, hip, knee, ankle and both ends of the neck — is a fully rounded cap that runs a little past the joint, so pieces overlap without gaps when they rotate. Use flat even light with one hard cel-shading step and no cast shadows; thick uneven dark-purple #1B1030 marker outlines, faint paper grain inside the fills, no white sticker border. The background is one perfectly flat pure magenta #FF00FF reaching all four edges, with no text, labels, numbers or guide lines. Wide 16:9 sheet, 4K.
+```
+
+Вариант 2 — строгий, если модель путает раскладку:
+```
+A cut-out puppet parts sheet in a grimy underground-comix sticker style, 16:9, that takes the character from the attached turnaround apart for skeletal animation, every piece at exactly the scale of the turnaround figures. Copy the attached grey template: three rows with wide empty gaps so nothing touches. Top row, left to right: the torso seen from the front with the neck hole and both shoulder sockets, the same torso in side profile facing right, the pelvis in side profile as a short briefs-like block cut from the trousers with two round hip sockets and no trouser legs, and a short neck cylinder. Middle row: an upper arm from shoulder to elbow and a forearm from elbow to wrist, both hanging perfectly straight and vertical, then four hands in side view — open and relaxed, a clenched fist, gripping a round handle with an empty hole through the grip, and pointing forward with the index finger. Bottom row: a thigh from hip to knee and a shin from knee to ankle, both straight and vertical, then the foot in side profile with the toes toward the right, and the same foot seen from the front. The character is Vovan from the attached turnaround; the green sleeves split at the elbow with a ribbed cuff at the wrist, the jeans split at the knee, and the hood belongs to the back of the torso pieces. Props laid out at the far right of the middle and bottom rows: an old blue enamel kettle with chipped enamel and a black handle, sized to fit the gripping hand. Count the pieces: exactly four in the top row, six in the middle row, four in the bottom row, plus the props; no duplicates, no second arm or leg, no head. Each limb piece is a straight vertical capsule with a rounded cap at both ends that runs past the joint, drawn complete including the hidden overlap area. Use flat even light with one hard cel-shading step and no cast shadows; thick uneven dark-purple #1B1030 marker outlines, faint paper grain inside the fills, no white sticker border. The background is one perfectly flat pure magenta #FF00FF reaching all four edges, with no text, labels, numbers or guide lines. Wide 16:9 sheet, 4K.
+```
+
+Вариант 3 — фактурный:
+```
+A cut-out puppet parts sheet in a grimy underground-comix sticker style, 16:9, that takes the character from the attached turnaround apart for skeletal animation, every piece at exactly the scale of the turnaround figures. Copy the attached grey template: three rows with wide empty gaps so nothing touches. Top row, left to right: the torso seen from the front with the neck hole and both shoulder sockets, the same torso in side profile facing right, the pelvis in side profile as a short briefs-like block cut from the trousers with two round hip sockets and no trouser legs, and a short neck cylinder. Middle row: an upper arm from shoulder to elbow and a forearm from elbow to wrist, both hanging perfectly straight and vertical, then four hands in side view — open and relaxed, a clenched fist, gripping a round handle with an empty hole through the grip, and pointing forward with the index finger. Bottom row: a thigh from hip to knee and a shin from knee to ankle, both straight and vertical, then the foot in side profile with the toes toward the right, and the same foot seen from the front. The character is Vovan from the attached turnaround; the green sleeves split at the elbow with a ribbed cuff at the wrist, the jeans split at the knee, and the hood belongs to the back of the torso pieces. Props laid out at the far right of the middle and bottom rows: an old blue enamel kettle with chipped enamel and a black handle, sized to fit the gripping hand. Every piece is complete with rounded joint caps that run past the joint. Push the tactile look: fabric shows a flat hand-drawn weave or knit pattern, cut edges of sleeves and trouser legs show a few loose threads, marker ink pools at the stroke ends, and paper tooth shows through the fills, while the background stays perfectly clean. Use flat even light with one hard cel-shading step and no cast shadows; thick uneven dark-purple #1B1030 marker outlines, faint paper grain inside the fills, no white sticker border. The background is one perfectly flat pure magenta #FF00FF reaching all four edges, with no text, labels, numbers or guide lines. Wide 16:9 sheet, 4K.
+```
+
+Доработка:
+```
+Separate any touching pieces with wider gaps and straighten the arm and leg pieces so they hang vertically, keeping every design and scale identical.
+```
+
+**`vovan_emote.png`** — эмоции: восемь лиц на одной голове. Фон маджента. Голова в том же ракурсе, что на развёртке: в игре лица подменяются.
+
+Приложи: `vovan_turn`, `tpl_faces_magenta`
+
+Вариант 1 — точный:
+```
+An expression sheet for head swapping in 2D cut-out animation, in a grimy underground-comix sticker style, 16:9. Copy the attached grey template: eight heads in a four-by-two grid with wide empty gaps. All eight are the exact head of the character from the attached turnaround in its three-quarter view turned to the right — identical size, outline, angle, hair, hat and headwear — and each ends at the jaw with no neck. Only the face changes, in reading order: top row (1) neutral, (2) blink with eyes fully closed, (3) talking with the mouth half open, (4) yelling with the mouth wide open; bottom row: (5) scared with huge eyes and tiny pupils, (6) hurt and wincing with one eye shut, (7) laughing, (8) dizzy with spiral eyes and the tongue out. The default mood is startled and dazed, so even the neutral face carries it. Use flat even light with one hard cel-shading step and no cast shadows; thick uneven dark-purple #1B1030 marker outlines, faint paper grain inside the fills, no white sticker border. The background is one perfectly flat pure magenta #FF00FF reaching all four edges, with no shadows, text, labels or numbers. Wide 16:9 sheet, 4K.
+```
+
+Вариант 2 — строгий, если модель путает раскладку:
+```
+An expression sheet for head swapping in 2D cut-out animation, in a grimy underground-comix sticker style, 16:9. Copy the attached grey template: eight heads in a four-by-two grid with wide empty gaps. All eight are the exact head of the character from the attached turnaround in its three-quarter view turned to the right — identical size, outline, angle, hair, hat and headwear — and each ends at the jaw with no neck. Only the face changes, in reading order: top row (1) neutral, (2) blink with eyes fully closed, (3) talking with the mouth half open, (4) yelling with the mouth wide open; bottom row: (5) scared with huge eyes and tiny pupils, (6) hurt and wincing with one eye shut, (7) laughing, (8) dizzy with spiral eyes and the tongue out. The default mood is startled and dazed, so even the neutral face carries it. Treat it like a mouth-and-eye chart: overlay any two heads and only the eyes, eyebrows, mouth and small sweat or tear marks differ, never the skull shape or the headwear. Use flat even light with one hard cel-shading step and no cast shadows; thick uneven dark-purple #1B1030 marker outlines, faint paper grain inside the fills, no white sticker border. The background is one perfectly flat pure magenta #FF00FF reaching all four edges, with no shadows, text, labels or numbers. Wide 16:9 sheet, 4K.
+```
+
+Вариант 3 — фактурный:
+```
+An expression sheet for head swapping in 2D cut-out animation, in a grimy underground-comix sticker style, 16:9. Copy the attached grey template: eight heads in a four-by-two grid with wide empty gaps. All eight are the exact head of the character from the attached turnaround in its three-quarter view turned to the right — identical size, outline, angle, hair, hat and headwear — and each ends at the jaw with no neck. Only the face changes, in reading order: top row (1) neutral, (2) blink with eyes fully closed, (3) talking with the mouth half open, (4) yelling with the mouth wide open; bottom row: (5) scared with huge eyes and tiny pupils, (6) hurt and wincing with one eye shut, (7) laughing, (8) dizzy with spiral eyes and the tongue out. The default mood is startled and dazed, so even the neutral face carries it. Make the faces read through tactile ink: wrinkles drawn as quick dry-brush marker strokes, sweat drops as flat glossy shapes, paper tooth visible in the skin tone. Use flat even light with one hard cel-shading step and no cast shadows; thick uneven dark-purple #1B1030 marker outlines, faint paper grain inside the fills, no white sticker border. The background is one perfectly flat pure magenta #FF00FF reaching all four edges, with no shadows, text, labels or numbers. Wide 16:9 sheet, 4K.
+```
+
+Доработка:
+```
+Make all eight heads exactly the same size and angle, changing only the facial expressions.
+```
+
+<!-- pilot:end -->
+
+
+## 3б. Кореша — старые листы (готово)
 
 **`vovan.png`** — лист тела. Фон маджента (худи зелёное).
 
@@ -151,251 +233,503 @@ Props: a pink fluffy house slipper, sized to fit the gripping hand.
 Character: DIMON from the attached puppet sheet: long narrow face, olive bucket hat and round glasses fused to the head, no hair visible. His default mood is sleepy and amused, so even the neutral face has half-closed eyes and a faint grin.
 ```
 
-## 4. Глюки (смотрят влево)
+<!-- foes:start -->
+## 4. Новые глюки (после пилота)
 
-Та же схема, что у корешей: лист тела + лист эмоций. Шаблоны для глюков зеркальные — с хвостом `_left`, собранная фигура справа. Неоновый ореол рисуется тонкой сплошной линией по контуру, а не размытым свечением: свечение добавлю в игре, иначе оно не вырезается из фона.
+Новые глюки: гиковский трэш с чёрным юмором. Каждый — мертвец, неудачник или кошмар из интернета. Все свои типажи, без чужих персонажей. Генерировать по той же схеме, что пилот, когда он устроит. Все смотрят влево, на корешей; у каждого тонкий неоновый ореол линией, без размытого свечения.
 
-Шапки, бороды, волосы, нимбы и воротники — часть головы или груди, отдельно не болтаются. Отдельной деталью идёт только то, что закрывает суставы: пачка, роба, плащ, деревянная нога.
+### Зомби-модератор
 
-### Блок FOE_FACES (эмоции глюков)
+*Умер на посту — в буквальном смысле. Банит всё, что движется.* В игре: базовый: идёт и грызёт.
 
-```
-FOE_FACES: An expression sheet for head swapping in 2D cut-out animation, 16:9, 4K. Follow the attached grey layout template: eight heads in a 4 by 2 grid with wide empty gaps. Draw eight copies of the EXACT head from the attached puppet sheet of this character: identical size, identical outline, identical 3/4 angle turned toward the LEFT, identical hat, hair, beard and other headwear. Only the face changes: eyes, eyebrows, mouth, small drops and lines. Each head ends at the jaw, no neck, no body.
-Top row: (1) neutral; (2) blink, eyes fully closed; (3) biting, mouth wide open showing teeth; (4) chewing with a full mouth.
-Bottom row: (5) hurt, wincing with one eye shut; (6) furious; (7) stunned, spiral eyes and tongue out; (8) fading away, eyes rolled up, mouth hanging open.
-Hallucination look: a thin solid neon pink-and-cyan rim line just inside the dark outline, no soft glow. Each head has only the dark purple ink outline, no white sticker border. Background: one perfectly flat solid {BG} reaching all four edges of the image, no white margin or strip at any edge, no shadows, no text, no labels, no numbers. Do not copy the grey colour of the template.
-```
+**`mod_turn.png`** — развёртка: спереди, три четверти, сбоку, сзади. Фон маджента. Это эталон модели: по нему собирается риг и рисуются детали.
 
-**`zombie.png`** — базовый враг, лист тела. Фон маджента (кожа зелёная).
-
-Приложи: `style_anchor`, `tpl_body_magenta_left`
+Приложи: `style_anchor`, `tpl_turn_magenta_left`
 
 ```
-[STYLE]
-[PUPPET with {BG} = pure magenta #FF00FF, {DIR} = LEFT]
-Character: ZOMBIE NEIGHBOUR, a hallucination. A middle-aged pot-bellied neighbour turned zombie: sickly green skin with darker blotches, almost bald with three long hairs, one eye bigger than the other, missing teeth, dopey hungry face. Dirty white sleeveless tank top stretched over the belly on the chest piece, bare green arms, blue tracksuit pants with white side stripes split at the knee, worn brown house slippers as feet. Hallucination look: acid neon accents and a thin solid neon pink-and-cyan rim line just inside the dark outline of every piece, no soft glow.
-Props: a dented cooking-pot lid.
+A character turnaround sheet in a grimy underground-comix sticker style, 16:9, made as a construction reference for rigging a 2D game puppet. Copy the attached grey template exactly: four full-body views of the same character standing side by side on one invisible ground line, all at the identical height and evenly spaced — in the left quarter the front view, then a three-quarter view turned to the left, then a strict side profile facing left, and in the right quarter the back view. In every view the character stands in a relaxed A-pose with both arms held about twenty degrees away from the body so the hands never overlap the torso, feet shoulder-width apart. The character is a pale-green undead internet forum moderator in his forties, greasy comb-over plastered across a cracked scalp, sunken eyes behind thick cracked glasses held together with tape, a slack jaw with a few yellow teeth; he wears a stained grey zip hoodie over a faded t-shirt with a shield badge showing a crossed-out speech bubble, saggy sweatpants and worn house slippers. The hoodie sags under its own weight with a dark coffee stain dried stiff across the belly, the sweatpants bag at the knees, and the slippers are flattened at the heels, and these folds stay consistent from view to view. As a hallucination the character carries a thin solid neon pink-and-cyan rim line just inside the dark outline in every view, with no soft glow. Every view uses the same flat even light with one hard cel-shading step and no cast shadows, so the four figures read as one model; thick uneven dark-purple #1B1030 marker outlines, faint paper grain inside the fills, no white sticker border. The background is one perfectly flat pure magenta #FF00FF reaching all four edges, with no floor, text, labels, numbers or arrows. Wide 16:9 sheet, 4K.
 ```
 
-**`zombie_faces.png`** — эмоции зомби.
-
-Приложи: `zombie`, `tpl_faces_magenta_left`
-
+Доработка:
 ```
-[STYLE]
-[FOE_FACES with {BG} = pure magenta #FF00FF]
-Character: ZOMBIE NEIGHBOUR from the attached puppet sheet: green bald head with three long hairs, mismatched eyes, missing teeth. Default mood: dopey and hungry.
+Make all four views exactly the same height and stand them on one shared ground line, keeping the character design identical.
 ```
 
-**`zombie_tough.png`** — усиленный зомби для поздних ночей. Фон маджента.
+**`mod_rig.png`** — детали для рига: торс спереди и сбоку, руки и ноги по суставам, кисти, стопы, реквизит. Фон маджента. Руки и ноги нарисованы целиком и отдельно — ими можно махать широко.
 
-Приложи: `style_anchor`, `zombie`, `tpl_body_magenta_left`
-
-```
-[STYLE]
-[PUPPET with {BG} = pure magenta #FF00FF, {DIR} = LEFT]
-Character: ZOMBIE GYM BRO, a hallucination from the same world as the attached zombie neighbour, drawn at the same scale but a head taller. Huge muscular chest and upper arms, thin legs, a tiny head with a green buzz cut and tiny angry eyes. Green skin, torn neon-yellow gym tank top, black shorts split at the knee, a flip-flop on each foot. An old car tyre is worn around the chest like armour and is drawn as part of the chest piece. Hallucination look: acid neon accents and a thin solid neon pink-and-cyan rim line just inside the dark outline of every piece, no soft glow.
-Props: a heavy dumbbell.
-```
-
-**`zombie_tough_faces.png`** — эмоции качка.
-
-Приложи: `zombie_tough`, `tpl_faces_magenta_left`
+Приложи: `mod_turn`, `tpl_rig_magenta_left`
 
 ```
-[STYLE]
-[FOE_FACES with {BG} = pure magenta #FF00FF]
-Character: ZOMBIE GYM BRO from the attached puppet sheet: tiny green head with a buzz cut and tiny angry eyes. Default mood: aggressive and dumb.
+A cut-out puppet parts sheet in a grimy underground-comix sticker style, 16:9, that takes the character from the attached turnaround apart for skeletal animation, every piece at exactly the scale of the turnaround figures. Copy the attached grey template: three rows with wide empty gaps so nothing touches. Top row, left to right: the torso seen from the front with the neck hole and both shoulder sockets, the same torso in side profile facing left, the pelvis in side profile as a short briefs-like block cut from the trousers with two round hip sockets and no trouser legs, and a short neck cylinder. Middle row: an upper arm from shoulder to elbow and a forearm from elbow to wrist, both hanging perfectly straight and vertical, then four hands in side view — open and relaxed, a clenched fist, gripping a round handle with an empty hole through the grip, and pointing forward with the index finger. Bottom row: a thigh from hip to knee and a shin from knee to ankle, both straight and vertical, then the foot in side profile with the toes toward the left, and the same foot seen from the front. The character is a pale-green undead internet forum moderator in his forties from the attached turnaround; the hoodie sleeves split at the elbow with a ribbed cuff at the wrist, the sweatpants split at the knee. Props laid out at the far right of the middle and bottom rows: a huge wooden banhammer with a chipped head and a wrapped grip, sized to fit the gripping hand. As a hallucination every piece carries a thin solid neon pink-and-cyan rim line just inside the dark outline, with no soft glow. Every piece is drawn complete, including the part normally hidden under its neighbour, and every joint end — shoulder, elbow, wrist, hip, knee, ankle and both ends of the neck — is a fully rounded cap that runs a little past the joint, so pieces overlap without gaps when they rotate. Use flat even light with one hard cel-shading step and no cast shadows; thick uneven dark-purple #1B1030 marker outlines, faint paper grain inside the fills, no white sticker border. The background is one perfectly flat pure magenta #FF00FF reaching all four edges, with no text, labels, numbers or guide lines. Wide 16:9 sheet, 4K.
 ```
 
-**`ballerina.png`** — «Гитлер в пачке». Фон зелёный (костюм розовый).
-
-Приложи: `style_anchor`, `tpl_body_green_left`
-
+Доработка:
 ```
-[STYLE]
-[PUPPET with {BG} = pure chroma green #00FF00, {DIR} = LEFT]
-Character: a hallucination, a satirical caricature of a furious 1940s dictator dressed as a ballerina. Small angry man with a black side-parted fringe glued flat to the head and a small rectangular toothbrush moustache. Pink ballet leotard on the chest piece, bare arms. The fluffy layered pink tutu is drawn as part of the pelvis piece, sticking out sideways. White tights split at the knee, pink pointe shoes with ribbons as feet, standing on tiptoe. No military uniform, no symbols, no armbands, no insignia of any kind. Ridiculous and humiliating, pure mockery. Hallucination look: acid neon accents and a thin solid neon pink-and-cyan rim line just inside the dark outline of every piece, no soft glow.
-Props: none, leave the props area empty.
+Separate any touching pieces with wider gaps and straighten the arm and leg pieces so they hang vertically, keeping every design and scale identical.
 ```
 
-**`ballerina_faces.png`** — эмоции балерины.
+**`mod_emote.png`** — эмоции: восемь лиц на одной голове. Фон маджента. Голова в том же ракурсе, что на развёртке: в игре лица подменяются.
 
-Приложи: `ballerina`, `tpl_faces_green_left`
-
-```
-[STYLE]
-[FOE_FACES with {BG} = pure chroma green #00FF00]
-Character: the dictator ballerina from the attached puppet sheet: black side-parted fringe, small rectangular moustache. Default mood: furious and offended. No symbols of any kind.
-```
-
-**`alien.png`** — пришелец. Фон маджента.
-
-Приложи: `style_anchor`, `tpl_body_magenta_left`
+Приложи: `mod_turn`, `tpl_faces_magenta_left`
 
 ```
-[STYLE]
-[PUPPET with {BG} = pure magenta #FF00FF, {DIR} = LEFT]
-Character: GREY ALIEN, a hallucination. A skinny little grey-green alien a head shorter than a man, with an oversized bulb head, huge glossy black almond eyes, a tiny mouth and one antenna on top ending in a pink ball; the antenna is part of the head. Very thin neck, narrow chest, noodle-thin arms and legs, hands with three long fingers. Wears only white socks with sandals; the feet are the socks and sandals. Hallucination look: acid neon accents and a thin solid neon pink-and-cyan rim line just inside the dark outline of every piece, no soft glow.
-Props: a tiny toy ray gun, sized to fit the gripping hand.
+An expression sheet for head swapping in 2D cut-out animation, in a grimy underground-comix sticker style, 16:9. Copy the attached grey template: eight heads in a four-by-two grid with wide empty gaps. All eight are the exact head of the character from the attached turnaround in its three-quarter view turned to the left — identical size, outline, angle, hair, hat and headwear — and each ends at the jaw with no neck. Only the face changes, in reading order: top row (1) neutral, (2) blink with eyes fully closed, (3) biting with the mouth wide open showing teeth, (4) chewing with a full mouth; bottom row: (5) hurt and wincing with one eye shut, (6) furious, (7) stunned with spiral eyes and the tongue out, (8) fading away with the eyes rolled up and the mouth hanging open. The default mood is bored, dead-eyed and smug, so even the neutral face carries it. Each head keeps the thin solid neon pink-and-cyan rim line of the hallucination, with no soft glow. Use flat even light with one hard cel-shading step and no cast shadows; thick uneven dark-purple #1B1030 marker outlines, faint paper grain inside the fills, no white sticker border. The background is one perfectly flat pure magenta #FF00FF reaching all four edges, with no shadows, text, labels or numbers. Wide 16:9 sheet, 4K.
 ```
 
-**`alien_faces.png`** — эмоции пришельца.
-
-Приложи: `alien`, `tpl_faces_magenta_left`
-
+Доработка:
 ```
-[STYLE]
-[FOE_FACES with {BG} = pure magenta #FF00FF]
-Character: GREY ALIEN from the attached puppet sheet: bulb head, huge black almond eyes, tiny mouth, antenna with a pink ball. The eyes stay big and black; emotions show through eyelids, brows and the mouth. Default mood: curious and blank.
+Make all eight heads exactly the same size and angle, changing only the facial expressions.
 ```
 
-**`pirate.png`** — свой пьяный пират. Фон зелёный.
+### Курьер-призрак
 
-Приложи: `style_anchor`, `tpl_body_green_left`
+*Сбит самокатом на последнем заказе. Всё ещё везёт ваш ролл «Филадельфия».* В игре: быстрый: проходит сквозь первую преграду.
 
-```
-[STYLE]
-[PUPPET with {BG} = pure chroma green #00FF00, {DIR} = LEFT]
-Character: DRUNK PIRATE CAPTAIN, an original character and a hallucination. Barrel-chested, with a huge bushy orange beard, a black eyepatch and a red nose; the dark tricorn hat with a white skull badge and the beard are part of the head piece. Red-and-white striped shirt with a wide leather belt on the chest piece, dark purple breeches split at the knee, buckled boots as feet. Must not resemble any existing film character: no dreadlocks, no bandana, no beads, no eyeliner. Hallucination look: acid neon accents and a thin solid neon pink-and-cyan rim line just inside the dark outline of every piece, no soft glow.
-Props: a green glass bottle sized to fit the gripping hand; a wooden peg leg drawn as one straight vertical piece the length of shin plus foot.
-```
+**`courier_turn.png`** — развёртка: спереди, три четверти, сбоку, сзади. Фон зелёный. Это эталон модели: по нему собирается риг и рисуются детали.
 
-**`pirate_faces.png`** — эмоции пирата.
-
-Приложи: `pirate`, `tpl_faces_green_left`
+Приложи: `style_anchor`, `tpl_turn_green_left`
 
 ```
-[STYLE]
-[FOE_FACES with {BG} = pure chroma green #00FF00]
-Character: DRUNK PIRATE CAPTAIN from the attached puppet sheet: tricorn hat with a skull badge, bushy orange beard, eyepatch, red nose. The eyepatch stays on in every face. Default mood: drunk, cross-eyed grin.
+A character turnaround sheet in a grimy underground-comix sticker style, 16:9, made as a construction reference for rigging a 2D game puppet. Copy the attached grey template exactly: four full-body views of the same character standing side by side on one invisible ground line, all at the identical height and evenly spaced — in the left quarter the front view, then a three-quarter view turned to the left, then a strict side profile facing left, and in the right quarter the back view. In every view the character stands in a relaxed A-pose with both arms held about twenty degrees away from the body so the hands never overlap the torso, feet shoulder-width apart. The character is a translucent pale-blue ghost of a young delivery courier, cheeks hollow, a faint tire track printed across his chest and one cheek, a cheap rain poncho over a branded-free hoodie, a phone strapped to his forearm, sneakers with flapping soles; a huge cube-shaped insulated delivery backpack is strapped to his back. The poncho flutters backward as if he is always rushing, rainwater drips off its hem, and the backpack drags his shoulders down with its weight, and these folds stay consistent from view to view. As a hallucination the character carries a thin solid neon pink-and-cyan rim line just inside the dark outline in every view, with no soft glow. Every view uses the same flat even light with one hard cel-shading step and no cast shadows, so the four figures read as one model; thick uneven dark-purple #1B1030 marker outlines, faint paper grain inside the fills, no white sticker border. The background is one perfectly flat pure chroma green #00FF00 reaching all four edges, with no floor, text, labels, numbers or arrows. Wide 16:9 sheet, 4K.
 ```
 
-**`jesus.png`** — Иисус. Фон зелёный.
-
-Приложи: `style_anchor`, `tpl_body_green_left`
-
+Доработка:
 ```
-[STYLE]
-[PUPPET with {BG} = pure chroma green #00FF00, {DIR} = LEFT]
-Character: a friendly cartoon JESUS as a hallucination, good-natured and funny, not mocking. Calm blissful smile, short beard; the shoulder-length brown hair and a golden ring halo floating above it are part of the head piece. Cream-white robe top with a red sash over one shoulder on the chest piece, wide robe sleeves split at the elbow. Under the robe the legs are drawn plain: cream trouser legs split at the knee, leather sandals as feet. Hallucination look: acid neon accents and a thin solid neon pink-and-cyan rim line just inside the dark outline of every piece, no soft glow.
-Props: the lower robe drawn as one separate bell-shaped skirt piece from the waist to the ankles, open at the bottom.
+Make all four views exactly the same height and stand them on one shared ground line, keeping the character design identical.
 ```
 
-**`jesus_faces.png`** — эмоции Иисуса.
+**`courier_rig.png`** — детали для рига: торс спереди и сбоку, руки и ноги по суставам, кисти, стопы, реквизит. Фон зелёный. Руки и ноги нарисованы целиком и отдельно — ими можно махать широко.
 
-Приложи: `jesus`, `tpl_faces_green_left`
-
-```
-[STYLE]
-[FOE_FACES with {BG} = pure chroma green #00FF00]
-Character: JESUS from the attached puppet sheet: shoulder-length brown hair, short beard, golden halo above the head, all identical in every face. Replace (6) furious with mildly disappointed. Default mood: calm and blissful.
-```
-
-**`dracula.png`** — Дракула. Фон зелёный.
-
-Приложи: `style_anchor`, `tpl_body_green_left`
+Приложи: `courier_turn`, `tpl_rig_green_left`
 
 ```
-[STYLE]
-[PUPPET with {BG} = pure chroma green #00FF00, {DIR} = LEFT]
-Character: COUNT DRACULA in the classic public-domain look, a hallucination. Pale blue-grey skin, slicked black hair with a sharp widow's peak as part of the head, red eyes, two long fangs, smug aristocratic sneer. Black tailcoat with a white shirt and red bow tie on the chest piece, the high stiff cape collar is part of the chest piece. Black trousers split at the knee, shiny black shoes. Hallucination look: acid neon accents and a thin solid neon pink-and-cyan rim line just inside the dark outline of every piece, no soft glow.
-Props: the cape drawn as one separate flat piece seen from behind the body, from the shoulders down to the knees, black outside with crimson lining showing at the edge; a small cartoon bat with spread wings.
+A cut-out puppet parts sheet in a grimy underground-comix sticker style, 16:9, that takes the character from the attached turnaround apart for skeletal animation, every piece at exactly the scale of the turnaround figures. Copy the attached grey template: three rows with wide empty gaps so nothing touches. Top row, left to right: the torso seen from the front with the neck hole and both shoulder sockets, the same torso in side profile facing left, the pelvis in side profile as a short briefs-like block cut from the trousers with two round hip sockets and no trouser legs, and a short neck cylinder. Middle row: an upper arm from shoulder to elbow and a forearm from elbow to wrist, both hanging perfectly straight and vertical, then four hands in side view — open and relaxed, a clenched fist, gripping a round handle with an empty hole through the grip, and pointing forward with the index finger. Bottom row: a thigh from hip to knee and a shin from knee to ankle, both straight and vertical, then the foot in side profile with the toes toward the left, and the same foot seen from the front. The character is a translucent pale-blue ghost of a young delivery courier from the attached turnaround; the poncho sleeves split at the elbow, the trousers split at the knee; the delivery backpack is drawn as part of the torso pieces. Props laid out at the far right of the middle and bottom rows: a paper takeaway bag with a stapled receipt, sized to fit the gripping hand. As a hallucination every piece carries a thin solid neon pink-and-cyan rim line just inside the dark outline, with no soft glow. Every piece is drawn complete, including the part normally hidden under its neighbour, and every joint end — shoulder, elbow, wrist, hip, knee, ankle and both ends of the neck — is a fully rounded cap that runs a little past the joint, so pieces overlap without gaps when they rotate. Use flat even light with one hard cel-shading step and no cast shadows; thick uneven dark-purple #1B1030 marker outlines, faint paper grain inside the fills, no white sticker border. The background is one perfectly flat pure chroma green #00FF00 reaching all four edges, with no text, labels, numbers or guide lines. Wide 16:9 sheet, 4K.
 ```
 
-**`dracula_faces.png`** — эмоции Дракулы.
-
-Приложи: `dracula`, `tpl_faces_green_left`
-
+Доработка:
 ```
-[STYLE]
-[FOE_FACES with {BG} = pure chroma green #00FF00]
-Character: COUNT DRACULA from the attached puppet sheet: pale blue-grey face, slicked black hair with a widow's peak, red eyes, fangs. Default mood: smug sneer.
+Separate any touching pieces with wider gaps and straighten the arm and leg pieces so they hang vertically, keeping every design and scale identical.
 ```
 
-**`kolobok.png`** (1:1) — колобок, не гуманоид. Фон маджента.
+**`courier_emote.png`** — эмоции: восемь лиц на одной голове. Фон зелёный. Голова в том же ракурсе, что на развёртке: в игре лица подменяются.
+
+Приложи: `courier_turn`, `tpl_faces_green_left`
+
+```
+An expression sheet for head swapping in 2D cut-out animation, in a grimy underground-comix sticker style, 16:9. Copy the attached grey template: eight heads in a four-by-two grid with wide empty gaps. All eight are the exact head of the character from the attached turnaround in its three-quarter view turned to the left — identical size, outline, angle, hair, hat and headwear — and each ends at the jaw with no neck. Only the face changes, in reading order: top row (1) neutral, (2) blink with eyes fully closed, (3) biting with the mouth wide open showing teeth, (4) chewing with a full mouth; bottom row: (5) hurt and wincing with one eye shut, (6) furious, (7) stunned with spiral eyes and the tongue out, (8) fading away with the eyes rolled up and the mouth hanging open. The default mood is exhausted and apologetic, always late, so even the neutral face carries it. Each head keeps the thin solid neon pink-and-cyan rim line of the hallucination, with no soft glow. Use flat even light with one hard cel-shading step and no cast shadows; thick uneven dark-purple #1B1030 marker outlines, faint paper grain inside the fills, no white sticker border. The background is one perfectly flat pure chroma green #00FF00 reaching all four edges, with no shadows, text, labels or numbers. Wide 16:9 sheet, 4K.
+```
+
+Доработка:
+```
+Make all eight heads exactly the same size and angle, changing only the facial expressions.
+```
+
+### Скелет рейд-лидера
+
+*Сутки не вставал из-за компа ради легендарки. Так и не выпала.* В игре: аура: ускоряет соседних глюков.
+
+**`raider_turn.png`** — развёртка: спереди, три четверти, сбоку, сзади. Фон маджента. Это эталон модели: по нему собирается риг и рисуются детали.
+
+Приложи: `style_anchor`, `tpl_turn_magenta_left`
+
+```
+A character turnaround sheet in a grimy underground-comix sticker style, 16:9, made as a construction reference for rigging a 2D game puppet. Copy the attached grey template exactly: four full-body views of the same character standing side by side on one invisible ground line, all at the identical height and evenly spaced — in the left quarter the front view, then a three-quarter view turned to the left, then a strict side profile facing left, and in the right quarter the back view. In every view the character stands in a relaxed A-pose with both arms held about twenty degrees away from the body so the hands never overlap the torso, feet shoulder-width apart. The character is a grinning skeleton raid leader, bones yellowed and dusty, cobwebs between the ribs, a chunky gaming headset with a boom mic clamped over his skull, a ragged oversized gaming hoodie hanging off the bones, cargo shorts and one sock. The hoodie hangs loose on the bare bones and swings with every move, dust puffs off the joints, and the headset cable dangles down to the knee, and these folds stay consistent from view to view. As a hallucination the character carries a thin solid neon pink-and-cyan rim line just inside the dark outline in every view, with no soft glow. Every view uses the same flat even light with one hard cel-shading step and no cast shadows, so the four figures read as one model; thick uneven dark-purple #1B1030 marker outlines, faint paper grain inside the fills, no white sticker border. The background is one perfectly flat pure magenta #FF00FF reaching all four edges, with no floor, text, labels, numbers or arrows. Wide 16:9 sheet, 4K.
+```
+
+Доработка:
+```
+Make all four views exactly the same height and stand them on one shared ground line, keeping the character design identical.
+```
+
+**`raider_rig.png`** — детали для рига: торс спереди и сбоку, руки и ноги по суставам, кисти, стопы, реквизит. Фон маджента. Руки и ноги нарисованы целиком и отдельно — ими можно махать широко.
+
+Приложи: `raider_turn`, `tpl_rig_magenta_left`
+
+```
+A cut-out puppet parts sheet in a grimy underground-comix sticker style, 16:9, that takes the character from the attached turnaround apart for skeletal animation, every piece at exactly the scale of the turnaround figures. Copy the attached grey template: three rows with wide empty gaps so nothing touches. Top row, left to right: the torso seen from the front with the neck hole and both shoulder sockets, the same torso in side profile facing left, the pelvis in side profile as a short briefs-like block cut from the trousers with two round hip sockets and no trouser legs, and a short neck cylinder. Middle row: an upper arm from shoulder to elbow and a forearm from elbow to wrist, both hanging perfectly straight and vertical, then four hands in side view — open and relaxed, a clenched fist, gripping a round handle with an empty hole through the grip, and pointing forward with the index finger. Bottom row: a thigh from hip to knee and a shin from knee to ankle, both straight and vertical, then the foot in side profile with the toes toward the left, and the same foot seen from the front. The character is a grinning skeleton raid leader from the attached turnaround; the hoodie sleeves split at the elbow over bare bone forearms, the bony legs split at the knee. Props laid out at the far right of the middle and bottom rows: a gaming mouse on a long cable swung like a flail, and an empty crushed energy-drink can with no brand. As a hallucination every piece carries a thin solid neon pink-and-cyan rim line just inside the dark outline, with no soft glow. Every piece is drawn complete, including the part normally hidden under its neighbour, and every joint end — shoulder, elbow, wrist, hip, knee, ankle and both ends of the neck — is a fully rounded cap that runs a little past the joint, so pieces overlap without gaps when they rotate. Use flat even light with one hard cel-shading step and no cast shadows; thick uneven dark-purple #1B1030 marker outlines, faint paper grain inside the fills, no white sticker border. The background is one perfectly flat pure magenta #FF00FF reaching all four edges, with no text, labels, numbers or guide lines. Wide 16:9 sheet, 4K.
+```
+
+Доработка:
+```
+Separate any touching pieces with wider gaps and straighten the arm and leg pieces so they hang vertically, keeping every design and scale identical.
+```
+
+**`raider_emote.png`** — эмоции: восемь лиц на одной голове. Фон маджента. Голова в том же ракурсе, что на развёртке: в игре лица подменяются.
+
+Приложи: `raider_turn`, `tpl_faces_magenta_left`
+
+```
+An expression sheet for head swapping in 2D cut-out animation, in a grimy underground-comix sticker style, 16:9. Copy the attached grey template: eight heads in a four-by-two grid with wide empty gaps. All eight are the exact head of the character from the attached turnaround in its three-quarter view turned to the left — identical size, outline, angle, hair, hat and headwear — and each ends at the jaw with no neck. Only the face changes, in reading order: top row (1) neutral, (2) blink with eyes fully closed, (3) biting with the mouth wide open showing teeth, (4) chewing with a full mouth; bottom row: (5) hurt and wincing with one eye shut, (6) furious, (7) stunned with spiral eyes and the tongue out, (8) fading away with the eyes rolled up and the mouth hanging open. The default mood is manic and bossy, shouting orders, so even the neutral face carries it. Each head keeps the thin solid neon pink-and-cyan rim line of the hallucination, with no soft glow. Use flat even light with one hard cel-shading step and no cast shadows; thick uneven dark-purple #1B1030 marker outlines, faint paper grain inside the fills, no white sticker border. The background is one perfectly flat pure magenta #FF00FF reaching all four edges, with no shadows, text, labels or numbers. Wide 16:9 sheet, 4K.
+```
+
+Доработка:
+```
+Make all eight heads exactly the same size and angle, changing only the facial expressions.
+```
+
+### Пират-торрентщик
+
+*Качал всё бесплатно. Теперь качается сам — на волнах ада.* В игре: шатается между рядами.
+
+**`torrent_turn.png`** — развёртка: спереди, три четверти, сбоку, сзади. Фон зелёный. Это эталон модели: по нему собирается риг и рисуются детали.
+
+Приложи: `style_anchor`, `tpl_turn_green_left`
+
+```
+A character turnaround sheet in a grimy underground-comix sticker style, 16:9, made as a construction reference for rigging a 2D game puppet. Copy the attached grey template exactly: four full-body views of the same character standing side by side on one invisible ground line, all at the identical height and evenly spaced — in the left quarter the front view, then a three-quarter view turned to the left, then a strict side profile facing left, and in the right quarter the back view. In every view the character stands in a relaxed A-pose with both arms held about twenty degrees away from the body so the hands never overlap the torso, feet shoulder-width apart. The character is an undead pirate captain with grey rotting skin, a bushy dirty orange beard, a black eyepatch with a tiny floppy-disk emblem, a dark tricorn hat with a white skull-and-crossed-cables badge, a red-and-white striped shirt, a wide leather belt and dark breeches; a parrot made from a USB stick with feathers glued on sits on his shoulder. The beard is matted and swings heavily, the striped shirt is torn at the hem, and seawater drips from the breeches, and these folds stay consistent from view to view. As a hallucination the character carries a thin solid neon pink-and-cyan rim line just inside the dark outline in every view, with no soft glow. Every view uses the same flat even light with one hard cel-shading step and no cast shadows, so the four figures read as one model; thick uneven dark-purple #1B1030 marker outlines, faint paper grain inside the fills, no white sticker border. The background is one perfectly flat pure chroma green #00FF00 reaching all four edges, with no floor, text, labels, numbers or arrows. Wide 16:9 sheet, 4K.
+```
+
+Доработка:
+```
+Make all four views exactly the same height and stand them on one shared ground line, keeping the character design identical.
+```
+
+**`torrent_rig.png`** — детали для рига: торс спереди и сбоку, руки и ноги по суставам, кисти, стопы, реквизит. Фон зелёный. Руки и ноги нарисованы целиком и отдельно — ими можно махать широко.
+
+Приложи: `torrent_turn`, `tpl_rig_green_left`
+
+```
+A cut-out puppet parts sheet in a grimy underground-comix sticker style, 16:9, that takes the character from the attached turnaround apart for skeletal animation, every piece at exactly the scale of the turnaround figures. Copy the attached grey template: three rows with wide empty gaps so nothing touches. Top row, left to right: the torso seen from the front with the neck hole and both shoulder sockets, the same torso in side profile facing left, the pelvis in side profile as a short briefs-like block cut from the trousers with two round hip sockets and no trouser legs, and a short neck cylinder. Middle row: an upper arm from shoulder to elbow and a forearm from elbow to wrist, both hanging perfectly straight and vertical, then four hands in side view — open and relaxed, a clenched fist, gripping a round handle with an empty hole through the grip, and pointing forward with the index finger. Bottom row: a thigh from hip to knee and a shin from knee to ankle, both straight and vertical, then the foot in side profile with the toes toward the left, and the same foot seen from the front. The character is an undead pirate captain with grey rotting skin from the attached turnaround; the shirt sleeves split at the elbow, the breeches split at the knee; the parrot is part of the torso piece; the tricorn hat and beard are part of the head. Props laid out at the far right of the middle and bottom rows: a cutlass whose blade is a cracked shiny compact disc, and a wooden peg leg drawn as one straight vertical piece the length of shin plus foot. As a hallucination every piece carries a thin solid neon pink-and-cyan rim line just inside the dark outline, with no soft glow. Every piece is drawn complete, including the part normally hidden under its neighbour, and every joint end — shoulder, elbow, wrist, hip, knee, ankle and both ends of the neck — is a fully rounded cap that runs a little past the joint, so pieces overlap without gaps when they rotate. Use flat even light with one hard cel-shading step and no cast shadows; thick uneven dark-purple #1B1030 marker outlines, faint paper grain inside the fills, no white sticker border. The background is one perfectly flat pure chroma green #00FF00 reaching all four edges, with no text, labels, numbers or guide lines. Wide 16:9 sheet, 4K.
+```
+
+Доработка:
+```
+Separate any touching pieces with wider gaps and straighten the arm and leg pieces so they hang vertically, keeping every design and scale identical.
+```
+
+**`torrent_emote.png`** — эмоции: восемь лиц на одной голове. Фон зелёный. Голова в том же ракурсе, что на развёртке: в игре лица подменяются.
+
+Приложи: `torrent_turn`, `tpl_faces_green_left`
+
+```
+An expression sheet for head swapping in 2D cut-out animation, in a grimy underground-comix sticker style, 16:9. Copy the attached grey template: eight heads in a four-by-two grid with wide empty gaps. All eight are the exact head of the character from the attached turnaround in its three-quarter view turned to the left — identical size, outline, angle, hair, hat and headwear — and each ends at the jaw with no neck. Only the face changes, in reading order: top row (1) neutral, (2) blink with eyes fully closed, (3) biting with the mouth wide open showing teeth, (4) chewing with a full mouth; bottom row: (5) hurt and wincing with one eye shut, (6) furious, (7) stunned with spiral eyes and the tongue out, (8) fading away with the eyes rolled up and the mouth hanging open. The default mood is drunk, cross-eyed and greedy, so even the neutral face carries it. Each head keeps the thin solid neon pink-and-cyan rim line of the hallucination, with no soft glow. Use flat even light with one hard cel-shading step and no cast shadows; thick uneven dark-purple #1B1030 marker outlines, faint paper grain inside the fills, no white sticker border. The background is one perfectly flat pure chroma green #00FF00 reaching all four edges, with no shadows, text, labels or numbers. Wide 16:9 sheet, 4K.
+```
+
+Доработка:
+```
+Make all eight heads exactly the same size and angle, changing only the facial expressions.
+```
+
+### Стример-трупак
+
+*Стримил марафон без сна. Чат так и не заметил. Встаёт ещё раз: «чат, я вернулся».* В игре: воскресает один раз.
+
+**`streamer_turn.png`** — развёртка: спереди, три четверти, сбоку, сзади. Фон зелёный. Это эталон модели: по нему собирается риг и рисуются детали.
+
+Приложи: `style_anchor`, `tpl_turn_green_left`
+
+```
+A character turnaround sheet in a grimy underground-comix sticker style, 16:9, made as a construction reference for rigging a 2D game puppet. Copy the attached grey template exactly: four full-body views of the same character standing side by side on one invisible ground line, all at the identical height and evenly spaced — in the left quarter the front view, then a three-quarter view turned to the left, then a strict side profile facing left, and in the right quarter the back view. In every view the character stands in a relaxed A-pose with both arms held about twenty degrees away from the body so the hands never overlap the torso, feet shoulder-width apart. The character is a dead young streamer with grey-violet skin and stitched-up cheek, dark circles, bleached hair with dark roots, a big over-ear headset, a tight graphic tee with an abstract logo, a clip-on webcam on his collar, joggers and slides; a ring light halo stands behind his head like a saint's nimbus. The ring light casts a flat white rim on his hair and shoulders, the headset cable is tangled around his neck, and the joggers wrinkle at the knees, and these folds stay consistent from view to view. As a hallucination the character carries a thin solid neon pink-and-cyan rim line just inside the dark outline in every view, with no soft glow. Every view uses the same flat even light with one hard cel-shading step and no cast shadows, so the four figures read as one model; thick uneven dark-purple #1B1030 marker outlines, faint paper grain inside the fills, no white sticker border. The background is one perfectly flat pure chroma green #00FF00 reaching all four edges, with no floor, text, labels, numbers or arrows. Wide 16:9 sheet, 4K.
+```
+
+Доработка:
+```
+Make all four views exactly the same height and stand them on one shared ground line, keeping the character design identical.
+```
+
+**`streamer_rig.png`** — детали для рига: торс спереди и сбоку, руки и ноги по суставам, кисти, стопы, реквизит. Фон зелёный. Руки и ноги нарисованы целиком и отдельно — ими можно махать широко.
+
+Приложи: `streamer_turn`, `tpl_rig_green_left`
+
+```
+A cut-out puppet parts sheet in a grimy underground-comix sticker style, 16:9, that takes the character from the attached turnaround apart for skeletal animation, every piece at exactly the scale of the turnaround figures. Copy the attached grey template: three rows with wide empty gaps so nothing touches. Top row, left to right: the torso seen from the front with the neck hole and both shoulder sockets, the same torso in side profile facing left, the pelvis in side profile as a short briefs-like block cut from the trousers with two round hip sockets and no trouser legs, and a short neck cylinder. Middle row: an upper arm from shoulder to elbow and a forearm from elbow to wrist, both hanging perfectly straight and vertical, then four hands in side view — open and relaxed, a clenched fist, gripping a round handle with an empty hole through the grip, and pointing forward with the index finger. Bottom row: a thigh from hip to knee and a shin from knee to ankle, both straight and vertical, then the foot in side profile with the toes toward the left, and the same foot seen from the front. The character is a dead young streamer with grey-violet skin and stitched-up cheek from the attached turnaround; the tee sleeves end on the upper arm with bare forearms, the joggers split at the knee; the ring light halo is part of the head piece. Props laid out at the far right of the middle and bottom rows: a selfie stick with a cracked phone, sized to fit the gripping hand. As a hallucination every piece carries a thin solid neon pink-and-cyan rim line just inside the dark outline, with no soft glow. Every piece is drawn complete, including the part normally hidden under its neighbour, and every joint end — shoulder, elbow, wrist, hip, knee, ankle and both ends of the neck — is a fully rounded cap that runs a little past the joint, so pieces overlap without gaps when they rotate. Use flat even light with one hard cel-shading step and no cast shadows; thick uneven dark-purple #1B1030 marker outlines, faint paper grain inside the fills, no white sticker border. The background is one perfectly flat pure chroma green #00FF00 reaching all four edges, with no text, labels, numbers or guide lines. Wide 16:9 sheet, 4K.
+```
+
+Доработка:
+```
+Separate any touching pieces with wider gaps and straighten the arm and leg pieces so they hang vertically, keeping every design and scale identical.
+```
+
+**`streamer_emote.png`** — эмоции: восемь лиц на одной голове. Фон зелёный. Голова в том же ракурсе, что на развёртке: в игре лица подменяются.
+
+Приложи: `streamer_turn`, `tpl_faces_green_left`
+
+```
+An expression sheet for head swapping in 2D cut-out animation, in a grimy underground-comix sticker style, 16:9. Copy the attached grey template: eight heads in a four-by-two grid with wide empty gaps. All eight are the exact head of the character from the attached turnaround in its three-quarter view turned to the left — identical size, outline, angle, hair, hat and headwear — and each ends at the jaw with no neck. Only the face changes, in reading order: top row (1) neutral, (2) blink with eyes fully closed, (3) biting with the mouth wide open showing teeth, (4) chewing with a full mouth; bottom row: (5) hurt and wincing with one eye shut, (6) furious, (7) stunned with spiral eyes and the tongue out, (8) fading away with the eyes rolled up and the mouth hanging open. The default mood is fake-cheerful, desperate for attention, so even the neutral face carries it. Each head keeps the thin solid neon pink-and-cyan rim line of the hallucination, with no soft glow. Use flat even light with one hard cel-shading step and no cast shadows; thick uneven dark-purple #1B1030 marker outlines, faint paper grain inside the fills, no white sticker border. The background is one perfectly flat pure chroma green #00FF00 reaching all four edges, with no shadows, text, labels or numbers. Wide 16:9 sheet, 4K.
+```
+
+Доработка:
+```
+Make all eight heads exactly the same size and angle, changing only the facial expressions.
+```
+
+### Сисадмин-вампир
+
+*Двадцать лет не видел солнца. Пьёт кофе группы крови «арабика».* В игре: лечится, пока кусает.
+
+**`sysadmin_turn.png`** — развёртка: спереди, три четверти, сбоку, сзади. Фон зелёный. Это эталон модели: по нему собирается риг и рисуются детали.
+
+Приложи: `style_anchor`, `tpl_turn_green_left`
+
+```
+A character turnaround sheet in a grimy underground-comix sticker style, 16:9, made as a construction reference for rigging a 2D game puppet. Copy the attached grey template exactly: four full-body views of the same character standing side by side on one invisible ground line, all at the identical height and evenly spaced — in the left quarter the front view, then a three-quarter view turned to the left, then a strict side profile facing left, and in the right quarter the back view. In every view the character stands in a relaxed A-pose with both arms held about twenty degrees away from the body so the hands never overlap the torso, feet shoulder-width apart. The character is a gaunt vampire system administrator with paper-white skin, slicked black hair with a widow's peak, red sleepless eyes, small fangs, a wrinkled black shirt with rolled sleeves, a lanyard with an access card, black trousers and orthopedic sandals with socks; a long cape made of tangled grey and blue network cables hangs from his shoulders. The cable cape drags on the floor and its loose plugs click together, the shirt is creased from sleeping at the desk, and the lanyard swings over the chest, and these folds stay consistent from view to view. As a hallucination the character carries a thin solid neon pink-and-cyan rim line just inside the dark outline in every view, with no soft glow. Every view uses the same flat even light with one hard cel-shading step and no cast shadows, so the four figures read as one model; thick uneven dark-purple #1B1030 marker outlines, faint paper grain inside the fills, no white sticker border. The background is one perfectly flat pure chroma green #00FF00 reaching all four edges, with no floor, text, labels, numbers or arrows. Wide 16:9 sheet, 4K.
+```
+
+Доработка:
+```
+Make all four views exactly the same height and stand them on one shared ground line, keeping the character design identical.
+```
+
+**`sysadmin_rig.png`** — детали для рига: торс спереди и сбоку, руки и ноги по суставам, кисти, стопы, реквизит. Фон зелёный. Руки и ноги нарисованы целиком и отдельно — ими можно махать широко.
+
+Приложи: `sysadmin_turn`, `tpl_rig_green_left`
+
+```
+A cut-out puppet parts sheet in a grimy underground-comix sticker style, 16:9, that takes the character from the attached turnaround apart for skeletal animation, every piece at exactly the scale of the turnaround figures. Copy the attached grey template: three rows with wide empty gaps so nothing touches. Top row, left to right: the torso seen from the front with the neck hole and both shoulder sockets, the same torso in side profile facing left, the pelvis in side profile as a short briefs-like block cut from the trousers with two round hip sockets and no trouser legs, and a short neck cylinder. Middle row: an upper arm from shoulder to elbow and a forearm from elbow to wrist, both hanging perfectly straight and vertical, then four hands in side view — open and relaxed, a clenched fist, gripping a round handle with an empty hole through the grip, and pointing forward with the index finger. Bottom row: a thigh from hip to knee and a shin from knee to ankle, both straight and vertical, then the foot in side profile with the toes toward the left, and the same foot seen from the front. The character is a gaunt vampire system administrator with paper-white skin from the attached turnaround; the shirt sleeves end rolled just below the elbow on the forearm piece, the trousers split at the knee. Props laid out at the far right of the middle and bottom rows: a chipped office mug stained red inside, and a tangled bundle of patch cords. As a hallucination every piece carries a thin solid neon pink-and-cyan rim line just inside the dark outline, with no soft glow. Every piece is drawn complete, including the part normally hidden under its neighbour, and every joint end — shoulder, elbow, wrist, hip, knee, ankle and both ends of the neck — is a fully rounded cap that runs a little past the joint, so pieces overlap without gaps when they rotate. Use flat even light with one hard cel-shading step and no cast shadows; thick uneven dark-purple #1B1030 marker outlines, faint paper grain inside the fills, no white sticker border. The background is one perfectly flat pure chroma green #00FF00 reaching all four edges, with no text, labels, numbers or guide lines. Wide 16:9 sheet, 4K.
+```
+
+Доработка:
+```
+Separate any touching pieces with wider gaps and straighten the arm and leg pieces so they hang vertically, keeping every design and scale identical.
+```
+
+**`sysadmin_emote.png`** — эмоции: восемь лиц на одной голове. Фон зелёный. Голова в том же ракурсе, что на развёртке: в игре лица подменяются.
+
+Приложи: `sysadmin_turn`, `tpl_faces_green_left`
+
+```
+An expression sheet for head swapping in 2D cut-out animation, in a grimy underground-comix sticker style, 16:9. Copy the attached grey template: eight heads in a four-by-two grid with wide empty gaps. All eight are the exact head of the character from the attached turnaround in its three-quarter view turned to the left — identical size, outline, angle, hair, hat and headwear — and each ends at the jaw with no neck. Only the face changes, in reading order: top row (1) neutral, (2) blink with eyes fully closed, (3) biting with the mouth wide open showing teeth, (4) chewing with a full mouth; bottom row: (5) hurt and wincing with one eye shut, (6) furious, (7) stunned with spiral eyes and the tongue out, (8) fading away with the eyes rolled up and the mouth hanging open. The default mood is cold, superior and very tired, so even the neutral face carries it. Each head keeps the thin solid neon pink-and-cyan rim line of the hallucination, with no soft glow. Use flat even light with one hard cel-shading step and no cast shadows; thick uneven dark-purple #1B1030 marker outlines, faint paper grain inside the fills, no white sticker border. The background is one perfectly flat pure chroma green #00FF00 reaching all four edges, with no shadows, text, labels or numbers. Wide 16:9 sheet, 4K.
+```
+
+Доработка:
+```
+Make all eight heads exactly the same size and angle, changing only the facial expressions.
+```
+
+### Коллекционер в блистере
+
+*Никогда не открывал коробку, чтобы не упала цена. Его тоже никто не открывал.* В игре: танк: блистер трескается на половине здоровья.
+
+**`collector_turn.png`** — развёртка: спереди, три четверти, сбоку, сзади. Фон маджента. Это эталон модели: по нему собирается риг и рисуются детали.
+
+Приложи: `style_anchor`, `tpl_turn_magenta_left`
+
+```
+A character turnaround sheet in a grimy underground-comix sticker style, 16:9, made as a construction reference for rigging a 2D game puppet. Copy the attached grey template exactly: four full-body views of the same character standing side by side on one invisible ground line, all at the identical height and evenly spaced — in the left quarter the front view, then a three-quarter view turned to the left, then a strict side profile facing left, and in the right quarter the back view. In every view the character stands in a relaxed A-pose with both arms held about twenty degrees away from the body so the hands never overlap the torso, feet shoulder-width apart. The character is a pudgy middle-aged toy collector sealed inside a giant clear plastic blister pack glued to a printed cardboard backing card, mint-in-box, with a fake price sticker and a hang tab above his head; under the plastic he wears a too-small superhero-style t-shirt without any logo, khaki shorts and white socks. The clear plastic blister has hard creases and bright flat glints, it presses his cheeks and belly flat where it touches, and the cardboard card behind him is bent at the corners, and these folds stay consistent from view to view. As a hallucination the character carries a thin solid neon pink-and-cyan rim line just inside the dark outline in every view, with no soft glow. Every view uses the same flat even light with one hard cel-shading step and no cast shadows, so the four figures read as one model; thick uneven dark-purple #1B1030 marker outlines, faint paper grain inside the fills, no white sticker border. The background is one perfectly flat pure magenta #FF00FF reaching all four edges, with no floor, text, labels, numbers or arrows. Wide 16:9 sheet, 4K.
+```
+
+Доработка:
+```
+Make all four views exactly the same height and stand them on one shared ground line, keeping the character design identical.
+```
+
+**`collector_rig.png`** — детали для рига: торс спереди и сбоку, руки и ноги по суставам, кисти, стопы, реквизит. Фон маджента. Руки и ноги нарисованы целиком и отдельно — ими можно махать широко.
+
+Приложи: `collector_turn`, `tpl_rig_magenta_left`
+
+```
+A cut-out puppet parts sheet in a grimy underground-comix sticker style, 16:9, that takes the character from the attached turnaround apart for skeletal animation, every piece at exactly the scale of the turnaround figures. Copy the attached grey template: three rows with wide empty gaps so nothing touches. Top row, left to right: the torso seen from the front with the neck hole and both shoulder sockets, the same torso in side profile facing left, the pelvis in side profile as a short briefs-like block cut from the trousers with two round hip sockets and no trouser legs, and a short neck cylinder. Middle row: an upper arm from shoulder to elbow and a forearm from elbow to wrist, both hanging perfectly straight and vertical, then four hands in side view — open and relaxed, a clenched fist, gripping a round handle with an empty hole through the grip, and pointing forward with the index finger. Bottom row: a thigh from hip to knee and a shin from knee to ankle, both straight and vertical, then the foot in side profile with the toes toward the left, and the same foot seen from the front. The character is a pudgy middle-aged toy collector sealed inside a giant clear plastic blister pack glued to a printed cardboard backing card from the attached turnaround; the blister front shell and the cardboard card are drawn as separate pieces, not fused to the body; the t-shirt sleeves end on the upper arm, the shorts split at the knee. Props laid out at the far right of the middle and bottom rows: the clear blister front shell as one separate piece, the same shell cracked and caved in as a second piece, and the cardboard backing card. As a hallucination every piece carries a thin solid neon pink-and-cyan rim line just inside the dark outline, with no soft glow. Every piece is drawn complete, including the part normally hidden under its neighbour, and every joint end — shoulder, elbow, wrist, hip, knee, ankle and both ends of the neck — is a fully rounded cap that runs a little past the joint, so pieces overlap without gaps when they rotate. Use flat even light with one hard cel-shading step and no cast shadows; thick uneven dark-purple #1B1030 marker outlines, faint paper grain inside the fills, no white sticker border. The background is one perfectly flat pure magenta #FF00FF reaching all four edges, with no text, labels, numbers or guide lines. Wide 16:9 sheet, 4K.
+```
+
+Доработка:
+```
+Separate any touching pieces with wider gaps and straighten the arm and leg pieces so they hang vertically, keeping every design and scale identical.
+```
+
+**`collector_emote.png`** — эмоции: восемь лиц на одной голове. Фон маджента. Голова в том же ракурсе, что на развёртке: в игре лица подменяются.
+
+Приложи: `collector_turn`, `tpl_faces_magenta_left`
+
+```
+An expression sheet for head swapping in 2D cut-out animation, in a grimy underground-comix sticker style, 16:9. Copy the attached grey template: eight heads in a four-by-two grid with wide empty gaps. All eight are the exact head of the character from the attached turnaround in its three-quarter view turned to the left — identical size, outline, angle, hair, hat and headwear — and each ends at the jaw with no neck. Only the face changes, in reading order: top row (1) neutral, (2) blink with eyes fully closed, (3) biting with the mouth wide open showing teeth, (4) chewing with a full mouth; bottom row: (5) hurt and wincing with one eye shut, (6) furious, (7) stunned with spiral eyes and the tongue out, (8) fading away with the eyes rolled up and the mouth hanging open. The default mood is smug and protective of his value, so even the neutral face carries it. Each head keeps the thin solid neon pink-and-cyan rim line of the hallucination, with no soft glow. Use flat even light with one hard cel-shading step and no cast shadows; thick uneven dark-purple #1B1030 marker outlines, faint paper grain inside the fills, no white sticker border. The background is one perfectly flat pure magenta #FF00FF reaching all four edges, with no shadows, text, labels or numbers. Wide 16:9 sheet, 4K.
+```
+
+Доработка:
+```
+Make all eight heads exactly the same size and angle, changing only the facial expressions.
+```
+
+### Культист-мастер подземелий
+
+*Двадцать лет водил одну кампанию. Игроки давно умерли. Он — нет.* В игре: призывает картонных гоблинов.
+
+**`dm_turn.png`** — развёртка: спереди, три четверти, сбоку, сзади. Фон маджента. Это эталон модели: по нему собирается риг и рисуются детали.
+
+Приложи: `style_anchor`, `tpl_turn_magenta_left`
+
+```
+A character turnaround sheet in a grimy underground-comix sticker style, 16:9, made as a construction reference for rigging a 2D game puppet. Copy the attached grey template exactly: four full-body views of the same character standing side by side on one invisible ground line, all at the identical height and evenly spaced — in the left quarter the front view, then a three-quarter view turned to the left, then a strict side profile facing left, and in the right quarter the back view. In every view the character stands in a relaxed A-pose with both arms held about twenty degrees away from the body so the hands never overlap the torso, feet shoulder-width apart. The character is a hooded cultist dungeon master in a robe made from a striped bedsheet tied with a bathrobe belt, a translucent purple d20 hanging on a cord around his neck, glowing eyes under the hood, a scraggly beard and Cheetos dust on his fingers. The bedsheet robe has crisp fold lines from the packet, it drags on the floor and is singed at the hem, and the d20 pendant swings and catches the light, and these folds stay consistent from view to view. As a hallucination the character carries a thin solid neon pink-and-cyan rim line just inside the dark outline in every view, with no soft glow. Every view uses the same flat even light with one hard cel-shading step and no cast shadows, so the four figures read as one model; thick uneven dark-purple #1B1030 marker outlines, faint paper grain inside the fills, no white sticker border. The background is one perfectly flat pure magenta #FF00FF reaching all four edges, with no floor, text, labels, numbers or arrows. Wide 16:9 sheet, 4K.
+```
+
+Доработка:
+```
+Make all four views exactly the same height and stand them on one shared ground line, keeping the character design identical.
+```
+
+**`dm_rig.png`** — детали для рига: торс спереди и сбоку, руки и ноги по суставам, кисти, стопы, реквизит. Фон маджента. Руки и ноги нарисованы целиком и отдельно — ими можно махать широко.
+
+Приложи: `dm_turn`, `tpl_rig_magenta_left`
+
+```
+A cut-out puppet parts sheet in a grimy underground-comix sticker style, 16:9, that takes the character from the attached turnaround apart for skeletal animation, every piece at exactly the scale of the turnaround figures. Copy the attached grey template: three rows with wide empty gaps so nothing touches. Top row, left to right: the torso seen from the front with the neck hole and both shoulder sockets, the same torso in side profile facing left, the pelvis in side profile as a short briefs-like block cut from the trousers with two round hip sockets and no trouser legs, and a short neck cylinder. Middle row: an upper arm from shoulder to elbow and a forearm from elbow to wrist, both hanging perfectly straight and vertical, then four hands in side view — open and relaxed, a clenched fist, gripping a round handle with an empty hole through the grip, and pointing forward with the index finger. Bottom row: a thigh from hip to knee and a shin from knee to ankle, both straight and vertical, then the foot in side profile with the toes toward the left, and the same foot seen from the front. The character is a hooded cultist dungeon master in a robe made from a striped bedsheet tied with a bathrobe belt from the attached turnaround; the wide robe sleeves split at the elbow; the lower robe is drawn as one separate bell-shaped skirt piece from waist to ankles, with plain legs and slippers underneath. Props laid out at the far right of the middle and bottom rows: a folded cardboard game-master screen used as a shield, a rubber chicken held like a sacrificial dagger, and a small cardboard goblin minion standing on its own. As a hallucination every piece carries a thin solid neon pink-and-cyan rim line just inside the dark outline, with no soft glow. Every piece is drawn complete, including the part normally hidden under its neighbour, and every joint end — shoulder, elbow, wrist, hip, knee, ankle and both ends of the neck — is a fully rounded cap that runs a little past the joint, so pieces overlap without gaps when they rotate. Use flat even light with one hard cel-shading step and no cast shadows; thick uneven dark-purple #1B1030 marker outlines, faint paper grain inside the fills, no white sticker border. The background is one perfectly flat pure magenta #FF00FF reaching all four edges, with no text, labels, numbers or guide lines. Wide 16:9 sheet, 4K.
+```
+
+Доработка:
+```
+Separate any touching pieces with wider gaps and straighten the arm and leg pieces so they hang vertically, keeping every design and scale identical.
+```
+
+**`dm_emote.png`** — эмоции: восемь лиц на одной голове. Фон маджента. Голова в том же ракурсе, что на развёртке: в игре лица подменяются.
+
+Приложи: `dm_turn`, `tpl_faces_magenta_left`
+
+```
+An expression sheet for head swapping in 2D cut-out animation, in a grimy underground-comix sticker style, 16:9. Copy the attached grey template: eight heads in a four-by-two grid with wide empty gaps. All eight are the exact head of the character from the attached turnaround in its three-quarter view turned to the left — identical size, outline, angle, hair, hat and headwear — and each ends at the jaw with no neck. Only the face changes, in reading order: top row (1) neutral, (2) blink with eyes fully closed, (3) biting with the mouth wide open showing teeth, (4) chewing with a full mouth; bottom row: (5) hurt and wincing with one eye shut, (6) furious, (7) stunned with spiral eyes and the tongue out, (8) fading away with the eyes rolled up and the mouth hanging open. The default mood is theatrical, menacing and a bit sad, so even the neutral face carries it. Each head keeps the thin solid neon pink-and-cyan rim line of the hallucination, with no soft glow. Use flat even light with one hard cel-shading step and no cast shadows; thick uneven dark-purple #1B1030 marker outlines, faint paper grain inside the fills, no white sticker border. The background is one perfectly flat pure magenta #FF00FF reaching all four edges, with no shadows, text, labels or numbers. Wide 16:9 sheet, 4K.
+```
+
+Доработка:
+```
+Make all eight heads exactly the same size and angle, changing only the facial expressions.
+```
+
+### Рептилоид из ютуба
+
+*Сам снял видео про рептилоидов. Досмотрел до конца.* В игре: быстрый, глушит ауры предметов рядом.
+
+**`reptiloid_turn.png`** — развёртка: спереди, три четверти, сбоку, сзади. Фон маджента. Это эталон модели: по нему собирается риг и рисуются детали.
+
+Приложи: `style_anchor`, `tpl_turn_magenta_left`
+
+```
+A character turnaround sheet in a grimy underground-comix sticker style, 16:9, made as a construction reference for rigging a 2D game puppet. Copy the attached grey template exactly: four full-body views of the same character standing side by side on one invisible ground line, all at the identical height and evenly spaced — in the left quarter the front view, then a three-quarter view turned to the left, then a strict side profile facing left, and in the right quarter the back view. In every view the character stands in a relaxed A-pose with both arms held about twenty degrees away from the body so the hands never overlap the torso, feet shoulder-width apart. The character is a lizard man in an ill-fitting cheap grey business suit and loosened tie, green scaly skin, vertical slit pupils, a forked tongue flicking out, a hat folded from tinfoil on his head, and a cheap earpiece. The suit jacket is a size too big and bunches at the shoulders, the tinfoil hat crinkles with sharp flat highlights, and his tail pokes out from under the jacket, and these folds stay consistent from view to view. As a hallucination the character carries a thin solid neon pink-and-cyan rim line just inside the dark outline in every view, with no soft glow. Every view uses the same flat even light with one hard cel-shading step and no cast shadows, so the four figures read as one model; thick uneven dark-purple #1B1030 marker outlines, faint paper grain inside the fills, no white sticker border. The background is one perfectly flat pure magenta #FF00FF reaching all four edges, with no floor, text, labels, numbers or arrows. Wide 16:9 sheet, 4K.
+```
+
+Доработка:
+```
+Make all four views exactly the same height and stand them on one shared ground line, keeping the character design identical.
+```
+
+**`reptiloid_rig.png`** — детали для рига: торс спереди и сбоку, руки и ноги по суставам, кисти, стопы, реквизит. Фон маджента. Руки и ноги нарисованы целиком и отдельно — ими можно махать широко.
+
+Приложи: `reptiloid_turn`, `tpl_rig_magenta_left`
+
+```
+A cut-out puppet parts sheet in a grimy underground-comix sticker style, 16:9, that takes the character from the attached turnaround apart for skeletal animation, every piece at exactly the scale of the turnaround figures. Copy the attached grey template: three rows with wide empty gaps so nothing touches. Top row, left to right: the torso seen from the front with the neck hole and both shoulder sockets, the same torso in side profile facing left, the pelvis in side profile as a short briefs-like block cut from the trousers with two round hip sockets and no trouser legs, and a short neck cylinder. Middle row: an upper arm from shoulder to elbow and a forearm from elbow to wrist, both hanging perfectly straight and vertical, then four hands in side view — open and relaxed, a clenched fist, gripping a round handle with an empty hole through the grip, and pointing forward with the index finger. Bottom row: a thigh from hip to knee and a shin from knee to ankle, both straight and vertical, then the foot in side profile with the toes toward the left, and the same foot seen from the front. The character is a lizard man in an ill-fitting cheap grey business suit and loosened tie from the attached turnaround; the suit sleeves split at the elbow, the trousers split at the knee; the tail is drawn as one separate curved piece; the tinfoil hat is part of the head. Props laid out at the far right of the middle and bottom rows: a cork board with photos and red strings, sized to be held in front of the chest. As a hallucination every piece carries a thin solid neon pink-and-cyan rim line just inside the dark outline, with no soft glow. Every piece is drawn complete, including the part normally hidden under its neighbour, and every joint end — shoulder, elbow, wrist, hip, knee, ankle and both ends of the neck — is a fully rounded cap that runs a little past the joint, so pieces overlap without gaps when they rotate. Use flat even light with one hard cel-shading step and no cast shadows; thick uneven dark-purple #1B1030 marker outlines, faint paper grain inside the fills, no white sticker border. The background is one perfectly flat pure magenta #FF00FF reaching all four edges, with no text, labels, numbers or guide lines. Wide 16:9 sheet, 4K.
+```
+
+Доработка:
+```
+Separate any touching pieces with wider gaps and straighten the arm and leg pieces so they hang vertically, keeping every design and scale identical.
+```
+
+**`reptiloid_emote.png`** — эмоции: восемь лиц на одной голове. Фон маджента. Голова в том же ракурсе, что на развёртке: в игре лица подменяются.
+
+Приложи: `reptiloid_turn`, `tpl_faces_magenta_left`
+
+```
+An expression sheet for head swapping in 2D cut-out animation, in a grimy underground-comix sticker style, 16:9. Copy the attached grey template: eight heads in a four-by-two grid with wide empty gaps. All eight are the exact head of the character from the attached turnaround in its three-quarter view turned to the left — identical size, outline, angle, hair, hat and headwear — and each ends at the jaw with no neck. Only the face changes, in reading order: top row (1) neutral, (2) blink with eyes fully closed, (3) biting with the mouth wide open showing teeth, (4) chewing with a full mouth; bottom row: (5) hurt and wincing with one eye shut, (6) furious, (7) stunned with spiral eyes and the tongue out, (8) fading away with the eyes rolled up and the mouth hanging open. The default mood is paranoid, shifty and secretly pleased, so even the neutral face carries it. Each head keeps the thin solid neon pink-and-cyan rim line of the hallucination, with no soft glow. Use flat even light with one hard cel-shading step and no cast shadows; thick uneven dark-purple #1B1030 marker outlines, faint paper grain inside the fills, no white sticker border. The background is one perfectly flat pure magenta #FF00FF reaching all four edges, with no shadows, text, labels or numbers. Wide 16:9 sheet, 4K.
+```
+
+Доработка:
+```
+Make all eight heads exactly the same size and angle, changing only the facial expressions.
+```
+
+### Диктатор в пачке
+
+*Сатира: самый злой человек века, вечно униженный в розовой балетной пачке.* В игре: крутит фуэте и уворачивается.
+
+**`dictator_turn.png`** — развёртка: спереди, три четверти, сбоку, сзади. Фон зелёный. Это эталон модели: по нему собирается риг и рисуются детали.
+
+Приложи: `style_anchor`, `tpl_turn_green_left`
+
+```
+A character turnaround sheet in a grimy underground-comix sticker style, 16:9, made as a construction reference for rigging a 2D game puppet. Copy the attached grey template exactly: four full-body views of the same character standing side by side on one invisible ground line, all at the identical height and evenly spaced — in the left quarter the front view, then a three-quarter view turned to the left, then a strict side profile facing left, and in the right quarter the back view. In every view the character stands in a relaxed A-pose with both arms held about twenty degrees away from the body so the hands never overlap the torso, feet shoulder-width apart. The character is a satirical caricature of a furious 1940s dictator dressed as a ballerina: a small angry man with a black side-parted fringe glued flat and a small rectangular toothbrush moustache, a pink ballet leotard, bare arms, white tights and pink pointe shoes with ribbons; no uniform, no symbols, no armbands, no insignia of any kind. The layered tulle tutu sticks out stiffly and bounces, the tights wrinkle at the ankles, and the pointe shoes are scuffed, and these folds stay consistent from view to view. As a hallucination the character carries a thin solid neon pink-and-cyan rim line just inside the dark outline in every view, with no soft glow. Every view uses the same flat even light with one hard cel-shading step and no cast shadows, so the four figures read as one model; thick uneven dark-purple #1B1030 marker outlines, faint paper grain inside the fills, no white sticker border. The background is one perfectly flat pure chroma green #00FF00 reaching all four edges, with no floor, text, labels, numbers or arrows. Wide 16:9 sheet, 4K.
+```
+
+Доработка:
+```
+Make all four views exactly the same height and stand them on one shared ground line, keeping the character design identical.
+```
+
+**`dictator_rig.png`** — детали для рига: торс спереди и сбоку, руки и ноги по суставам, кисти, стопы, реквизит. Фон зелёный. Руки и ноги нарисованы целиком и отдельно — ими можно махать широко.
+
+Приложи: `dictator_turn`, `tpl_rig_green_left`
+
+```
+A cut-out puppet parts sheet in a grimy underground-comix sticker style, 16:9, that takes the character from the attached turnaround apart for skeletal animation, every piece at exactly the scale of the turnaround figures. Copy the attached grey template: three rows with wide empty gaps so nothing touches. Top row, left to right: the torso seen from the front with the neck hole and both shoulder sockets, the same torso in side profile facing left, the pelvis in side profile as a short briefs-like block cut from the trousers with two round hip sockets and no trouser legs, and a short neck cylinder. Middle row: an upper arm from shoulder to elbow and a forearm from elbow to wrist, both hanging perfectly straight and vertical, then four hands in side view — open and relaxed, a clenched fist, gripping a round handle with an empty hole through the grip, and pointing forward with the index finger. Bottom row: a thigh from hip to knee and a shin from knee to ankle, both straight and vertical, then the foot in side profile with the toes toward the left, and the same foot seen from the front. The character is a satirical caricature of a furious 1940s dictator dressed as a ballerina: a small angry man with a black side-parted fringe glued flat and a small rectangular toothbrush moustache from the attached turnaround; the tutu is drawn as part of the pelvis piece, sticking out sideways; the tights split at the knee; the feet stand on pointe. Props laid out at the far right of the middle and bottom rows: none, leave the props area empty. As a hallucination every piece carries a thin solid neon pink-and-cyan rim line just inside the dark outline, with no soft glow. Every piece is drawn complete, including the part normally hidden under its neighbour, and every joint end — shoulder, elbow, wrist, hip, knee, ankle and both ends of the neck — is a fully rounded cap that runs a little past the joint, so pieces overlap without gaps when they rotate. Use flat even light with one hard cel-shading step and no cast shadows; thick uneven dark-purple #1B1030 marker outlines, faint paper grain inside the fills, no white sticker border. The background is one perfectly flat pure chroma green #00FF00 reaching all four edges, with no text, labels, numbers or guide lines. Wide 16:9 sheet, 4K.
+```
+
+Доработка:
+```
+Separate any touching pieces with wider gaps and straighten the arm and leg pieces so they hang vertically, keeping every design and scale identical.
+```
+
+**`dictator_emote.png`** — эмоции: восемь лиц на одной голове. Фон зелёный. Голова в том же ракурсе, что на развёртке: в игре лица подменяются.
+
+Приложи: `dictator_turn`, `tpl_faces_green_left`
+
+```
+An expression sheet for head swapping in 2D cut-out animation, in a grimy underground-comix sticker style, 16:9. Copy the attached grey template: eight heads in a four-by-two grid with wide empty gaps. All eight are the exact head of the character from the attached turnaround in its three-quarter view turned to the left — identical size, outline, angle, hair, hat and headwear — and each ends at the jaw with no neck. Only the face changes, in reading order: top row (1) neutral, (2) blink with eyes fully closed, (3) biting with the mouth wide open showing teeth, (4) chewing with a full mouth; bottom row: (5) hurt and wincing with one eye shut, (6) furious, (7) stunned with spiral eyes and the tongue out, (8) fading away with the eyes rolled up and the mouth hanging open. The default mood is furious and humiliated, so even the neutral face carries it. Each head keeps the thin solid neon pink-and-cyan rim line of the hallucination, with no soft glow. Use flat even light with one hard cel-shading step and no cast shadows; thick uneven dark-purple #1B1030 marker outlines, faint paper grain inside the fills, no white sticker border. The background is one perfectly flat pure chroma green #00FF00 reaching all four edges, with no shadows, text, labels or numbers. Wide 16:9 sheet, 4K.
+```
+
+Доработка:
+```
+Make all eight heads exactly the same size and angle, changing only the facial expressions.
+```
+
+### Сосед с перфоратором
+
+*Ремонт с 2009 года. Начинает в 7 утра в субботу. Босс.* В игре: босс: оглушает предметы в ряду, сносит стены.
+
+**`neighbor_turn.png`** — развёртка: спереди, три четверти, сбоку, сзади. Фон маджента. Это эталон модели: по нему собирается риг и рисуются детали.
+
+Приложи: `style_anchor`, `tpl_turn_magenta_left`
+
+```
+A character turnaround sheet in a grimy underground-comix sticker style, 16:9, made as a construction reference for rigging a 2D game puppet. Copy the attached grey template exactly: four full-body views of the same character standing side by side on one invisible ground line, all at the identical height and evenly spaced — in the left quarter the front view, then a three-quarter view turned to the left, then a strict side profile facing left, and in the right quarter the back view. In every view the character stands in a relaxed A-pose with both arms held about twenty degrees away from the body so the hands never overlap the torso, feet shoulder-width apart. The character is a huge burly neighbor in a stretched white tank top, sweatpants and flip-flops, a hairy belly, a sunburnt bald head with a pencil behind the ear, safety goggles pushed up on the forehead, covered in grey plaster dust. Plaster dust settles in the folds of the tank top and puffs off with every step, the sweatpants sag under the belly, and the flip-flops slap the floor, and these folds stay consistent from view to view. As a hallucination the character carries a thin solid neon pink-and-cyan rim line just inside the dark outline in every view, with no soft glow. Every view uses the same flat even light with one hard cel-shading step and no cast shadows, so the four figures read as one model; thick uneven dark-purple #1B1030 marker outlines, faint paper grain inside the fills, no white sticker border. The background is one perfectly flat pure magenta #FF00FF reaching all four edges, with no floor, text, labels, numbers or arrows. Wide 16:9 sheet, 4K.
+```
+
+Доработка:
+```
+Make all four views exactly the same height and stand them on one shared ground line, keeping the character design identical.
+```
+
+**`neighbor_rig.png`** — детали для рига: торс спереди и сбоку, руки и ноги по суставам, кисти, стопы, реквизит. Фон маджента. Руки и ноги нарисованы целиком и отдельно — ими можно махать широко.
+
+Приложи: `neighbor_turn`, `tpl_rig_magenta_left`
+
+```
+A cut-out puppet parts sheet in a grimy underground-comix sticker style, 16:9, that takes the character from the attached turnaround apart for skeletal animation, every piece at exactly the scale of the turnaround figures. Copy the attached grey template: three rows with wide empty gaps so nothing touches. Top row, left to right: the torso seen from the front with the neck hole and both shoulder sockets, the same torso in side profile facing left, the pelvis in side profile as a short briefs-like block cut from the trousers with two round hip sockets and no trouser legs, and a short neck cylinder. Middle row: an upper arm from shoulder to elbow and a forearm from elbow to wrist, both hanging perfectly straight and vertical, then four hands in side view — open and relaxed, a clenched fist, gripping a round handle with an empty hole through the grip, and pointing forward with the index finger. Bottom row: a thigh from hip to knee and a shin from knee to ankle, both straight and vertical, then the foot in side profile with the toes toward the left, and the same foot seen from the front. The character is a huge burly neighbor in a stretched white tank top from the attached turnaround; bare arms, the sweatpants split at the knee. Props laid out at the far right of the middle and bottom rows: a heavy industrial hammer drill with a long concrete bit, and a coiled orange extension cord. As a hallucination every piece carries a thin solid neon pink-and-cyan rim line just inside the dark outline, with no soft glow. Every piece is drawn complete, including the part normally hidden under its neighbour, and every joint end — shoulder, elbow, wrist, hip, knee, ankle and both ends of the neck — is a fully rounded cap that runs a little past the joint, so pieces overlap without gaps when they rotate. Use flat even light with one hard cel-shading step and no cast shadows; thick uneven dark-purple #1B1030 marker outlines, faint paper grain inside the fills, no white sticker border. The background is one perfectly flat pure magenta #FF00FF reaching all four edges, with no text, labels, numbers or guide lines. Wide 16:9 sheet, 4K.
+```
+
+Доработка:
+```
+Separate any touching pieces with wider gaps and straighten the arm and leg pieces so they hang vertically, keeping every design and scale identical.
+```
+
+**`neighbor_emote.png`** — эмоции: восемь лиц на одной голове. Фон маджента. Голова в том же ракурсе, что на развёртке: в игре лица подменяются.
+
+Приложи: `neighbor_turn`, `tpl_faces_magenta_left`
+
+```
+An expression sheet for head swapping in 2D cut-out animation, in a grimy underground-comix sticker style, 16:9. Copy the attached grey template: eight heads in a four-by-two grid with wide empty gaps. All eight are the exact head of the character from the attached turnaround in its three-quarter view turned to the left — identical size, outline, angle, hair, hat and headwear — and each ends at the jaw with no neck. Only the face changes, in reading order: top row (1) neutral, (2) blink with eyes fully closed, (3) biting with the mouth wide open showing teeth, (4) chewing with a full mouth; bottom row: (5) hurt and wincing with one eye shut, (6) furious, (7) stunned with spiral eyes and the tongue out, (8) fading away with the eyes rolled up and the mouth hanging open. The default mood is cheerful and relentless, so even the neutral face carries it. Each head keeps the thin solid neon pink-and-cyan rim line of the hallucination, with no soft glow. Use flat even light with one hard cel-shading step and no cast shadows; thick uneven dark-purple #1B1030 marker outlines, faint paper grain inside the fills, no white sticker border. The background is one perfectly flat pure magenta #FF00FF reaching all four edges, with no shadows, text, labels or numbers. Wide 16:9 sheet, 4K.
+```
+
+Доработка:
+```
+Make all eight heads exactly the same size and angle, changing only the facial expressions.
+```
+
+### Тамагочи-переросток
+
+*Умер от голода в 2003-м, потому что хозяин уехал на дачу. Помнит.* В игре: быстрый: катится и таранит.
+
+**`tamagotchi.png`** — не гуманоид, один лист. Фон зелёный.
 
 Приложи: `style_anchor`
 
 ```
-[STYLE]
-A sprite sheet, 1:1, 4K, of a KOLOBOK hallucination: a round golden-brown bread bun creature from a folk tale, angry and feral, with a crusty baked texture drawn as flat shapes, red eyes, thick angry eyebrows and a wide mouth full of sharp teeth. No arms, no legs, a perfect ball, the face turned slightly to the LEFT. All balls exactly the same size. Six versions in a 3 by 2 grid with wide gaps: top row: neutral angry; mouth wide open biting; hurt with a crack. Bottom row: blink; stunned with spiral eyes; the back side, a plain crusty ball with no face, for the rolling animation. Hallucination look: acid neon accents and a thin solid neon pink-and-cyan rim line just inside the dark outline, no soft glow. Only the dark purple ink outline, no white sticker border. Background: one perfectly flat solid pure magenta #FF00FF reaching all four edges of the image, no white margin or strip at any edge, no shadows, no text, no labels.
-```
-
-**`kraken.png`** (16:9) — босс, лист тела. Фон зелёный.
-
-Приложи: `style_anchor`
-
-```
-[STYLE]
-A boss puppet sheet for 2D cut-out animation, 16:9, 4K. A giant purple KRAKEN hallucination crawling out of a cheap inflatable kiddie pool, turned toward the LEFT. On the RIGHT quarter: the assembled monster. On the LEFT three quarters, as separate pieces at exactly the same scale with wide gaps, nothing touching: (1) the huge bulbous head-body with warty spots, angry yellow slit-pupil eyes, heavy brows and a closed beak, ending at the bottom in a rounded base where the tentacles attach; (2) three tentacle segments of decreasing thickness, each drawn straight and vertical with fully rounded ends and pink suckers along one side, so they can be chained into a bending tentacle; (3) a tentacle tip curled into a hook; (4) a blue inflatable kiddie pool with cartoon ducks printed on it, seen from the side, with water splashing over the rim. Hallucination look: acid neon accents and a thin solid neon pink-and-cyan rim line just inside the dark outline of every piece, no soft glow. Only the dark purple ink outline, no white sticker border. Background: one perfectly flat solid pure chroma green #00FF00 reaching all four edges of the image, no white margin or strip at any edge, no shadows, no floor, no text, no labels.
-```
-
-**`kraken_faces.png`** — эмоции кракена.
-
-Приложи: `kraken`, `tpl_faces_green_left`
-
-```
-[STYLE]
-[FOE_FACES with {BG} = pure chroma green #00FF00]
-Character: the KRAKEN from the attached puppet sheet. Instead of a head, draw eight copies of the whole bulbous head-body piece, identical size and outline; only the eyes, brows and beak change. Default mood: menacing.
-```
-
-### Запас на потом
-
-Свои типажи на будущее, по той же схеме, что глюки выше. Эмоции к ним — по образцу любого `*_faces`.
-
-**`unicorn.png`** — запасной глюк, лист тела. Фон зелёный.
-
-Приложи: `style_anchor`, `zombie`, `tpl_body_green_left`
-
-```
-A flat 2D cut-out puppet sheet for skeletal game animation, drawn in a grimy underground-comix sticker style, 16:9, 4K, following the attached grey layout template exactly. On the side shown in the template stands the fully assembled character in a neutral pose, arms hanging, in a three-quarter view turned to the left; next to it the same character is taken apart at exactly the same scale into twelve separate pieces with wide gaps: the head ending at the jaw, a short neck, the chest, a briefs-like pelvis without trouser legs, an upper arm, a forearm, an open hand, a fist, a hand gripping a round handle, a thigh, a shin and a side-view foot. Every joint end is a fully rounded cap so pieces overlap when they rotate, limbs hang straight down, sleeves and trousers split at the elbow and knee. The character: a bipedal white unicorn street tough squatting low, in a black tracksuit with three white stripes and a flat cap, a rainbow mane spilling out from under the cap as part of the head, a gold tooth and a smug squint; the horn is part of the head. Props: a paper cone of sunflower seeds sized to fit the gripping hand. As a hallucination it carries a thin solid neon pink-and-cyan rim line just inside the dark outline, with no soft glow. Flat even lighting with one hard cel-shading step and no cast shadows; thick uneven dark-purple #1B1030 marker outlines, faint paper grain, no white sticker border. The background is one perfectly flat pure chroma green #00FF00 reaching all four edges, with no text, labels or numbers.
+A game sprite sheet in a grimy underground-comix sticker style, 1:1, of a rolling hallucination enemy: a giant egg-shaped handheld digital pet device made of scratched pastel-pink plastic, with three round buttons below a small pixel screen and a broken keychain chain dangling from the top loop. Six versions of the same object at exactly the same size in a three-by-two grid with wide gaps, nothing touching. Top row: the pixel screen showing an angry pixel-art face; the screen showing a wide-open biting pixel mouth; the shell cracked with a dead pixel skull on the screen. Bottom row: the screen blinking; the screen showing spiral pixel eyes; the plain back side of the shell with a battery cover and no screen, for the rolling animation. The pastel plastic carries scuff marks, fingerprint smudges and one sticker peeling at the corner; the screen glows flat green with visible pixel grid. A thin solid neon pink-and-cyan rim line runs just inside the dark outline, with no soft glow. Use flat even light with one hard cel-shading step and no cast shadows; thick uneven dark-purple #1B1030 marker outlines, faint paper grain inside the fills, no white sticker border. The background is one perfectly flat pure chroma green #00FF00 reaching all four edges, with no text, labels or numbers. Square 1:1 sheet, 4K.
 ```
 
 Доработка:
 ```
-Separate any touching pieces with wider gaps and remove the white outline around them, keeping every piece's design and scale identical.
+Make all six versions exactly the same size and shape, changing only the screen and the cracks.
 ```
 
-**`knight.png`** — запасной глюк, лист тела. Фон зелёный.
+<!-- foes:end -->
 
-Приложи: `style_anchor`, `zombie`, `tpl_body_green_left`
-
-```
-A flat 2D cut-out puppet sheet for skeletal game animation, drawn in a grimy underground-comix sticker style, 16:9, 4K, following the attached grey layout template exactly. On the side shown in the template stands the fully assembled character in a neutral pose, arms hanging, in a three-quarter view turned to the left; next to it the same character is taken apart at exactly the same scale into twelve separate pieces with wide gaps: the head ending at the jaw, a short neck, the chest, a briefs-like pelvis without trouser legs, an upper arm, a forearm, an open hand, a fist, a hand gripping a round handle, a thigh, a shin and a side-view foot. Every joint end is a fully rounded cap so pieces overlap when they rotate, limbs hang straight down, sleeves and trousers split at the elbow and knee. The character: a kid-sized knight whose armor is taped-together cardboard boxes with visible duct tape and printed shipping arrows, a metal colander helmet fused to the head with eyes peeking through the holes. Props: a pot-lid shield and a string mop used as a lance. As a hallucination it carries a thin solid neon pink-and-cyan rim line just inside the dark outline, with no soft glow. Flat even lighting with one hard cel-shading step and no cast shadows; thick uneven dark-purple #1B1030 marker outlines, faint paper grain, no white sticker border. The background is one perfectly flat pure chroma green #00FF00 reaching all four edges, with no text, labels or numbers.
-```
-
-Доработка:
-```
-Separate any touching pieces with wider gaps and remove the white outline around them, keeping every piece's design and scale identical.
-```
-
-**`hamster.png`** — запасной глюк, лист тела. Фон маджента.
-
-Приложи: `style_anchor`, `zombie`, `tpl_body_magenta_left`
-
-```
-A flat 2D cut-out puppet sheet for skeletal game animation, drawn in a grimy underground-comix sticker style, 16:9, 4K, following the attached grey layout template exactly. On the side shown in the template stands the fully assembled character in a neutral pose, arms hanging, in a three-quarter view turned to the left; next to it the same character is taken apart at exactly the same scale into twelve separate pieces with wide gaps: the head ending at the jaw, a short neck, the chest, a briefs-like pelvis without trouser legs, an upper arm, a forearm, an open hand, a fist, a hand gripping a round handle, a thigh, a shin and a side-view foot. Every joint end is a fully rounded cap so pieces overlap when they rotate, limbs hang straight down, sleeves and trousers split at the elbow and knee. The character: a human-sized fat orange-and-white hamster walking upright, cheeks stuffed to bursting with seeds, tiny furious black eyes and twitching whiskers; the fur is drawn as flat clumps with a few stray hairs at the edges. Props: a single huge sunflower seed held like a club. As a hallucination it carries a thin solid neon pink-and-cyan rim line just inside the dark outline, with no soft glow. Flat even lighting with one hard cel-shading step and no cast shadows; thick uneven dark-purple #1B1030 marker outlines, faint paper grain, no white sticker border. The background is one perfectly flat pure magenta #FF00FF reaching all four edges, with no text, labels or numbers.
-```
-
-Доработка:
-```
-Separate any touching pieces with wider gaps and remove the white outline around them, keeping every piece's design and scale identical.
-```
-
-**`grandma.png`** — запасной глюк, лист тела. Фон маджента.
-
-Приложи: `style_anchor`, `zombie`, `tpl_body_magenta_left`
-
-```
-A flat 2D cut-out puppet sheet for skeletal game animation, drawn in a grimy underground-comix sticker style, 16:9, 4K, following the attached grey layout template exactly. On the side shown in the template stands the fully assembled character in a neutral pose, arms hanging, in a three-quarter view turned to the left; next to it the same character is taken apart at exactly the same scale into twelve separate pieces with wide gaps: the head ending at the jaw, a short neck, the chest, a briefs-like pelvis without trouser legs, an upper arm, a forearm, an open hand, a fist, a hand gripping a round handle, a thigh, a shin and a side-view foot. Every joint end is a fully rounded cap so pieces overlap when they rotate, limbs hang straight down, sleeves and trousers split at the elbow and knee. The character: a translucent floating ghost granny in a flowered headscarf fused to the head and a faded floral dress, scowling over half-moon glasses; instead of thigh, shin and foot draw one ghostly wisp tail piece in the leg row. Props: a wooden rolling pin sized to fit the gripping hand. As a hallucination it carries a thin solid neon pink-and-cyan rim line just inside the dark outline, with no soft glow. Flat even lighting with one hard cel-shading step and no cast shadows; thick uneven dark-purple #1B1030 marker outlines, faint paper grain, no white sticker border. The background is one perfectly flat pure magenta #FF00FF reaching all four edges, with no text, labels or numbers.
-```
-
-Доработка:
-```
-Separate any touching pieces with wider gaps and remove the white outline around them, keeping every piece's design and scale identical.
-```
 
 <!-- items:start -->
 ## 5. Предметы
@@ -947,11 +1281,12 @@ Simplify the background to a flat two-tone swirl and make both faces bigger, kee
 
 | Очередь | Файлы |
 |---|---|
-| 1. Стиль | `style_anchor` |
-| 2. Минимум, чтобы игра ожила | `vovan`, `vovan_faces`, `dimon`, `dimon_faces`, `zombie`, `zombie_faces`, `alien`, `alien_faces`, `items_base_1`, `items_base_2`, `items_t2_1`, `items_t2_2`, `items_t2_3`, `fx_items_1`, `fx_items_2`, `bg_yard_night` |
-| 3. Остальные глюки и предметы | `ballerina`, `ballerina_faces`, `kolobok`, `pirate`, `pirate_faces`, `jesus`, `jesus_faces`, `dracula`, `dracula_faces`, `kraken`, `kraken_faces`, `zombie_tough`, `zombie_tough_faces`, `items_t3_1`, `items_t3_2`, `items_t3_3`, `items_t3_4` |
-| 4. Катсцены | `bg_livingroom`, `cs_intro_01`–`06`, `cs_boss`, `cs_win`, `cs_lose`, `cs_endless` |
+| 1. Пилот: развёртка Вована | `vovan_turn`, `vovan_rig`, `vovan_emote` |
+| 2. Предметы | `items_base_1`, `items_base_2`, `items_t2_1`, `items_t2_2`, `items_t2_3`, `items_t3_1`, `items_t3_2`, `items_t3_3`, `items_t3_4`, `fx_items_1`, `fx_items_2` |
+| 3. Новые глюки (после пилота) | `mod_turn`, `mod_rig`, `mod_emote`, `courier_turn`, `courier_rig`, `courier_emote`, `raider_turn`, `raider_rig`, `raider_emote`, `torrent_turn`, `torrent_rig`, `torrent_emote`, `streamer_turn`, `streamer_rig`, `streamer_emote`, `sysadmin_turn`, `sysadmin_rig`, `sysadmin_emote`, `collector_turn`, `collector_rig`, `collector_emote`, `dm_turn`, `dm_rig`, `dm_emote`, `reptiloid_turn`, `reptiloid_rig`, `reptiloid_emote`, `dictator_turn`, `dictator_rig`, `dictator_emote`, `neighbor_turn`, `neighbor_rig`, `neighbor_emote`, `tamagotchi` |
+| 4. Катсцены | `cs_intro_02`, `cs_intro_03`, `cs_intro_04`, `cs_intro_05`, `cs_intro_06`, `cs_boss`, `cs_win`, `cs_lose`, `cs_endless` |
 | 5. Полировка | `bg_yard_fog`, `bg_yard_rain`, `bg_yard_trip`, `bg_yard_kraken`, `fg_props`, `logo`, `ui`, `icon` |
+| 6. Уже готово | `style_anchor`, `vovan`, `vovan_faces`, `dimon`, `dimon_faces`, `bg_yard_night`, `bg_livingroom`, `cs_intro_01` |
 
 Что проверить перед тем, как отдавать лист:
 
